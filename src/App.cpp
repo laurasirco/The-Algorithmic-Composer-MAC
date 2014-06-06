@@ -11,34 +11,65 @@ void App::setup(){
     
     //SETTING GUI
     guiTabBar->setFont("GUI/Lekton-Regular.ttf");
-    guiTabBar->setFontSize(OFX_UI_FONT_LARGE, 18);
-    guiTabBar->setFontSize(OFX_UI_FONT_MEDIUM, 14);
-    guiTabBar->setFontSize(OFX_UI_FONT_SMALL, 10);
+    guiTabBar->setFontSize(OFX_UI_FONT_LARGE, 16);
+    guiTabBar->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    guiTabBar->setFontSize(OFX_UI_FONT_SMALL, 8);
     guiTabBar->setName("Metodo");
     guiTabBar->addLabel("Metodo");
     guiTabBar->addSpacer();
     guiTabBar->autoSizeToFitWidgets();
+    guiTabBar->setPadding(10.0);
+    guiTabBar->setPosition(10,10);
+    ofxUIColor color = ofxUIColor();
+    color.set(0,0,0,60);
+    guiTabBar->setColorBack(color);
     
-    ofxUICanvas* gui1 = new ofxUICanvas();
+    
+    ofxUITabBar* gui1 = new ofxUITabBar();
     gui1->setFont("GUI/Lekton-Regular.ttf");
-    gui1->setFontSize(OFX_UI_FONT_LARGE, 18);
-    gui1->setFontSize(OFX_UI_FONT_MEDIUM, 14);
-    gui1->setFontSize(OFX_UI_FONT_SMALL, 10);
+    gui1->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui1->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui1->setFontSize(OFX_UI_FONT_SMALL, 8);
     gui1->setName("Estocastico");
-    gui1->addLabel("Estocastico");
+    gui1->addLabel("Metodo (II)");
     gui1->addSpacer();
     gui1->autoSizeToFitWidgets();
     ofAddListener(gui1->newGUIEvent,this,&App::guiEvent);
     guiTabBar->addCanvas(gui1);
     guis.push_back(gui1);
+    
+    ofxUITabBar* gui11 = new ofxUITabBar();
+    gui11->setFont("GUI/Lekton-Regular.ttf");
+    gui11->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui11->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui11->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui11->setName("Sucesos independientes");
+    gui11->addLabel("Opciones");
+    gui11->addSpacer();
+    gui11->autoSizeToFitWidgets();
+    ofAddListener(gui11->newGUIEvent,this,&App::guiEvent);
+    gui1->addCanvas(gui11);
+    
+    ofxUITabBar* gui12 = new ofxUITabBar();
+    gui12->setFont("GUI/Lekton-Regular.ttf");
+    gui12->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui12->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui12->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui12->setName("Sucesos dependientes");
+    gui12->addLabel("Metodo (III)");
+    gui12->addSpacer();
+    gui12->autoSizeToFitWidgets();
+    ofAddListener(gui12->newGUIEvent,this,&App::guiEvent);
+    gui1->addCanvas(gui12);
+    
 
     ofxUICanvas* gui2 = new ofxUICanvas();
     gui2->setFont("GUI/Lekton-Regular.ttf");
-    gui2->setFontSize(OFX_UI_FONT_LARGE, 18);
-    gui2->setFontSize(OFX_UI_FONT_MEDIUM, 14);
-    gui2->setFontSize(OFX_UI_FONT_SMALL, 10);
+    gui2->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui2->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui2->setFontSize(OFX_UI_FONT_SMALL, 8);
     gui2->setName("Determinista");
-    gui2->addLabel("Determinista");
+    gui2->addLabel("Metodo (II)");
     gui2->addSpacer();
     gui2->autoSizeToFitWidgets();
     ofAddListener(gui2->newGUIEvent,this,&App::guiEvent);
@@ -47,11 +78,11 @@ void App::setup(){
 
     ofxUICanvas* gui3 = new ofxUICanvas();
     gui3->setFont("GUI/Lekton-Regular.ttf");
-    gui3->setFontSize(OFX_UI_FONT_LARGE, 18);
-    gui3->setFontSize(OFX_UI_FONT_MEDIUM, 14);
-    gui3->setFontSize(OFX_UI_FONT_SMALL, 10);
+    gui3->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui3->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui3->setFontSize(OFX_UI_FONT_SMALL, 8);
     gui3->setName("Gramatical");
-    gui3->addLabel("Gramatical");
+    gui3->addLabel("Metodo (II)");
     gui3->addSpacer();
     gui3->autoSizeToFitWidgets();
     ofAddListener(gui3->newGUIEvent,this,&App::guiEvent);
@@ -60,11 +91,11 @@ void App::setup(){
     
     ofxUICanvas* gui4 = new ofxUICanvas();
     gui4->setFont("GUI/Lekton-Regular.ttf");
-    gui4->setFontSize(OFX_UI_FONT_LARGE, 18);
-    gui4->setFontSize(OFX_UI_FONT_MEDIUM, 14);
-    gui4->setFontSize(OFX_UI_FONT_SMALL, 10);
+    gui4->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui4->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui4->setFontSize(OFX_UI_FONT_SMALL, 8);
     gui4->setName("Evolutivo");
-    gui4->addLabel("Evolutivo");
+    gui4->addLabel("Metodo (II)");
     gui4->addSpacer();
     gui4->autoSizeToFitWidgets();
     ofAddListener(gui4->newGUIEvent,this,&App::guiEvent);
