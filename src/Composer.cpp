@@ -11,8 +11,3 @@
 Composer::Composer(){
     
 }
-
-void Composer::compose(){
-    
-    
-}

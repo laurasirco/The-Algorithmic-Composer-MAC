@@ -92,6 +92,14 @@
 		AB1090431940E1C300F65E20 /* Note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090411940E1C300F65E20 /* Note.cpp */; };
 		AB1090461940E2DA00F65E20 /* Silence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090441940E2DA00F65E20 /* Silence.cpp */; };
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
+		AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB351945BD1000B40AF3 /* Distribution.cpp */; };
+		AB8CAB3A1945BE2F00B40AF3 /* IndependentStochasticComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */; };
+		AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */; };
+		AB8CAB451945FC6000B40AF3 /* LinearDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB431945FC6000B40AF3 /* LinearDistribution.cpp */; };
+		AB8CAB481946008B00B40AF3 /* TriangularDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB461946008B00B40AF3 /* TriangularDistribution.cpp */; };
+		AB8CAB4B1946021800B40AF3 /* ExponentialDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB491946021800B40AF3 /* ExponentialDistribution.cpp */; };
+		AB8CAB4E19460A7C00B40AF3 /* GaussianDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4C19460A7C00B40AF3 /* GaussianDistribution.cpp */; };
+		AB8CAB5119460DE500B40AF3 /* CauchyDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */; };
 		B132BF62D1838C2CF9B3FC37 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CDC0F918EA1EDBDE0DC0D0E /* ofxXmlSettings.cpp */; };
 		B5A1358CFDA6A2AA9804C3EB /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8044080087A08C0D58985E73 /* tinyxmlparser.cpp */; };
 		B8ACFA0466EA6980A6BAA5DE /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEF899383F2E6188D4B0D0F3 /* ofxSlider.cpp */; };
@@ -364,6 +372,22 @@
 		AB1090481940E33300F65E20 /* Figure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Figure.h; sourceTree = "<group>"; };
 		AB282357F09D053C1185FDFF /* TonicCore.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TonicCore.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/TonicCore.h; sourceTree = SOURCE_ROOT; };
 		AB2A0DF88B639BF544327A6D /* Filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Filters.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Filters.cpp; sourceTree = SOURCE_ROOT; };
+		AB8CAB351945BD1000B40AF3 /* Distribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Distribution.cpp; sourceTree = "<group>"; };
+		AB8CAB361945BD1000B40AF3 /* Distribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distribution.h; sourceTree = "<group>"; };
+		AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndependentStochasticComposer.cpp; sourceTree = "<group>"; };
+		AB8CAB391945BE2F00B40AF3 /* IndependentStochasticComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndependentStochasticComposer.h; sourceTree = "<group>"; };
+		AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UniformDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB411945C82F00B40AF3 /* UniformDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniformDistribution.h; sourceTree = "<group>"; };
+		AB8CAB431945FC6000B40AF3 /* LinearDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinearDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB441945FC6000B40AF3 /* LinearDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearDistribution.h; sourceTree = "<group>"; };
+		AB8CAB461946008B00B40AF3 /* TriangularDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangularDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB471946008B00B40AF3 /* TriangularDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangularDistribution.h; sourceTree = "<group>"; };
+		AB8CAB491946021800B40AF3 /* ExponentialDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExponentialDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB4A1946021800B40AF3 /* ExponentialDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExponentialDistribution.h; sourceTree = "<group>"; };
+		AB8CAB4C19460A7C00B40AF3 /* GaussianDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GaussianDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianDistribution.h; sourceTree = "<group>"; };
+		AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CauchyDistribution.cpp; sourceTree = "<group>"; };
+		AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CauchyDistribution.h; sourceTree = "<group>"; };
 		AE5713E56160680770F2EB55 /* ofxUIRotarySlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIRotarySlider.h; path = ../of_v0.8.0_osx_release/addons/ofxUI/src/ofxUIRotarySlider.h; sourceTree = SOURCE_ROOT; };
 		AEB4F82D2AAD8378F3D030B6 /* ControlXYSpeed.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ControlXYSpeed.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/ControlXYSpeed.cpp; sourceTree = SOURCE_ROOT; };
 		AF12099EC869CDB12C7CCC2F /* Effect.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Effect.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Effect.h; sourceTree = SOURCE_ROOT; };
@@ -742,6 +766,38 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
+			isa = PBXGroup;
+			children = (
+				AB10903E1940E0A300F65E20 /* Composer.cpp */,
+				AB10903F1940E0A300F65E20 /* Composer.h */,
+				AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */,
+				AB8CAB391945BE2F00B40AF3 /* IndependentStochasticComposer.h */,
+			);
+			name = Composers;
+			sourceTree = "<group>";
+		};
+		AB8CAB3C1945C80D00B40AF3 /* Distributions */ = {
+			isa = PBXGroup;
+			children = (
+				AB8CAB351945BD1000B40AF3 /* Distribution.cpp */,
+				AB8CAB361945BD1000B40AF3 /* Distribution.h */,
+				AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */,
+				AB8CAB411945C82F00B40AF3 /* UniformDistribution.h */,
+				AB8CAB431945FC6000B40AF3 /* LinearDistribution.cpp */,
+				AB8CAB441945FC6000B40AF3 /* LinearDistribution.h */,
+				AB8CAB461946008B00B40AF3 /* TriangularDistribution.cpp */,
+				AB8CAB471946008B00B40AF3 /* TriangularDistribution.h */,
+				AB8CAB491946021800B40AF3 /* ExponentialDistribution.cpp */,
+				AB8CAB4A1946021800B40AF3 /* ExponentialDistribution.h */,
+				AB8CAB4C19460A7C00B40AF3 /* GaussianDistribution.cpp */,
+				AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */,
+				AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */,
+				AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */,
+			);
+			name = Distributions;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
@@ -919,11 +975,11 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AB8CAB3C1945C80D00B40AF3 /* Distributions */,
+				AB8CAB3B1945BE6000B40AF3 /* Composers */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* App.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* App.h */,
-				AB10903E1940E0A300F65E20 /* Composer.cpp */,
-				AB10903F1940E0A300F65E20 /* Composer.h */,
 				AB1090411940E1C300F65E20 /* Note.cpp */,
 				AB1090421940E1C300F65E20 /* Note.h */,
 				AB1090441940E2DA00F65E20 /* Silence.cpp */,
@@ -1056,6 +1112,7 @@
 				5A36FAE1D326B860C566CF19 /* ADSR.cpp in Sources */,
 				F1F05D9F5D469436BAA65BAD /* Arithmetic.cpp in Sources */,
 				AB1090491940E33300F65E20 /* Figure.cpp in Sources */,
+				AB8CAB481946008B00B40AF3 /* TriangularDistribution.cpp in Sources */,
 				7DA0198398A4FBF57B9110B4 /* BasicDelay.cpp in Sources */,
 				73586DEE84FAF0E24C85C18C /* BufferFiller.cpp in Sources */,
 				AB1090401940E0A300F65E20 /* Composer.cpp in Sources */,
@@ -1063,6 +1120,7 @@
 				84E0365AFE7EDC29575485EA /* CompressorLimiter.cpp in Sources */,
 				2DD899DA50AE8064D35F7476 /* ControlArithmetic.cpp in Sources */,
 				2D00D2AE5836FAF43F6C4CBE /* ControlChangeNotifier.cpp in Sources */,
+				AB8CAB3A1945BE2F00B40AF3 /* IndependentStochasticComposer.cpp in Sources */,
 				76C5136C04BEFF76AA88D7BA /* ControlComparison.cpp in Sources */,
 				739EE1F47566F4C95D644C71 /* ControlConditioner.cpp in Sources */,
 				249996E885B712C661D20CBE /* ControlCounter.cpp in Sources */,
@@ -1086,6 +1144,7 @@
 				544302A087C307B59E5A723A /* ControlXYSpeed.cpp in Sources */,
 				54D16C742EBC1D9EDED3A0CB /* DelayUtils.cpp in Sources */,
 				65E7648C49FA1749D3E6D7ED /* Effect.cpp in Sources */,
+				AB8CAB5119460DE500B40AF3 /* CauchyDistribution.cpp in Sources */,
 				9210F1806D28855073CA9B17 /* Filters.cpp in Sources */,
 				833324DB31789FBBE1BF5CE2 /* FilterUtils.cpp in Sources */,
 				494C52BF47626B5541AE2A0E /* FixedValue.cpp in Sources */,
@@ -1096,11 +1155,15 @@
 				F1C7E184AD83EB7E7941274C /* Noise.cpp in Sources */,
 				F75E7A764BE13B29009F8475 /* RampedValue.cpp in Sources */,
 				8437DE492F6010B462F59381 /* RectWave.cpp in Sources */,
+				AB8CAB4E19460A7C00B40AF3 /* GaussianDistribution.cpp in Sources */,
 				A13925079D9F9600EABD9AEF /* Reverb.cpp in Sources */,
 				F6E1E299C6DBBE4326D1E9EE /* RingBuffer.cpp in Sources */,
+				AB8CAB4B1946021800B40AF3 /* ExponentialDistribution.cpp in Sources */,
 				A5D39241C2FB7EE7A6C53B75 /* SampleTable.cpp in Sources */,
 				C5D925C9F6606467508F4FB1 /* SawtoothWave.cpp in Sources */,
 				58C086DCCCC71FDE00C623C9 /* SineWave.cpp in Sources */,
+				AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */,
+				AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */,
 				6712A5D8C45E4C4891A2F5AA /* StereoDelay.cpp in Sources */,
 				4601D3DA97FC868273133BE6 /* Synth.cpp in Sources */,
 				9222A2410A6B43FE2E2A6BEA /* TableLookupOsc.cpp in Sources */,
@@ -1140,6 +1203,7 @@
 				D9453466C69826DFE77A5BE7 /* ofxUISortableList.cpp in Sources */,
 				1FA542C74201706197DBDA6E /* ofxUISpacer.cpp in Sources */,
 				DFD82374E4C35176A917ECBD /* ofxUISpectrum.cpp in Sources */,
+				AB8CAB451945FC6000B40AF3 /* LinearDistribution.cpp in Sources */,
 				33EA8DBD6FEDF4CCDE64E0B6 /* ofxUISuperCanvas.cpp in Sources */,
 				5C944C49C92B70D77A06CA1D /* ofxUITabBar.cpp in Sources */,
 				D821C392E80F53B648373AD0 /* ofxUITextArea.cpp in Sources */,

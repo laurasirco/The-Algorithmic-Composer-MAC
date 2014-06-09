@@ -1,4 +1,11 @@
 #include "App.h"
+#include "IndependentStochasticComposer.h"
+#include "UniformDistribution.h"
+#include "LinearDistribution.h"
+#include "TriangularDistribution.h"
+#include "ExponentialDistribution.h"
+#include "GaussianDistribution.h"
+#include "CauchyDistribution.h"
 
 //--------------------------------------------------------------
 void App::setup(){
@@ -102,7 +109,7 @@ void App::setup(){
     guiTabBar->addCanvas(gui4);
     guis.push_back(gui4);
     
-    ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
+    /*ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
     
     // create a new oscillator which we'll use for the actual audio signal
     SineWave tone = SineWave();
@@ -122,12 +129,33 @@ void App::setup(){
     SineWave tremeloSine = SineWave().freq(1);
     
     // set the synth's final output generator
-    synth.setOutputGen( tone * tremeloSine );
+    synth.setOutputGen( tone * tremeloSine );*/
+	
+	UniformDistribution * uniform = new UniformDistribution();
+	
+	LinearDistribution * linear = new LinearDistribution();
+	linear->setDirection(Up);
+	
+	TriangularDistribution * triangular = new TriangularDistribution();
+	triangular->setMean(0.9);
+	
+	ExponentialDistribution * exponential = new ExponentialDistribution();
+	exponential->setLambda(1.0);
+	
+	GaussianDistribution * gauss = new GaussianDistribution();
+	gauss->setMu(10);
+	
+	CauchyDistribution * cauchy = new CauchyDistribution();
+	cauchy->setAlpha(10);
+	
+	composer = new IndependentStochasticComposer(cauchy);
+	ofSetFrameRate(30);
 }
 
 //--------------------------------------------------------------
 void App::update(){
-
+	//cout<<"FPS: "<<ofGetFrameRate()<<endl;
+	cout<<"Value: "<<composer->compose()<<endl;
 }
 
 //--------------------------------------------------------------

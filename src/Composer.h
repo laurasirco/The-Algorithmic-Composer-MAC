@@ -12,10 +12,11 @@
 #include <iostream>
 
 class Composer{
-    public:
-        Composer();
-        void compose();
-    private:
+public:
+	Composer();
+	~Composer();
+	virtual float compose() = 0;
+private:
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Composer__) */

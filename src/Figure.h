@@ -15,7 +15,7 @@ class Figure{
 public:
     Figure();
     ~Figure();
-private:
+protected:
     int duration;
     int attackPoint;
 };
