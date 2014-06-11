@@ -10,12 +10,14 @@
 #define __The_Algorithmic_Composer__Composer__
 
 #include <iostream>
+#include "Figure.h"
+#include <vector>
 
 class Composer{
 public:
 	Composer();
 	~Composer();
-	virtual float compose() = 0;
+	virtual std::vector<Figure *> compose(bool infinite, int meter, int pattern, int stems = 2) = 0;
 private:
 };
 

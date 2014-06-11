@@ -92,6 +92,7 @@
 		AB1090431940E1C300F65E20 /* Note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090411940E1C300F65E20 /* Note.cpp */; };
 		AB1090461940E2DA00F65E20 /* Silence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090441940E2DA00F65E20 /* Silence.cpp */; };
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
+		AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26AE5319485C1800B9A675 /* Randomize.cpp */; };
 		AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB351945BD1000B40AF3 /* Distribution.cpp */; };
 		AB8CAB3A1945BE2F00B40AF3 /* IndependentStochasticComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */; };
 		AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */; };
@@ -370,6 +371,8 @@
 		AB1090451940E2DA00F65E20 /* Silence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Silence.h; sourceTree = "<group>"; };
 		AB1090471940E33300F65E20 /* Figure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Figure.cpp; sourceTree = "<group>"; };
 		AB1090481940E33300F65E20 /* Figure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Figure.h; sourceTree = "<group>"; };
+		AB26AE5319485C1800B9A675 /* Randomize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Randomize.cpp; sourceTree = "<group>"; };
+		AB26AE5419485C1800B9A675 /* Randomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Randomize.h; sourceTree = "<group>"; };
 		AB282357F09D053C1185FDFF /* TonicCore.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TonicCore.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/TonicCore.h; sourceTree = SOURCE_ROOT; };
 		AB2A0DF88B639BF544327A6D /* Filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Filters.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Filters.cpp; sourceTree = SOURCE_ROOT; };
 		AB8CAB351945BD1000B40AF3 /* Distribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Distribution.cpp; sourceTree = "<group>"; };
@@ -766,6 +769,15 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		AB26AE5219485BF400B9A675 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AB26AE5319485C1800B9A675 /* Randomize.cpp */,
+				AB26AE5419485C1800B9A675 /* Randomize.h */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
 			isa = PBXGroup;
 			children = (
@@ -975,6 +987,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AB26AE5219485BF400B9A675 /* Utils */,
 				AB8CAB3C1945C80D00B40AF3 /* Distributions */,
 				AB8CAB3B1945BE6000B40AF3 /* Composers */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -1209,6 +1222,7 @@
 				D821C392E80F53B648373AD0 /* ofxUITextArea.cpp in Sources */,
 				FD121EB38B5F5578D41545A4 /* ofxUITextInput.cpp in Sources */,
 				3C9916FE72A86450B3952F84 /* ofxUIToggle.cpp in Sources */,
+				AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */,
 				5B38673DB5E9FEA09AB8CD74 /* ofxUIToggleMatrix.cpp in Sources */,
 				2D0879326C2290706127A68E /* ofxUIValuePlotter.cpp in Sources */,
 				F76979B4BFE81B04A2AE2572 /* ofxUIWaveform.cpp in Sources */,

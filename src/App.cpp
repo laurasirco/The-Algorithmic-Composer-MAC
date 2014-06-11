@@ -6,6 +6,7 @@
 #include "ExponentialDistribution.h"
 #include "GaussianDistribution.h"
 #include "CauchyDistribution.h"
+#include "Figure.h"
 
 //--------------------------------------------------------------
 void App::setup(){
@@ -143,19 +144,28 @@ void App::setup(){
 	exponential->setLambda(1.0);
 	
 	GaussianDistribution * gauss = new GaussianDistribution();
-	gauss->setMu(10);
+	//gauss->setMu(10);
 	
 	CauchyDistribution * cauchy = new CauchyDistribution();
 	cauchy->setAlpha(10);
 	
-	composer = new IndependentStochasticComposer(cauchy);
+	
+	composer = new IndependentStochasticComposer(triangular);
+	
 	ofSetFrameRate(30);
 }
 
 //--------------------------------------------------------------
 void App::update(){
 	//cout<<"FPS: "<<ofGetFrameRate()<<endl;
-	cout<<"Value: "<<composer->compose()<<endl;
+	cout<<"----------------------------------"<<endl;
+	std::vector<Figure *> result = composer->compose(false, 2, 4, 1);
+	float sum = 0.0;
+	for(int i = 0; i < result.size(); i++){
+		result[i]->printMyself();
+		sum += result[i]->getDuration();
+	}
+	cout<<"TOTAL duration: "<<sum<<endl;
 }
 
 //--------------------------------------------------------------

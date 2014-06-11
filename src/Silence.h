@@ -14,8 +14,9 @@
 
 class Silence : public Figure{
     public:
-        Silence();
-        ~Silence();
+	Silence(Type t) : Figure(t){}
+	~Silence();
+	void printMyself(){ std::cout<<"Im a silence, type "<<t<<" duration "<<duration<<std::endl; }
     private:
 };
 

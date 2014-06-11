@@ -14,8 +14,12 @@
 
 class Note : public Figure{
 public:
-    Note();
+    Note(Type t, int p, int v) : Figure(t){
+		pitch = p;
+		velocity = v;
+	}
     ~Note();
+	void printMyself(){ std::cout<<"Im a note, type "<<t<<", duration "<<duration<<", pitch "<<pitch<<", velocity "<<velocity<<std::endl; }
 private:
     int pitch;
     int velocity;

@@ -11,13 +11,21 @@
 
 #include <iostream>
 
+enum Type{
+	Whole, Half, Quarter, Eighth, Sixteenth, ThirtySecond, SixtyFourth
+};
+
 class Figure{
 public:
-    Figure();
+    Figure(Type t);
     ~Figure();
+	static float typeToDuration(Type t);
+	virtual void printMyself() = 0;
+	float getDuration(){ return duration; }
 protected:
-    int duration;
-    int attackPoint;
+    float duration;
+    //int attackPoint;
+	Type t;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Figure__) */
