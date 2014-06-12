@@ -13,6 +13,7 @@ void App::setup(){
     
     
     ofBackground(ofxUIColor::crimson);
+	ofSetFrameRate(60);
 
     
     guiTabBar = new ofxUITabBar();
@@ -109,28 +110,6 @@ void App::setup(){
     ofAddListener(gui4->newGUIEvent,this,&App::guiEvent);
     guiTabBar->addCanvas(gui4);
     guis.push_back(gui4);
-    
-    /*ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
-    
-    // create a new oscillator which we'll use for the actual audio signal
-    SineWave tone = SineWave();
-    
-    // create a sine wave we'll use for some vibrato
-    SineWave vibratoOsc = SineWave();
-    vibratoOsc.freq(10);
-    
-    // you can use the regular arithmatic operators on Generators and their subclasses (SineWave extends Generator)
-    float basePitch = 400;
-    Generator frequency = basePitch + (vibratoOsc * basePitch * 0.01);
-    
-    // plug that frequency generator into the frequency slot of the main audio-producing sine wave
-    tone.freq(frequency);
-    
-    // let's also create a tremelo effect
-    SineWave tremeloSine = SineWave().freq(1);
-    
-    // set the synth's final output generator
-    synth.setOutputGen( tone * tremeloSine );*/
 	
 	UniformDistribution * uniform = new UniformDistribution();
 	
@@ -150,22 +129,19 @@ void App::setup(){
 	cauchy->setAlpha(10);
 	
 	
-	composer = new IndependentStochasticComposer(triangular);
-	
-	ofSetFrameRate(30);
+	composer = new IndependentStochasticComposer(uniform);
+	std::vector<Figure *> result = composer->compose(false, 2, 4, 1);
+	player = new Player();
+	player->play(result);
+	ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
+
+
 }
 
 //--------------------------------------------------------------
 void App::update(){
-	//cout<<"FPS: "<<ofGetFrameRate()<<endl;
-	cout<<"----------------------------------"<<endl;
-	std::vector<Figure *> result = composer->compose(false, 2, 4, 1);
-	float sum = 0.0;
-	for(int i = 0; i < result.size(); i++){
-		result[i]->printMyself();
-		sum += result[i]->getDuration();
-	}
-	cout<<"TOTAL duration: "<<sum<<endl;
+	if(!player->isAllPlayed())
+		player->update();
 }
 
 //--------------------------------------------------------------
@@ -219,7 +195,7 @@ void App::dragEvent(ofDragInfo dragInfo){
 }
 
 void App::audioRequested (float * output, int bufferSize, int nChannels){
-    //synth.fillBufferOfFloats(output, bufferSize, nChannels);
+    player->getSynth().fillBufferOfFloats(output, bufferSize, nChannels);
 }
 
 

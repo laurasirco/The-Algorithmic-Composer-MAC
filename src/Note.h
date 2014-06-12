@@ -17,9 +17,11 @@ public:
     Note(Type t, int p, int v) : Figure(t){
 		pitch = p;
 		velocity = v;
+		kind = KNote;
 	}
     ~Note();
 	void printMyself(){ std::cout<<"Im a note, type "<<t<<", duration "<<duration<<", pitch "<<pitch<<", velocity "<<velocity<<std::endl; }
+	int getPitch(){ return pitch; }
 private:
     int pitch;
     int velocity;

@@ -15,6 +15,10 @@ enum Type{
 	Whole, Half, Quarter, Eighth, Sixteenth, ThirtySecond, SixtyFourth
 };
 
+enum Kind{
+	KNote, KSilence
+};
+
 class Figure{
 public:
     Figure(Type t);
@@ -22,10 +26,12 @@ public:
 	static float typeToDuration(Type t);
 	virtual void printMyself() = 0;
 	float getDuration(){ return duration; }
+	Kind getKind(){ return kind; }
 protected:
     float duration;
     //int attackPoint;
 	Type t;
+	Kind kind;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Figure__) */

@@ -1,13 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxTonic.h"
 #include "ofxUI.h"
-#include "Composer.h";
+#include "Composer.h"
+#include "Player.h"
 
 #include <iostream>
 using namespace std;
-using namespace Tonic;
 
 class App : public ofBaseApp{
 	
@@ -33,9 +32,11 @@ public:
 	ofxUITabBar *guiTabBar;
 	vector<ofxUICanvas *> guis;
 	void guiEvent(ofxUIEventArgs &e);
+	
+	static float getFramerate(){ return ofGetFrameRate(); }
 private:
     
-	ofxTonicSynth synth;
 	Composer * composer;
+	Player * player;
 	
 };
