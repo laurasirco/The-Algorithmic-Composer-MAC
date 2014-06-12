@@ -9,15 +9,35 @@
 #include "Figure.h"
 
 //--------------------------------------------------------------
+ofxTonicSynth App::synth = ofxTonicSynth();
+
 void App::setup(){
     
     
     ofBackground(ofxUIColor::crimson);
 	ofSetFrameRate(60);
-
     
+	
+	//SYNTH SETTINGS
+	
+	ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
+	
+	ControlGenerator midiNote = synth.addParameter("midiNumber");
+	
+	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
+	
+	ADSR env = ADSR().attack(0.01f).decay(0.05f).sustain(0.02f).release(0.01f);
+	
+	Generator tone = SawtoothWave().freq(noteFreq);
+	tone = LPF12().input(tone).Q(10).cutoff((noteFreq * 2) + SineWave().freq(3) * 0.5 * noteFreq);
+	
+	
+	
+	synth.setOutputGen(tone);
+	
+	
     guiTabBar = new ofxUITabBar();
-    
+	
     //SETTING GUI
     guiTabBar->setFont("GUI/Lekton-Regular.ttf");
     guiTabBar->setFontSize(OFX_UI_FONT_LARGE, 16);
@@ -131,10 +151,10 @@ void App::setup(){
 	
 	composer = new IndependentStochasticComposer(uniform);
 	std::vector<Figure *> result = composer->compose(false, 2, 4, 1);
-	player = new Player();
+	
+	player = new Player(30);
+	
 	player->play(result);
-	ofSoundStreamSetup(2, 0, this, 44100, 256, 4);
-
 
 }
 
@@ -195,9 +215,8 @@ void App::dragEvent(ofDragInfo dragInfo){
 }
 
 void App::audioRequested (float * output, int bufferSize, int nChannels){
-    player->getSynth().fillBufferOfFloats(output, bufferSize, nChannels);
+	synth.fillBufferOfFloats(output, bufferSize, nChannels);
 }
-
 
 void App::exit(){
     
@@ -205,4 +224,8 @@ void App::exit(){
 
 void App::guiEvent(ofxUIEventArgs &e){
     
+}
+
+void App::setMidiNote(int note){
+	synth.setParameter("midiNumber", note);
 }

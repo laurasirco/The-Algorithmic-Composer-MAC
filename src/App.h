@@ -7,6 +7,9 @@
 
 #include <iostream>
 using namespace std;
+#include "ofxTonic.h"
+
+using namespace Tonic;
 
 class App : public ofBaseApp{
 	
@@ -34,9 +37,12 @@ public:
 	void guiEvent(ofxUIEventArgs &e);
 	
 	static float getFramerate(){ return ofGetFrameRate(); }
+	
+	static void setMidiNote(int note);
 private:
     
 	Composer * composer;
 	Player * player;
-	
+	static ofxTonicSynth synth;
+
 };

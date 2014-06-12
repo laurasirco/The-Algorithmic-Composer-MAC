@@ -15,35 +15,6 @@ Player::Player(int b){
 	BPM = b;
 	i = 0;
 	allPlayed = true;
-	
-	
-	/*
-	 Generators and ControlGenerators both output a steady stream of data.
-	 Generators output at the sample rate (in this case, 44100 hertz.
-	 ControlGenerators output at the control rate, which is much lower than the sample rate.
-	 */
-	
-	// create a named parameter on the synth which we can set at runtime
-	ControlGenerator midiNote = synth.addParameter("midiNumber");
-	
-	// convert a midi note to a frequency (plugging that parameter into another object)
-	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
-	
-	// Here's the actual noise-making object
-	Generator tone = SawtoothWave().freq( noteFreq );
-	
-	// Let's put a filter on the tone
-	tone = LPF12().input(tone).Q(10).cutoff((noteFreq * 2) + SineWave().freq(3) * 0.5 * noteFreq);
-	
-	// It's just a steady tone until we modulate the amplitude with an envelope
-	ControlGenerator envelopeTrigger = synth.addParameter("trigger");
-	Generator toneWithEnvelope = tone * ADSR().attack(0.01).decay(1.5).sustain(0).release(0).trigger(envelopeTrigger).legato(true);
-	
-	// let's send the tone through some delay
-	Generator toneWithDelay = StereoDelay(0.5, 0.75).input(toneWithEnvelope).wetLevel(0.1).feedback(0.2);
-	
-	synth.setOutputGen( toneWithDelay );
-
 }
 
 Player::~Player(){
@@ -83,7 +54,7 @@ void Player::play(std::vector<Figure*> f){
 	
 	if(fragment[i]->getKind() == KNote){
 		Note * n = (Note *)fragment[i];
-		synth.setParameter("midiNumber", n->getPitch());
+		App::setMidiNote(n->getPitch());
 	}
 		
 }
@@ -120,7 +91,7 @@ void Player::update(){
 		
 		if(fragment[i]->getKind() == KNote){
 			Note * n = (Note *)fragment[i];
-			synth.setParameter("midiNumber", n->getPitch());
+			App::setMidiNote(n->getPitch());
 		}
 		
 	}

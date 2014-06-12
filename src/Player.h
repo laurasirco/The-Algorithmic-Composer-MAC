@@ -12,9 +12,6 @@
 #include <iostream>
 #include <vector>
 #include "Figure.h"
-#include "ofxTonic.h"
-
-using namespace Tonic;
 using namespace std;
 
 class Player {
@@ -26,7 +23,6 @@ public:
 	void update();
 	void setBPM(int b){ BPM = b; }
 	bool isAllPlayed(){ return allPlayed; }
-	ofxTonicSynth getSynth(){ return synth; }
 private:
 	int BPM;
 	int count;
@@ -34,8 +30,6 @@ private:
 	std::vector<Figure *> fragment;
 	int i;
 	bool allPlayed;
-	
-	ofxTonicSynth synth;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Player__) */
