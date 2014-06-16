@@ -54,8 +54,11 @@ void Player::play(std::vector<Figure*> f){
 	
 	if(fragment[i]->getKind() == KNote){
 		Note * n = (Note *)fragment[i];
+		App::setIsSilence(false);
 		App::setMidiNote(n->getPitch());
 	}
+	else
+		App::setIsSilence(true);
 		
 }
 
@@ -91,8 +94,11 @@ void Player::update(){
 		
 		if(fragment[i]->getKind() == KNote){
 			Note * n = (Note *)fragment[i];
+			App::setIsSilence(false);
 			App::setMidiNote(n->getPitch());
 		}
+		else
+			App::setIsSilence(true);
 		
 	}
 	

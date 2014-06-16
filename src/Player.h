@@ -21,7 +21,7 @@ public:
 	~Player();
 	void play(std::vector<Figure *> f);
 	void update();
-	void setBPM(int b){ BPM = b; }
+	void setTempo(int b){ BPM = b; }
 	bool isAllPlayed(){ return allPlayed; }
 private:
 	int BPM;

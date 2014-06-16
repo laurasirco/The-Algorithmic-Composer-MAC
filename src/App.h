@@ -39,6 +39,7 @@ public:
 	static float getFramerate(){ return ofGetFrameRate(); }
 	
 	static void setMidiNote(int note);
+	static void setIsSilence(bool t);
 private:
     
 	Composer * composer;

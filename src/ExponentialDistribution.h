@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "Distribution.h"
+using namespace std;
 
 class ExponentialDistribution: public Distribution {
   

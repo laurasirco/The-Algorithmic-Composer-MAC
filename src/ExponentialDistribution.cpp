@@ -28,7 +28,8 @@ float ExponentialDistribution::getValue(){
 		value /= 100;
 	}
 	
-	return -log(value)/lambda;
+	//std::cout<<"value: "<<value<<", log: "<<-log10(value)/lambda<<std::endl;
+	return -log10(value)/lambda;
 	
 }
 

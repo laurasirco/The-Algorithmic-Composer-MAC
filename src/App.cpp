@@ -24,16 +24,30 @@ void App::setup(){
 	
 	ControlGenerator midiNote = synth.addParameter("midiNumber");
 	
+	ControlGenerator volume = synth.addParameter("volume");
+	synth.setParameter("volume", 1);
+	
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
-	ADSR env = ADSR().attack(0.01f).decay(0.05f).sustain(0.02f).release(0.01f);
+	// create a new oscillator which we'll use for the actual audio signal
+	SineWave tone = SineWave();
 	
-	Generator tone = SawtoothWave().freq(noteFreq);
-	tone = LPF12().input(tone).Q(10).cutoff((noteFreq * 2) + SineWave().freq(3) * 0.5 * noteFreq);
+	// create a sine wave we'll use for some vibrato
+	SineWave vibratoOsc = SineWave();
+	vibratoOsc.freq(10);
 	
+	// you can use the regular arithmatic operators on Generators and their subclasses (SineWave extends Generator)
+	Generator frequency = noteFreq + (vibratoOsc * noteFreq * 0.01);
 	
+	// plug that frequency generator into the frequency slot of the main audio-producing sine wave
+	tone.freq(frequency);
 	
-	synth.setOutputGen(tone);
+	// let's also create a tremelo effect
+	SineWave tremeloSine = SineWave().freq(1);
+	
+	// set the synth's final output generator
+	synth.setOutputGen( tone * tremeloSine * volume );
+
 	
 	
     guiTabBar = new ofxUITabBar();
@@ -137,10 +151,11 @@ void App::setup(){
 	linear->setDirection(Up);
 	
 	TriangularDistribution * triangular = new TriangularDistribution();
-	triangular->setMean(0.9);
+	//triangular->setMean(0.9);
+	triangular->setTriangleBase(0.1);
 	
 	ExponentialDistribution * exponential = new ExponentialDistribution();
-	exponential->setLambda(1.0);
+	//exponential->setLambda(1.0);
 	
 	GaussianDistribution * gauss = new GaussianDistribution();
 	//gauss->setMu(10);
@@ -149,10 +164,10 @@ void App::setup(){
 	cauchy->setAlpha(10);
 	
 	
-	composer = new IndependentStochasticComposer(uniform);
-	std::vector<Figure *> result = composer->compose(false, 2, 4, 1);
+	composer = new IndependentStochasticComposer(gauss);
+	std::vector<Figure *> result = composer->compose(false, 2, 4, 10);
 	
-	player = new Player(30);
+	player = new Player(60);
 	
 	player->play(result);
 
@@ -162,6 +177,8 @@ void App::setup(){
 void App::update(){
 	if(!player->isAllPlayed())
 		player->update();
+	else
+		synth.setParameter("volume", 0);
 }
 
 //--------------------------------------------------------------
@@ -228,4 +245,11 @@ void App::guiEvent(ofxUIEventArgs &e){
 
 void App::setMidiNote(int note){
 	synth.setParameter("midiNumber", note);
+}
+
+void App::setIsSilence(bool t){
+	if(t == false)
+		synth.setParameter("volume", 1);
+	else
+		synth.setParameter("volume", 0);
 }
