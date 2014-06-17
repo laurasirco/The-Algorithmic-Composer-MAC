@@ -7,3 +7,8 @@
 //
 
 #include "Silence.h"
+
+void Silence::printMyself(){
+	
+	std::cout<<"Im a silence, type "<<typeNames[type]<<" duration "<<duration<<std::endl;
+}

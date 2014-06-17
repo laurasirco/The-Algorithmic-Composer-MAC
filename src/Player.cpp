@@ -31,23 +31,52 @@ void Player::play(std::vector<Figure*> f){
 	
 	float framesQuarter = (60/BPM)/(1/FPS);
 	
-	float duration = fragment[i]->getDuration();
+	Type type = fragment[i]->getType();
 	
-	if (duration == 1)
-		x = framesQuarter * 4;
-	else if (duration == 0.5)
-		x = framesQuarter * 2;
-	else if(duration == 0.25)
-		x = framesQuarter;
-	else if(duration == 0.125)
-		x = framesQuarter / 2;
-	else if(duration == 0.0625)
-		x = framesQuarter / 4;
-	else if(duration == 0.03125)
-		x = framesQuarter / 8;
-	else if(duration == 0.015625)
-		x = framesQuarter / 16;
-	
+	switch (type) {
+		case DWhole:
+			x = framesQuarter * 6;
+			break;
+		case Whole:
+			x = framesQuarter * 4;
+			break;
+		case DHalf:
+			x = framesQuarter * 3;
+			break;
+		case Half:
+			x = framesQuarter * 2;
+			break;
+		case DQuarter:
+			x = framesQuarter * 1.5;
+			break;
+		case Quarter:
+			x = framesQuarter * 1;
+			break;
+		case DEighth:
+			x = framesQuarter * 0.75;
+			break;
+		case Eighth:
+			x = framesQuarter * 0.5;
+			break;
+		case DSixteenth:
+			x = framesQuarter * 0.375;
+			break;
+		case Sixteenth:
+			x = framesQuarter * 0.25;
+			break;
+		case DThirtySecond:
+			x = framesQuarter * 0.1875;
+			break;
+		case ThirtySecond:
+			x = framesQuarter * 0.125;
+			break;
+		case SixtyFourth:
+			x = framesQuarter * 0.0625;
+			break;
+		default:
+			break;
+	}
+		
 	//play note here
 	cout<<"Total notes: "<<fragment.size()<<endl;
 	cout<<"playing note: "<<i; fragment[i]->printMyself();
@@ -59,7 +88,7 @@ void Player::play(std::vector<Figure*> f){
 	}
 	else
 		App::setIsSilence(true);
-		
+	
 }
 
 void Player::update(){
@@ -72,22 +101,51 @@ void Player::update(){
 		float FPS = App::getFramerate();
 		float framesQuarter = (60/BPM)/(1/FPS);
 		
-		float duration = fragment[i]->getDuration();
+		Type type = fragment[i]->getType();
 		
-		if (duration == 1)
-			x = framesQuarter * 4;
-		else if (duration == 0.5)
-			x = framesQuarter * 2;
-		else if(duration == 0.25)
-			x = framesQuarter;
-		else if(duration == 0.125)
-			x = framesQuarter / 2;
-		else if(duration == 0.0625)
-			x = framesQuarter / 4;
-		else if(duration == 0.03125)
-			x = framesQuarter / 8;
-		else if(duration == 0.015625)
-			x = framesQuarter / 16;
+		switch (type) {
+			case DWhole:
+				x = framesQuarter * 6;
+				break;
+			case Whole:
+				x = framesQuarter * 4;
+				break;
+			case DHalf:
+				x = framesQuarter * 3;
+				break;
+			case Half:
+				x = framesQuarter * 2;
+				break;
+			case DQuarter:
+				x = framesQuarter * 1.5;
+				break;
+			case Quarter:
+				x = framesQuarter * 1;
+				break;
+			case DEighth:
+				x = framesQuarter * 0.75;
+				break;
+			case Eighth:
+				x = framesQuarter * 0.5;
+				break;
+			case DSixteenth:
+				x = framesQuarter * 0.375;
+				break;
+			case Sixteenth:
+				x = framesQuarter * 0.25;
+				break;
+			case DThirtySecond:
+				x = framesQuarter * 0.1875;
+				break;
+			case ThirtySecond:
+				x = framesQuarter * 0.125;
+				break;
+			case SixtyFourth:
+				x = framesQuarter * 0.0625;
+				break;
+			default:
+				break;
+		}
 		
 		//play note here
 		cout<<"playing note: "<<i<<" "; fragment[i]->printMyself();
@@ -95,6 +153,7 @@ void Player::update(){
 		if(fragment[i]->getKind() == KNote){
 			Note * n = (Note *)fragment[i];
 			App::setIsSilence(false);
+			App::setVolume(n->getVelocity());
 			App::setMidiNote(n->getPitch());
 		}
 		else
@@ -109,5 +168,5 @@ void Player::update(){
 		//cout<<"Count "<<count<<" to x "<<x<<endl;
 		count++;
 	}
-
+	
 }

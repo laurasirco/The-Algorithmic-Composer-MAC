@@ -40,6 +40,7 @@ public:
 	
 	static void setMidiNote(int note);
 	static void setIsSilence(bool t);
+	static void setVolume(float volume);
 private:
     
 	Composer * composer;

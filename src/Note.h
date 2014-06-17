@@ -20,8 +20,9 @@ public:
 		kind = KNote;
 	}
     ~Note();
-	void printMyself(){ std::cout<<"Im a note, type "<<t<<", duration "<<duration<<", pitch "<<pitch<<", velocity "<<velocity<<std::endl; }
+	void printMyself();
 	int getPitch(){ return pitch; }
+	int getVelocity(){ return velocity; }
 private:
     int pitch;
     int velocity;

@@ -27,6 +27,8 @@ float ExponentialDistribution::getValue(){
 		value = rand() % 100;
 		value /= 100;
 	}
+	if(-log10(value)/lambda > 1.0)
+		return 1.0;
 	
 	//std::cout<<"value: "<<value<<", log: "<<-log10(value)/lambda<<std::endl;
 	return -log10(value)/lambda;

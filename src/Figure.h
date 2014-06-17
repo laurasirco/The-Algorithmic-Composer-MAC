@@ -10,9 +10,11 @@
 #define __The_Algorithmic_Composer__Figure__
 
 #include <iostream>
+#include <vector>
+#include <string>
 
 enum Type{
-	Whole, Half, Quarter, Eighth, Sixteenth, ThirtySecond, SixtyFourth
+	DWhole, Whole, DHalf, Half, DQuarter, Quarter, DEighth, Eighth, DSixteenth, Sixteenth, DThirtySecond, ThirtySecond, SixtyFourth
 };
 
 enum Kind{
@@ -27,11 +29,13 @@ public:
 	virtual void printMyself() = 0;
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }
+	Type getType(){ return type; }
 protected:
     float duration;
     //int attackPoint;
-	Type t;
+	Type type;
 	Kind kind;
+	std::vector<std::string> typeNames;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Figure__) */

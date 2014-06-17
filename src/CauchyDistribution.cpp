@@ -10,7 +10,7 @@
 #include <math.h>
 
 CauchyDistribution::CauchyDistribution(){
-	alpha = 1;
+	alpha = 10;
 }
 
 CauchyDistribution::~CauchyDistribution(){
@@ -28,7 +28,8 @@ float CauchyDistribution::getValue(){
 		value /= 100;
 	}
 	
-	value = value * M_PI;
+	
+	cout<<"Value: "<<alpha * tan(value * M_PI)<<endl;
 	
 	return alpha * tan(value);
 }

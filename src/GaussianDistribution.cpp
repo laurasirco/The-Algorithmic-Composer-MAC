@@ -9,7 +9,7 @@
 #include "GaussianDistribution.h"
 
 GaussianDistribution::GaussianDistribution(){
-	mu = 0.5;
+	mu = 5;
 	mean = mu;
 	sigma = 0.5;
 	spread = sigma;
@@ -35,6 +35,11 @@ float GaussianDistribution::getValue(){
 	
 	float value = sigma * scale * (sum - halfN) + mu;
 	cout<<"value: "<<value<<endl;
+	
+	if(value < 0)
+		return 0.0;
+	if(value > 1.0)
+		return 1.0;
 	
 	return value;
 	

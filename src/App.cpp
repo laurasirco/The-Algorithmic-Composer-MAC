@@ -31,7 +31,6 @@ void App::setup(){
 	
 	// create a new oscillator which we'll use for the actual audio signal
 	SineWave tone = SineWave();
-	
 	// create a sine wave we'll use for some vibrato
 	SineWave vibratoOsc = SineWave();
 	vibratoOsc.freq(10);
@@ -40,13 +39,14 @@ void App::setup(){
 	Generator frequency = noteFreq + (vibratoOsc * noteFreq * 0.01);
 	
 	// plug that frequency generator into the frequency slot of the main audio-producing sine wave
-	tone.freq(frequency);
+	tone.freq(noteFreq);
 	
-	// let's also create a tremelo effect
-	SineWave tremeloSine = SineWave().freq(1);
+	// Partials
+	SineWave firstPartial = SineWave().freq(noteFreq * 2);
+	SineWave secondPartial = SineWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
-	synth.setOutputGen( tone * tremeloSine * volume );
+	synth.setOutputGen( (tone + firstPartial + secondPartial)  * ADSR(0.3f, 0.0f, 0.5f, 0.6f).trigger(volume).legato(1));
 
 	
 	
@@ -148,26 +148,27 @@ void App::setup(){
 	UniformDistribution * uniform = new UniformDistribution();
 	
 	LinearDistribution * linear = new LinearDistribution();
-	linear->setDirection(Up);
+	linear->setDirection(Down);
 	
 	TriangularDistribution * triangular = new TriangularDistribution();
 	//triangular->setMean(0.9);
-	triangular->setTriangleBase(0.1);
+	triangular->setTriangleBase(1.0);
 	
 	ExponentialDistribution * exponential = new ExponentialDistribution();
 	//exponential->setLambda(1.0);
 	
 	GaussianDistribution * gauss = new GaussianDistribution();
-	//gauss->setMu(10);
+	gauss->setMu(0.5);
+	gauss->setSpread(10);
 	
 	CauchyDistribution * cauchy = new CauchyDistribution();
 	cauchy->setAlpha(10);
 	
 	
-	composer = new IndependentStochasticComposer(gauss);
+	composer = new IndependentStochasticComposer(cauchy);
 	std::vector<Figure *> result = composer->compose(false, 2, 4, 10);
 	
-	player = new Player(60);
+	player = new Player(20);
 	
 	player->play(result);
 
@@ -252,4 +253,8 @@ void App::setIsSilence(bool t){
 		synth.setParameter("volume", 1);
 	else
 		synth.setParameter("volume", 0);
+}
+
+void App::setVolume(float volume){
+	//synth.setParameter("volume", volume);
 }

@@ -10,6 +10,7 @@
 #define __The_Algorithmic_Composer__CauchyDistribution__
 
 #include <iostream>
+using namespace std;
 #include "Distribution.h"
 
 class CauchyDistribution : public Distribution {

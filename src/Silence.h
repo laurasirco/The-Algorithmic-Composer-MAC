@@ -18,7 +18,7 @@ class Silence : public Figure{
 		kind = KSilence;
 	}
 	~Silence();
-	void printMyself(){ std::cout<<"Im a silence, type "<<t<<" duration "<<duration<<std::endl; }
+	void printMyself();
     private:
 };
 
