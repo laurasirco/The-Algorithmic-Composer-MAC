@@ -14,7 +14,7 @@
 #include <string>
 
 enum Type{
-	DWhole, Whole, DHalf, Half, DQuarter, Quarter, DEighth, Eighth, DSixteenth, Sixteenth, DThirtySecond, ThirtySecond, SixtyFourth
+	DWhole, Whole, DHalf, Half, DQuarter, Quarter, DEighth, Eighth, DSixteenth, Sixteenth, DThirtySecond, ThirtySecond, SixtyFourth, NotAFigure
 };
 
 enum Kind{
@@ -26,6 +26,7 @@ public:
     Figure(Type t);
     ~Figure();
 	static float typeToDuration(Type t);
+	static Type durationToType(float d);
 	virtual void printMyself() = 0;
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }

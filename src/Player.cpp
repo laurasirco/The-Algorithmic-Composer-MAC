@@ -85,6 +85,7 @@ void Player::play(std::vector<Figure*> f){
 		Note * n = (Note *)fragment[i];
 		App::setIsSilence(false);
 		App::setMidiNote(n->getPitch());
+		App::setCurrentFigure(fragment[i]);
 	}
 	else
 		App::setIsSilence(true);

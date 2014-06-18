@@ -35,13 +35,20 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int 
 			f = Randomize::getRandomFigure();
 			//f = true;
 			
-			t = (Type)mapValue(distribution->getValue(), 0, 13);
+			t = (Type)mapValue(distribution->getValue(), 0, 12);
 			
 			duration = Figure::typeToDuration(t);
 			//cout<<"duration: "<<duration<<endl;
 			
 			while(counter + duration > total){
-				t = (Type)mapValue(distribution->getValue(), 0, 13);
+				
+				float difference = total - counter;
+				
+				if(Figure::durationToType(difference) == SixtyFourth)
+					t = SixtyFourth;
+				else
+					t = (Type)mapValue(distribution->getValue(), 0, 12);
+				
 				duration = Figure::typeToDuration(t);
 				//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
 			}
@@ -52,8 +59,8 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int 
 				int tone = mapValue(distribution->getValue(), 0, 5);
 				int octave = 4;
 				
-				int pitch = 10*(octave + 2) + Scales::Pentatonic[tone];
-				//int pitch = mapValue(distribution->getValue(), 0, 127);
+				int pitch = 10*(octave + 2) + Scales::Chromatic[tone];
+				//pitch = mapValue(distribution->getValue(), 0, 127);
 				
 				
 				int velocity = mapValue(distribution->getValue(), 0, 100);

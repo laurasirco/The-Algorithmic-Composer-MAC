@@ -21,6 +21,7 @@ public:
     void setMean(float m){ distribution->setMean(m); }
     void setSpread(float s){ distribution->setSpread(s); }
 	std::vector<Figure *> compose(bool infinite, int meter, int pattern, int stems = 2);
+	void setDistribution(Distribution * d){ distribution = d; }
 private:
     Distribution * distribution;
 	int mapValue(float value, int min, int max);

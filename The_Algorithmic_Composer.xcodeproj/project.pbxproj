@@ -94,6 +94,9 @@
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
 		AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26AE5319485C1800B9A675 /* Randomize.cpp */; };
 		AB4EC7981949A6BB00A24325 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EC7961949A6BB00A24325 /* Player.cpp */; };
+		AB62EA7A195184B400130C7B /* BetaDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA78195184B400130C7B /* BetaDistribution.cpp */; };
+		AB62EA7D195191BE00130C7B /* WeibullDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */; };
+		AB62EA801951944E00130C7B /* PoissonDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */; };
 		AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB351945BD1000B40AF3 /* Distribution.cpp */; };
 		AB8CAB3A1945BE2F00B40AF3 /* IndependentStochasticComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */; };
 		AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */; };
@@ -378,6 +381,12 @@
 		AB2A0DF88B639BF544327A6D /* Filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Filters.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Filters.cpp; sourceTree = SOURCE_ROOT; };
 		AB4EC7961949A6BB00A24325 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		AB4EC7971949A6BB00A24325 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		AB62EA78195184B400130C7B /* BetaDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetaDistribution.cpp; sourceTree = "<group>"; };
+		AB62EA79195184B400130C7B /* BetaDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetaDistribution.h; sourceTree = "<group>"; };
+		AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WeibullDistribution.cpp; sourceTree = "<group>"; };
+		AB62EA7C195191BE00130C7B /* WeibullDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeibullDistribution.h; sourceTree = "<group>"; };
+		AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoissonDistribution.cpp; sourceTree = "<group>"; };
+		AB62EA7F1951944E00130C7B /* PoissonDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoissonDistribution.h; sourceTree = "<group>"; };
 		AB8CAB351945BD1000B40AF3 /* Distribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Distribution.cpp; sourceTree = "<group>"; };
 		AB8CAB361945BD1000B40AF3 /* Distribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distribution.h; sourceTree = "<group>"; };
 		AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndependentStochasticComposer.cpp; sourceTree = "<group>"; };
@@ -394,6 +403,7 @@
 		AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianDistribution.h; sourceTree = "<group>"; };
 		AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CauchyDistribution.cpp; sourceTree = "<group>"; };
 		AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CauchyDistribution.h; sourceTree = "<group>"; };
+		ABABA614194F58FE00357936 /* Scales.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scales.h; sourceTree = "<group>"; };
 		AE5713E56160680770F2EB55 /* ofxUIRotarySlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIRotarySlider.h; path = ../of_v0.8.0_osx_release/addons/ofxUI/src/ofxUIRotarySlider.h; sourceTree = SOURCE_ROOT; };
 		AEB4F82D2AAD8378F3D030B6 /* ControlXYSpeed.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ControlXYSpeed.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/ControlXYSpeed.cpp; sourceTree = SOURCE_ROOT; };
 		AF12099EC869CDB12C7CCC2F /* Effect.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Effect.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Effect.h; sourceTree = SOURCE_ROOT; };
@@ -777,6 +787,7 @@
 			children = (
 				AB26AE5319485C1800B9A675 /* Randomize.cpp */,
 				AB26AE5419485C1800B9A675 /* Randomize.h */,
+				ABABA614194F58FE00357936 /* Scales.h */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -809,6 +820,12 @@
 				AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */,
 				AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */,
 				AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */,
+				AB62EA78195184B400130C7B /* BetaDistribution.cpp */,
+				AB62EA79195184B400130C7B /* BetaDistribution.h */,
+				AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */,
+				AB62EA7C195191BE00130C7B /* WeibullDistribution.h */,
+				AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */,
+				AB62EA7F1951944E00130C7B /* PoissonDistribution.h */,
 			);
 			name = Distributions;
 			sourceTree = "<group>";
@@ -1114,6 +1131,7 @@
 				B8ACFA0466EA6980A6BAA5DE /* ofxSlider.cpp in Sources */,
 				7F4FAC4EB21F5F7B81D93DB9 /* ofxSliderGroup.cpp in Sources */,
 				28FCA03DE6443801CB4E22A0 /* ofxToggle.cpp in Sources */,
+				AB62EA7D195191BE00130C7B /* WeibullDistribution.cpp in Sources */,
 				B132BF62D1838C2CF9B3FC37 /* ofxXmlSettings.cpp in Sources */,
 				00F42BC7A0409A7175F47122 /* tinyxml.cpp in Sources */,
 				54AE55EA89DD26BBD6A2AEBC /* tinyxmlerror.cpp in Sources */,
@@ -1192,6 +1210,7 @@
 				AB1090431940E1C300F65E20 /* Note.cpp in Sources */,
 				1678E23ED160B9692CE57DA5 /* ofxUIBaseDraws.cpp in Sources */,
 				744A5E5E1D541E21F0780066 /* ofxUIBiLabelSlider.cpp in Sources */,
+				AB62EA801951944E00130C7B /* PoissonDistribution.cpp in Sources */,
 				28B4C21C17E5F01B612D9D10 /* ofxUIButton.cpp in Sources */,
 				5F230579BB116E5B50B3F92D /* ofxUICanvas.cpp in Sources */,
 				2672D7996C052A973EF06558 /* ofxUICircleSlider.cpp in Sources */,
@@ -1221,6 +1240,7 @@
 				FAB824DAB4389F116E5556B1 /* ofxUISlider.cpp in Sources */,
 				D9453466C69826DFE77A5BE7 /* ofxUISortableList.cpp in Sources */,
 				1FA542C74201706197DBDA6E /* ofxUISpacer.cpp in Sources */,
+				AB62EA7A195184B400130C7B /* BetaDistribution.cpp in Sources */,
 				DFD82374E4C35176A917ECBD /* ofxUISpectrum.cpp in Sources */,
 				AB8CAB451945FC6000B40AF3 /* LinearDistribution.cpp in Sources */,
 				33EA8DBD6FEDF4CCDE64E0B6 /* ofxUISuperCanvas.cpp in Sources */,
@@ -1349,6 +1369,8 @@
 		E4B69B600A3A1757003C02F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1428,6 +1450,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1435,6 +1458,8 @@
 		E4B69B610A3A1757003C02F2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1513,6 +1538,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

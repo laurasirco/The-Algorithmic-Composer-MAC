@@ -104,3 +104,39 @@ float Figure::typeToDuration(Type t){
 	
 	return d;
 }
+
+Type Figure::durationToType(float d){
+	
+	Type t;
+	
+	if(d ==  1.0 + 0.5)
+		t = DWhole;
+	else if(d == 1.0)
+		t = Whole;
+	else if(d == 0.5 + 0.5/2)
+		t = DHalf;
+	else if(d == 0.5)
+		t = Half;
+	else if(d == 0.25 + 0.25/2)
+		t = DQuarter;
+	else if(d == 0.25)
+		t = Quarter;
+	else if (d == 0.125 + 0.125/2)
+		t = DEighth;
+	else if (d == 0.125)
+		t = Eighth;
+	else if(d == 0.0625 + 0.0625/2)
+		t = DSixteenth;
+	else if(d == 0.0625)
+		t = Sixteenth;
+	else if (d == 0.03125 + 0.03125/2)
+		t = DThirtySecond;
+	else if (d == 0.03125)
+		t = ThirtySecond;
+	else if(d == 0.015625)
+		t = SixtyFourth;
+	else
+		t = NotAFigure;
+	
+	return t;
+}
