@@ -74,7 +74,7 @@ private:
 	void guiEvent(ofxUIEventArgs &e);
 	
 	ofxUICanvas *gui;
-	static ofxUILabel *currentFigureLabel;
+	static ofxUITextArea *currentFigureLabel;
 	
 	
 };

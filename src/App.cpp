@@ -8,7 +8,7 @@ using namespace std;
 
 //--------------------------------------------------------------
 ofxTonicSynth App::synth = ofxTonicSynth();
-ofxUILabel * App::currentFigureLabel = NULL;
+ofxUITextArea * App::currentFigureLabel = NULL;
 
 void App::setup(){
     
@@ -123,7 +123,6 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	string name = e.getName();
 	int kind = e.getKind();
-	cout << "got event from: " << name << endl;
 	IndependentStochasticComposer * c = dynamic_cast<IndependentStochasticComposer *>(composer);
 	
 	if(name == "Uniform")
@@ -152,6 +151,11 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if(name == "PLAY" && composition.size() > 0){
 		player->play(composition);
 	}
+	
+	else if(name == "TEMPO"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		player->setTempo((int)slider->getValue());
+	}
 }
 
 void App::setMidiNote(int note){
@@ -170,9 +174,9 @@ void App::setVolume(float volume){
 }
 
 void App::setCurrentFigure(Figure *f){
-	
-	string label = "lala";
-	currentFigureLabel->setLabel(label);
+		
+	currentFigureLabel->setTextString(f->getDescription());
+
 }
 
 void App::initSynth(){
@@ -189,7 +193,7 @@ void App::initSynth(){
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
 	// create a new oscillator which we'll use for the actual audio signal
-	SineWave tone = SineWave();
+	SquareWave tone = SquareWave();
 	// create a sine wave we'll use for some vibrato
 	SineWave vibratoOsc = SineWave();
 	vibratoOsc.freq(10);
@@ -201,11 +205,11 @@ void App::initSynth(){
 	tone.freq(noteFreq);
 	
 	// Partials
-	SineWave firstPartial = SineWave().freq(noteFreq * 2);
-	SineWave secondPartial = SineWave().freq(noteFreq * 3);
+	SquareWave firstPartial = SquareWave().freq(noteFreq * 2);
+	SquareWave secondPartial = SquareWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
-	synth.setOutputGen( (tone + firstPartial + secondPartial)  * ADSR(0.3f, 0.0f, 0.5f, 0.6f).trigger(volume).legato(1));
+	synth.setOutputGen( (tone + firstPartial + secondPartial) * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(volume).legato(1));
 }
 
 void App::initGUI(){
@@ -214,13 +218,16 @@ void App::initGUI(){
     ofBackground(ofxUIColor::crimson);
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
-	ofEnableSmoothing();
+	//ofEnableSmoothing();
 	
 	gui = new ofxUICanvas();
 	gui->setFont("GUI/Lekton-Regular.ttf");
-	gui->addLabel("STOCHASTIC COMPOSER");
+	gui->setHeight(720);
+	gui->setWidth(300);
+	
+	gui->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
 	gui->addSpacer();
-	gui->addLabel("Distribution");
+	gui->addLabel("DISTRIBUTION");
 	
 	vector<string> distributions;
 	distributions.push_back("Uniform");
@@ -238,11 +245,13 @@ void App::initGUI(){
 	gui->addSpacer();
 	gui->addLabelButton("COMPOSE", false);
 	gui->addLabelButton("PLAY", false);
+	gui->addSlider("TEMPO", 1, 200, 60);
 	
-	gui->addSpacer();
-	currentFigureLabel = gui->addLabel("figure");
-	gui->autoSizeToFitWidgets();
+	string textString = "1. Select distribution \n2. Press COMPOSE \n3. Press PLAY";
+    gui->addSpacer();
+    currentFigureLabel = gui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
 	
+	//gui->autoSizeToFitWidgets();
 	ofAddListener(gui->newGUIEvent, this, &App::guiEvent);
 	
     /*guiTabBar = new ofxUITabBar();

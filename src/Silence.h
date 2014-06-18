@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include "Figure.h"
+#include <string>
+using namespace std;
 
 class Silence : public Figure{
     public:
@@ -19,6 +21,7 @@ class Silence : public Figure{
 	}
 	~Silence();
 	void printMyself();
+	string getDescription();
     private:
 };
 

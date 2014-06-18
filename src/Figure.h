@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+using namespace std;
 
 enum Type{
 	DWhole, Whole, DHalf, Half, DQuarter, Quarter, DEighth, Eighth, DSixteenth, Sixteenth, DThirtySecond, ThirtySecond, SixtyFourth, NotAFigure
@@ -31,6 +32,7 @@ public:
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }
 	Type getType(){ return type; }
+	virtual string getDescription() = 0;
 protected:
     float duration;
     //int attackPoint;

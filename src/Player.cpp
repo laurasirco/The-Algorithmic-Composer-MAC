@@ -81,11 +81,12 @@ void Player::play(std::vector<Figure*> f){
 	cout<<"Total notes: "<<fragment.size()<<endl;
 	cout<<"playing note: "<<i; fragment[i]->printMyself();
 	
+	App::setCurrentFigure(fragment[i]);
 	if(fragment[i]->getKind() == KNote){
 		Note * n = (Note *)fragment[i];
 		App::setIsSilence(false);
 		App::setMidiNote(n->getPitch());
-		App::setCurrentFigure(fragment[i]);
+		
 	}
 	else
 		App::setIsSilence(true);
@@ -151,6 +152,7 @@ void Player::update(){
 		//play note here
 		cout<<"playing note: "<<i<<" "; fragment[i]->printMyself();
 		
+		App::setCurrentFigure(fragment[i]);
 		if(fragment[i]->getKind() == KNote){
 			Note * n = (Note *)fragment[i];
 			App::setIsSilence(false);
