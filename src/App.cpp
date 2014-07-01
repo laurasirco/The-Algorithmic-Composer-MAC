@@ -1,6 +1,7 @@
 #include "App.h"
 #include "IndependentStochasticComposer.h"
 #include "Figure.h"
+#include "Scales.h"
 
 #include <vector>
 #include <string>
@@ -156,6 +157,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		player->setTempo((int)slider->getValue());
 	}
+
 }
 
 void App::setMidiNote(int note){
@@ -219,15 +221,17 @@ void App::initGUI(){
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
 	//ofEnableSmoothing();
+
 	
-	gui = new ofxUICanvas();
-	gui->setFont("GUI/Lekton-Regular.ttf");
-	gui->setHeight(720);
-	gui->setWidth(300);
+	gui1 = new ofxUICanvas();
+	gui1->setFont("GUI/Lekton-Regular.ttf");
+	gui1->setHeight(720);
+	gui1->setWidth(300);
+	gui1->setPosition(0, 0);
 	
-	gui->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
-	gui->addSpacer();
-	gui->addLabel("DISTRIBUTION");
+	gui1->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
+	gui1->addSpacer();
+	gui1->addLabel("DISTRIBUTION");
 	
 	vector<string> distributions;
 	distributions.push_back("Uniform");
@@ -240,114 +244,132 @@ void App::initGUI(){
 	distributions.push_back("Weibull");
 	distributions.push_back("Poisson");
 	
-	gui->addRadio("Distribution", distributions);
+	gui1->addRadio("Distribution", distributions);
+		
+	gui1->addSpacer();
+	gui1->addLabelButton("COMPOSE", false);
+	gui1->addLabelButton("PLAY", false);
+	gui1->addSlider("TEMPO", 1, 200, 60);
 	
-	gui->addSpacer();
-	gui->addLabelButton("COMPOSE", false);
-	gui->addLabelButton("PLAY", false);
-	gui->addSlider("TEMPO", 1, 200, 60);
+	string textString = "1. Select distribution \n3. Select Scale \n2. Press COMPOSE \n3. Press PLAY";
+    gui1->addSpacer();
+    currentFigureLabel = gui1->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
 	
-	string textString = "1. Select distribution \n2. Press COMPOSE \n3. Press PLAY";
-    gui->addSpacer();
-    currentFigureLabel = gui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
+	//gui1->autoSizeToFitWidgets();
+	ofAddListener(gui1->newGUIEvent, this, &App::guiEvent);
 	
-	//gui->autoSizeToFitWidgets();
-	ofAddListener(gui->newGUIEvent, this, &App::guiEvent);
 	
-    /*guiTabBar = new ofxUITabBar();
+	gui2 = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
+	gui2->setScrollAreaToScreen();
+    gui2->setScrollableDirections(false, true);
+	gui2->setFont("GUI/Lekton-Regular.ttf");
+	gui2->addLabel("SCALE", OFX_UI_FONT_LARGE);
+	gui2->setWidth(200);
+	gui2->setPosition(300, 0);
 	
-    //SETTING GUI
-    guiTabBar->setFont("GUI/Lekton-Regular.ttf");
-    guiTabBar->setFontSize(OFX_UI_FONT_LARGE, 16);
-    guiTabBar->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    guiTabBar->setFontSize(OFX_UI_FONT_SMALL, 8);
-    guiTabBar->setName("Metodo");
-    guiTabBar->addLabel("Metodo");
-    guiTabBar->addSpacer();
-    guiTabBar->autoSizeToFitWidgets();
-    guiTabBar->setPadding(10.0);
-    guiTabBar->setPosition(10,10);
+	
+	vector<string> scales(NamesOfScales, NamesOfScales + sizeof(NamesOfScales) / sizeof(string));
+	gui2->addRadio("Scale", scales);
+	
+	
+	gui2->autoSizeToFitWidgets();
+	gui2->getRect()->setWidth(ofGetWidth());
+	ofAddListener(gui2->newGUIEvent, this, &App::guiEvent);
+	
+    /*gui1TabBar = new ofxUITabBar();
+	
+    //SETTING gui1
+    gui1TabBar->setFont("gui1/Lekton-Regular.ttf");
+    gui1TabBar->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui1TabBar->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui1TabBar->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui1TabBar->setName("Metodo");
+    gui1TabBar->addLabel("Metodo");
+    gui1TabBar->addSpacer();
+    gui1TabBar->autoSizeToFitWidgets();
+    gui1TabBar->setPadding(10.0);
+    gui1TabBar->setPosition(10,10);
     ofxUIColor color = ofxUIColor();
     color.set(0,0,0,60);
-    guiTabBar->setColorBack(color);
+    gui1TabBar->setColorBack(color);
     
-    
-    ofxUITabBar* gui1 = new ofxUITabBar();
-    gui1->setFont("GUI/Lekton-Regular.ttf");
-    gui1->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui1->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui1->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui1->setName("Estocastico");
-    gui1->addLabel("Metodo (II)");
-    gui1->addSpacer();
-    gui1->autoSizeToFitWidgets();
-    ofAddListener(gui1->newGUIEvent,this,&App::guiEvent);
-    guiTabBar->addCanvas(gui1);
-    guis.push_back(gui1);
     
     ofxUITabBar* gui11 = new ofxUITabBar();
-    gui11->setFont("GUI/Lekton-Regular.ttf");
+    gui11->setFont("gui1/Lekton-Regular.ttf");
     gui11->setFontSize(OFX_UI_FONT_LARGE, 16);
     gui11->setFontSize(OFX_UI_FONT_MEDIUM, 10);
     gui11->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui11->setName("Sucesos independientes");
-    gui11->addLabel("Opciones");
+    gui11->setName("Estocastico");
+    gui11->addLabel("Metodo (II)");
     gui11->addSpacer();
     gui11->autoSizeToFitWidgets();
-    ofAddListener(gui11->newGUIEvent,this,&App::guiEvent);
-    gui1->addCanvas(gui11);
+    ofAddListener(gui11->newgui1Event,this,&App::gui1Event);
+    gui1TabBar->addCanvas(gui11);
+    gui1s.push_back(gui11);
     
-    ofxUITabBar* gui12 = new ofxUITabBar();
-    gui12->setFont("GUI/Lekton-Regular.ttf");
+    ofxUITabBar* gui111 = new ofxUITabBar();
+    gui111->setFont("gui1/Lekton-Regular.ttf");
+    gui111->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui111->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui111->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui111->setName("Sucesos independientes");
+    gui111->addLabel("Opciones");
+    gui111->addSpacer();
+    gui111->autoSizeToFitWidgets();
+    ofAddListener(gui111->newgui1Event,this,&App::gui1Event);
+    gui11->addCanvas(gui111);
+    
+    ofxUITabBar* gui112 = new ofxUITabBar();
+    gui112->setFont("gui1/Lekton-Regular.ttf");
+    gui112->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui112->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui112->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui112->setName("Sucesos dependientes");
+    gui112->addLabel("Metodo (III)");
+    gui112->addSpacer();
+    gui112->autoSizeToFitWidgets();
+    ofAddListener(gui112->newgui1Event,this,&App::gui1Event);
+    gui11->addCanvas(gui112);
+    
+	
+    ofxUICanvas* gui12 = new ofxUICanvas();
+    gui12->setFont("gui1/Lekton-Regular.ttf");
     gui12->setFontSize(OFX_UI_FONT_LARGE, 16);
     gui12->setFontSize(OFX_UI_FONT_MEDIUM, 10);
     gui12->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui12->setName("Sucesos dependientes");
-    gui12->addLabel("Metodo (III)");
+    gui12->setName("Determinista");
+    gui12->addLabel("Metodo (II)");
     gui12->addSpacer();
     gui12->autoSizeToFitWidgets();
-    ofAddListener(gui12->newGUIEvent,this,&App::guiEvent);
-    gui1->addCanvas(gui12);
-    
+    ofAddListener(gui12->newgui1Event,this,&App::gui1Event);
+    gui1TabBar->addCanvas(gui12);
+    gui1s.push_back(gui12);
 	
-    ofxUICanvas* gui2 = new ofxUICanvas();
-    gui2->setFont("GUI/Lekton-Regular.ttf");
-    gui2->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui2->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui2->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui2->setName("Determinista");
-    gui2->addLabel("Metodo (II)");
-    gui2->addSpacer();
-    gui2->autoSizeToFitWidgets();
-    ofAddListener(gui2->newGUIEvent,this,&App::guiEvent);
-    guiTabBar->addCanvas(gui2);
-    guis.push_back(gui2);
-	
-    ofxUICanvas* gui3 = new ofxUICanvas();
-    gui3->setFont("GUI/Lekton-Regular.ttf");
-    gui3->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui3->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui3->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui3->setName("Gramatical");
-    gui3->addLabel("Metodo (II)");
-    gui3->addSpacer();
-    gui3->autoSizeToFitWidgets();
-    ofAddListener(gui3->newGUIEvent,this,&App::guiEvent);
-    guiTabBar->addCanvas(gui3);
-    guis.push_back(gui3);
+    ofxUICanvas* gui13 = new ofxUICanvas();
+    gui13->setFont("gui1/Lekton-Regular.ttf");
+    gui13->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui13->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui13->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui13->setName("Gramatical");
+    gui13->addLabel("Metodo (II)");
+    gui13->addSpacer();
+    gui13->autoSizeToFitWidgets();
+    ofAddListener(gui13->newgui1Event,this,&App::gui1Event);
+    gui1TabBar->addCanvas(gui13);
+    gui1s.push_back(gui13);
     
-    ofxUICanvas* gui4 = new ofxUICanvas();
-    gui4->setFont("GUI/Lekton-Regular.ttf");
-    gui4->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui4->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui4->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui4->setName("Evolutivo");
-    gui4->addLabel("Metodo (II)");
-    gui4->addSpacer();
-    gui4->autoSizeToFitWidgets();
-    ofAddListener(gui4->newGUIEvent,this,&App::guiEvent);
-    guiTabBar->addCanvas(gui4);
-    guis.push_back(gui4);
+    ofxUICanvas* gui14 = new ofxUICanvas();
+    gui14->setFont("gui1/Lekton-Regular.ttf");
+    gui14->setFontSize(OFX_UI_FONT_LARGE, 16);
+    gui14->setFontSize(OFX_UI_FONT_MEDIUM, 10);
+    gui14->setFontSize(OFX_UI_FONT_SMALL, 8);
+    gui14->setName("Evolutivo");
+    gui14->addLabel("Metodo (II)");
+    gui14->addSpacer();
+    gui14->autoSizeToFitWidgets();
+    ofAddListener(gui14->newgui1Event,this,&App::gui1Event);
+    gui1TabBar->addCanvas(gui14);
+    gui1s.push_back(gui14);
 	*/
 
 }

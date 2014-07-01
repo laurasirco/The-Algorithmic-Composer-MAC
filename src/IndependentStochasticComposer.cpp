@@ -56,10 +56,10 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int 
 			
 			if(f){ //Note
 				
-				int tone = mapValue(distribution->getValue(), 0, 5);
+				int tone = mapValue(distribution->getValue(), 0, 7);
 				int octave = 4;
 				
-				int pitch = 10*(octave + 2) + Scales::Pentatonic[tone];
+				int pitch = 10*(octave + 2) + Chromatic[tone];
 				//pitch = mapValue(distribution->getValue(), 0, 127);
 				
 				

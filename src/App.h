@@ -73,7 +73,8 @@ private:
 	vector<ofxUICanvas *> guis;
 	void guiEvent(ofxUIEventArgs &e);
 	
-	ofxUICanvas *gui;
+	ofxUICanvas *gui1;
+	ofxUIScrollableCanvas *gui2;
 	static ofxUITextArea *currentFigureLabel;
 	
 	
