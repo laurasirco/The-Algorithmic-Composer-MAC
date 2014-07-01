@@ -22,9 +22,12 @@ public:
     void setSpread(float s){ distribution->setSpread(s); }
 	std::vector<Figure *> compose(bool infinite, int meter, int pattern, int stems = 2);
 	void setDistribution(Distribution * d){ distribution = d; }
+	void setScale(int s){ scale = s; }
 private:
     Distribution * distribution;
 	int mapValue(float value, int min, int max);
+	int scale;
 };
+
 
 #endif /* defined(__The_Algorithmic_Composer__IndependentStochasticComposer__) */

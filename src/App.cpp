@@ -157,6 +157,22 @@ void App::guiEvent(ofxUIEventArgs &e){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		player->setTempo((int)slider->getValue());
 	}
+	
+	//SCALE FINDER
+	
+	else{
+		
+		bool found = false;
+		int count = 0;
+		while(!found && count < 38){
+			if (name == NamesOfScales[count]) {
+				found = true;
+			}
+			else count++;
+		}
+		
+		cout<<count<<endl;
+	}
 
 }
 
@@ -269,7 +285,7 @@ void App::initGUI(){
 	
 	
 	vector<string> scales(NamesOfScales, NamesOfScales + sizeof(NamesOfScales) / sizeof(string));
-	gui2->addRadio("Scale", scales);
+	scaleRadioButtons = gui2->addRadio("Scale", scales);
 	
 	
 	gui2->autoSizeToFitWidgets();
