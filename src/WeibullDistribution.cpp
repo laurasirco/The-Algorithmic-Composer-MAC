@@ -32,10 +32,10 @@ float WeibullDistribution::getValue(){
 	a = 1/(1-u);
 	
 	float value = s*powf(logf(a), tinv);
-	cout<<"value: "<<value<<endl;
+	//cout<<"value: "<<value<<endl;
 	
 	if(value > 1.0){
-		cout<<"return 1.0"<<endl;
+		//cout<<"return 1.0"<<endl;
 		return 1;
 	}
 	else

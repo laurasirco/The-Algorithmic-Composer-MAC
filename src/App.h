@@ -84,6 +84,10 @@ private:
 	ofxUICanvas * triangularDistGUI;
 	ofxUICanvas * exponentialDistGUI;
 	ofxUICanvas * gaussDistGUI;
+	ofxUICanvas * cauchyDistGUI;
+	ofxUICanvas * betaDistGUI;
+	ofxUICanvas * weibullDistGUI;
+	ofxUICanvas * poissonDistGUI;
 	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;

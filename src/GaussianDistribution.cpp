@@ -34,7 +34,7 @@ float GaussianDistribution::getValue(){
 	}
 	
 	float value = sigma * scale * (sum - halfN) + mu;
-	cout<<"value: "<<value<<endl;
+	//cout<<"value: "<<value<<endl;
 	
 	if(value < 0)
 		return 0.0;

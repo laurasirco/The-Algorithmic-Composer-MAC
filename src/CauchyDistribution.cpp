@@ -29,7 +29,7 @@ float CauchyDistribution::getValue(){
 	}
 	
 	
-	cout<<"Value: "<<alpha * tan(value * M_PI)<<endl;
+	//cout<<"Value: "<<alpha * tan(value * M_PI)<<endl;
 	
 	return alpha * tan(value);
 }

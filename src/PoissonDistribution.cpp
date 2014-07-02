@@ -34,7 +34,7 @@ float PoissonDistribution::getValue(){
 		n += 0.01;
 	}
 	
-	cout<<"value: "<<n<<endl;
+	//cout<<"value: "<<n<<endl;
 	
 	if(n > 1.0)
 		return 1.0;
