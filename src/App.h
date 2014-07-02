@@ -75,7 +75,11 @@ private:
 	
 	ofxUICanvas *gui1;
 	ofxUIScrollableCanvas *gui2;
+	static ofxUIScrollableCanvas *resultsGui;
+	ofxUICanvas *generalGUI;
+	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
+	
 	
 };

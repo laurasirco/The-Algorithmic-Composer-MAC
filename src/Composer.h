@@ -17,8 +17,10 @@ class Composer{
 public:
 	Composer();
 	~Composer();
-	virtual std::vector<Figure *> compose(bool infinite, int meter, int pattern, int stems = 2) = 0;
-private:
+	virtual std::vector<Figure *> compose(bool infinite, int meter, int pattern) = 0;
+	void setStems(int s){ stems = s; }
+protected:
+	int stems;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Composer__) */

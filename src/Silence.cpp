@@ -17,8 +17,7 @@ void Silence::printMyself(){
 string Silence::getDescription(){
 	
 	stringstream st;
-	st << "Silence " << typeNames[type] << endl;
-	st << "Duration " << duration << endl;
+	st << "Silence " << typeNames[type];
 	
 	return st.str();
 }

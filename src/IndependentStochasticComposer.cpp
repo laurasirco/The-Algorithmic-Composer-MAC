@@ -18,9 +18,12 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	
 	distribution = d;
 	scale = 0;
+	minOct = 2;
+	maxOct = 4;
+	stems = 1;
 }
 
-std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int meter, int pattern, int stems){
+std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int meter, int pattern){
 	
 	std::vector<Figure *> fragment;
 	float counter = 0.0;
@@ -28,6 +31,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int 
 	bool f;
 	Type t;
 	float duration;
+	
 	
 	for(int i = 0; i < stems; i++){
 		
@@ -62,8 +66,9 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int 
 					max = 12;
 				else if (scale == 1)
 					max = 5;
+				
 				int tone = mapValue(distribution->getValue(), 0, 7);
-				int octave = 4;
+				int octave = mapValue(distribution->getValue(), minOct, maxOct);
 				
 				int pitch = 10*(octave + 2) + ListOfScales[scale][tone];
 				//pitch = mapValue(distribution->getValue(), 0, 127);

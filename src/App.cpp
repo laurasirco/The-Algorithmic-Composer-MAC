@@ -5,11 +5,14 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
+
 using namespace std;
 
 //--------------------------------------------------------------
 ofxTonicSynth App::synth = ofxTonicSynth();
 ofxUITextArea * App::currentFigureLabel = NULL;
+ofxUIScrollableCanvas * App::resultsGui = NULL;
 
 void App::setup(){
     
@@ -51,11 +54,13 @@ void App::setup(){
 	player = new Player(60);
 	
 	//player->play(result);
+	
 
 }
 
 //--------------------------------------------------------------
 void App::update(){
+
 	if(!player->isAllPlayed())
 		player->update();
 	else
@@ -147,7 +152,8 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "COMPOSE"){
 		composition.clear();
-		composition = c->compose(false, 2, 4, 3);
+		composition = c->compose(false, 2, 4);
+		resultsGui->removeWidgets();
 	}
 	else if(name == "PLAY" && composition.size() > 0){
 		player->play(composition);
@@ -156,6 +162,24 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if(name == "TEMPO"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		player->setTempo((int)slider->getValue());
+	}
+	
+	else if(name == "theme"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+
+		gui1->setTheme((int)slider->getValue());
+		gui2->setTheme((int)slider->getValue());
+		generalGUI->setTheme((int)slider->getValue());
+	}
+	
+	else if(name == "Octaves"){
+		ofxUIRangeSlider *slider = (ofxUIRangeSlider *) e.widget;
+		c->setOctaves((int)slider->getValueLow(), (int)slider->getValueHigh());
+	}
+	
+	else if(name == "Stems"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		c->setStems((int)slider->getValue());
 	}
 	
 	//SCALE FINDER
@@ -193,8 +217,11 @@ void App::setVolume(float volume){
 
 void App::setCurrentFigure(Figure *f){
 		
-	currentFigureLabel->setTextString(f->getDescription());
-
+	
+	resultsGui->addTextArea("text", "\n", OFX_UI_FONT_SMALL);
+	resultsGui->addTextArea("text", f->getDescription(), OFX_UI_FONT_SMALL);
+	
+	
 }
 
 void App::initSynth(){
@@ -211,7 +238,7 @@ void App::initSynth(){
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
 	// create a new oscillator which we'll use for the actual audio signal
-	SquareWave tone = SquareWave();
+	SineWave tone = SineWave();
 	// create a sine wave we'll use for some vibrato
 	SineWave vibratoOsc = SineWave();
 	vibratoOsc.freq(10);
@@ -223,8 +250,8 @@ void App::initSynth(){
 	tone.freq(noteFreq);
 	
 	// Partials
-	SquareWave firstPartial = SquareWave().freq(noteFreq * 2);
-	SquareWave secondPartial = SquareWave().freq(noteFreq * 3);
+	SineWave firstPartial = SineWave().freq(noteFreq * 2);
+	SineWave secondPartial = SineWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
 	synth.setOutputGen( (tone + firstPartial + secondPartial) * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(volume).legato(1));
@@ -233,20 +260,46 @@ void App::initSynth(){
 void App::initGUI(){
 	
 	
-    ofBackground(ofxUIColor::crimson);
+    ofBackground(ofxUIColor::lightSlateGray);
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
-	//ofEnableSmoothing();
+	ofEnableSmoothing();
 
+	ofSetColor(0,0,0);
+	
+	
+	generalGUI = new ofxUICanvas();
+	generalGUI->setFont("GUI/Lekton-Regular.ttf");
+	
+	generalGUI->setPosition(980, 0);
+	generalGUI->setWidth(300);
+	generalGUI->setHeight(120);
+	
+	generalGUI->addLabelButton("COMPOSE", false);
+	generalGUI->addLabelButton("PLAY", false);
+	generalGUI->addSlider("TEMPO", 1, 200, 60);
+	generalGUI->addSpacer(300, 10);
+	generalGUI->addLabel("RESULTS", OFX_UI_FONT_LARGE);
+	generalGUI->addSpacer();
+	ofAddListener(generalGUI->newGUIEvent, this, &App::guiEvent);
+	
+	
+	/////////////
+	
 	
 	gui1 = new ofxUICanvas();
 	gui1->setFont("GUI/Lekton-Regular.ttf");
-	gui1->setHeight(720);
+	gui1->setHeight(360);
 	gui1->setWidth(300);
 	gui1->setPosition(0, 0);
 	
+	
 	gui1->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
 	gui1->addSpacer();
+	
+	gui1->addSlider("theme", 0, 42, 1);
+	gui1->addSpacer();
+	
 	gui1->addLabel("DISTRIBUTION");
 	
 	vector<string> distributions;
@@ -263,129 +316,58 @@ void App::initGUI(){
 	gui1->addRadio("Distribution", distributions);
 		
 	gui1->addSpacer();
-	gui1->addLabelButton("COMPOSE", false);
-	gui1->addLabelButton("PLAY", false);
-	gui1->addSlider("TEMPO", 1, 200, 60);
 	
-	string textString = "1. Select distribution \n3. Select Scale \n2. Press COMPOSE \n3. Press PLAY";
-    gui1->addSpacer();
-    currentFigureLabel = gui1->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
-	
-	//gui1->autoSizeToFitWidgets();
+	gui1->addLabel("MUSICAL PARAMETERS");
+	gui1->addRangeSlider("Octaves", 0, 10, 2, 4);
+	gui1->addSlider("Stems", 1, 20, 1);
 	ofAddListener(gui1->newGUIEvent, this, &App::guiEvent);
+
+	
+	//////////////////
 	
 	
 	gui2 = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
+	
 	gui2->setScrollAreaToScreen();
     gui2->setScrollableDirections(false, true);
 	gui2->setFont("GUI/Lekton-Regular.ttf");
-	gui2->addLabel("SCALE", OFX_UI_FONT_LARGE);
-	gui2->setWidth(200);
-	gui2->setPosition(300, 0);
+	gui2->addLabel("SCALE", OFX_UI_FONT_MEDIUM);
+	gui2->setPosition(0, 360);
 	
 	
 	vector<string> scales(NamesOfScales, NamesOfScales + sizeof(NamesOfScales) / sizeof(string));
 	scaleRadioButtons = gui2->addRadio("Scale", scales);
 	
-	
 	gui2->autoSizeToFitWidgets();
+	gui2->setWidth(300);
 	gui2->getRect()->setWidth(ofGetWidth());
 	ofAddListener(gui2->newGUIEvent, this, &App::guiEvent);
+
 	
-    /*gui1TabBar = new ofxUITabBar();
+	///////////////
 	
-    //SETTING gui1
-    gui1TabBar->setFont("gui1/Lekton-Regular.ttf");
-    gui1TabBar->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui1TabBar->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui1TabBar->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui1TabBar->setName("Metodo");
-    gui1TabBar->addLabel("Metodo");
-    gui1TabBar->addSpacer();
-    gui1TabBar->autoSizeToFitWidgets();
-    gui1TabBar->setPadding(10.0);
-    gui1TabBar->setPosition(10,10);
-    ofxUIColor color = ofxUIColor();
-    color.set(0,0,0,60);
-    gui1TabBar->setColorBack(color);
-    
-    
-    ofxUITabBar* gui11 = new ofxUITabBar();
-    gui11->setFont("gui1/Lekton-Regular.ttf");
-    gui11->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui11->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui11->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui11->setName("Estocastico");
-    gui11->addLabel("Metodo (II)");
-    gui11->addSpacer();
-    gui11->autoSizeToFitWidgets();
-    ofAddListener(gui11->newgui1Event,this,&App::gui1Event);
-    gui1TabBar->addCanvas(gui11);
-    gui1s.push_back(gui11);
-    
-    ofxUITabBar* gui111 = new ofxUITabBar();
-    gui111->setFont("gui1/Lekton-Regular.ttf");
-    gui111->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui111->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui111->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui111->setName("Sucesos independientes");
-    gui111->addLabel("Opciones");
-    gui111->addSpacer();
-    gui111->autoSizeToFitWidgets();
-    ofAddListener(gui111->newgui1Event,this,&App::gui1Event);
-    gui11->addCanvas(gui111);
-    
-    ofxUITabBar* gui112 = new ofxUITabBar();
-    gui112->setFont("gui1/Lekton-Regular.ttf");
-    gui112->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui112->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui112->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui112->setName("Sucesos dependientes");
-    gui112->addLabel("Metodo (III)");
-    gui112->addSpacer();
-    gui112->autoSizeToFitWidgets();
-    ofAddListener(gui112->newgui1Event,this,&App::gui1Event);
-    gui11->addCanvas(gui112);
-    
 	
-    ofxUICanvas* gui12 = new ofxUICanvas();
-    gui12->setFont("gui1/Lekton-Regular.ttf");
-    gui12->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui12->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui12->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui12->setName("Determinista");
-    gui12->addLabel("Metodo (II)");
-    gui12->addSpacer();
-    gui12->autoSizeToFitWidgets();
-    ofAddListener(gui12->newgui1Event,this,&App::gui1Event);
-    gui1TabBar->addCanvas(gui12);
-    gui1s.push_back(gui12);
+	string textString = "1. Select distribution \n\n3. Select Scale \n\n2. Press COMPOSE \n\n3. Press PLAY";
+		
+	resultsGui = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
+	resultsGui->setFont("GUI/Lekton-Regular.ttf");
+	resultsGui->setScrollAreaToScreen();
+    resultsGui->setScrollableDirections(false, true);
 	
-    ofxUICanvas* gui13 = new ofxUICanvas();
-    gui13->setFont("gui1/Lekton-Regular.ttf");
-    gui13->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui13->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui13->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui13->setName("Gramatical");
-    gui13->addLabel("Metodo (II)");
-    gui13->addSpacer();
-    gui13->autoSizeToFitWidgets();
-    ofAddListener(gui13->newgui1Event,this,&App::gui1Event);
-    gui1TabBar->addCanvas(gui13);
-    gui1s.push_back(gui13);
-    
-    ofxUICanvas* gui14 = new ofxUICanvas();
-    gui14->setFont("gui1/Lekton-Regular.ttf");
-    gui14->setFontSize(OFX_UI_FONT_LARGE, 16);
-    gui14->setFontSize(OFX_UI_FONT_MEDIUM, 10);
-    gui14->setFontSize(OFX_UI_FONT_SMALL, 8);
-    gui14->setName("Evolutivo");
-    gui14->addLabel("Metodo (II)");
-    gui14->addSpacer();
-    gui14->autoSizeToFitWidgets();
-    ofAddListener(gui14->newgui1Event,this,&App::gui1Event);
-    gui1TabBar->addCanvas(gui14);
-    gui1s.push_back(gui14);
-	*/
+	resultsGui->setPosition(980, 120);
+	resultsGui->setHeight(640);
+	resultsGui->setWidth(300);
+	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
+	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
+	
+		
+		
+	
+	gui1->setTheme(OFX_UI_THEME_DEFAULT);
+	gui2->setTheme(OFX_UI_THEME_DEFAULT);
+	generalGUI->setTheme(OFX_UI_THEME_DEFAULT);
+	resultsGui->setTheme(OFX_UI_THEME_DEFAULT);
+
+
 
 }

@@ -21,10 +21,9 @@ void Note::printMyself(){
 string Note::getDescription(){
 	
 	stringstream st;
-	st << "Note " << typeNames[type] << endl;
-	st << "Duration " << duration << endl;
-	st << "Pitch " << pitch << endl;
-	st << "Velocity " << velocity << endl;
+	st << "Note " << typeNames[type];
+	st << " Pitch " << pitch;
+	st << " Velocity " << velocity << endl;
 	
 	return st.str();
 }

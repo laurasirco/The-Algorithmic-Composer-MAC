@@ -20,13 +20,16 @@ public:
     IndependentStochasticComposer(Distribution * d);
     void setMean(float m){ distribution->setMean(m); }
     void setSpread(float s){ distribution->setSpread(s); }
-	std::vector<Figure *> compose(bool infinite, int meter, int pattern, int stems = 2);
+	std::vector<Figure *> compose(bool infinite, int meter, int pattern);
 	void setDistribution(Distribution * d){ distribution = d; }
 	void setScale(int s){ scale = s; }
+	void setOctaves(int min, int max){ minOct = min; maxOct = max; }
 private:
     Distribution * distribution;
 	int mapValue(float value, int min, int max);
 	int scale;
+	int minOct;
+	int maxOct;
 };
 
 
