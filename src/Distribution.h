@@ -12,6 +12,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
+using namespace std;
 
 class Distribution{
 public:
@@ -23,6 +25,8 @@ public:
     
     void setSpread(float s){ spread = s; }
     void setMean(float m){ mean = m; }
+	
+	vector<float> getValuesForGraphic(int samples);
 protected:
     float mean;
     float spread;

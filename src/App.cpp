@@ -131,24 +131,42 @@ void App::guiEvent(ofxUIEventArgs &e){
 	int kind = e.getKind();
 	IndependentStochasticComposer * c = dynamic_cast<IndependentStochasticComposer *>(composer);
 	
-	if(name == "Uniform")
+	
+	if(name == "Uniform"){
 		c->setDistribution(uniform);
-	else if(name == "Linear")
+		mg->setBuffer(uniform->getValuesForGraphic(1000));
+	}
+	else if(name == "Linear"){
 		c->setDistribution(linear);
-	else if(name == "Triangular")
+		mg->setBuffer(linear->getValuesForGraphic(1000));
+	}
+	else if(name == "Triangular"){
 		c->setDistribution(triangular);
-	else if(name == "Exponential")
+		mg->setBuffer(triangular->getValuesForGraphic(1000));
+	}
+	else if(name == "Exponential"){
 		c->setDistribution(exponential);
-	else if(name == "Gauss")
+		mg->setBuffer(exponential->getValuesForGraphic(1000));
+	}
+	else if(name == "Gauss"){
 		c->setDistribution(gauss);
-	else if(name == "Cauchy")
+		mg->setBuffer(gauss->getValuesForGraphic(1000));
+	}
+	else if(name == "Cauchy"){
 		c->setDistribution(cauchy);
-	else if(name == "Beta")
+		mg->setBuffer(cauchy->getValuesForGraphic(1000));
+	}
+	else if(name == "Beta"){
 		c->setDistribution(beta);
-	else if(name == "Weibull")
+	}
+	else if(name == "Weibull"){
 		c->setDistribution(weibull);
-	else if(name == "Poisson")
+		mg->setBuffer(weibull->getValuesForGraphic(1000));
+	}
+	else if(name == "Poisson"){
 		c->setDistribution(poisson);
+		mg->setBuffer(poisson->getValuesForGraphic(1000));
+	}
 	
 	else if(name == "COMPOSE"){
 		composition.clear();
@@ -361,12 +379,27 @@ void App::initGUI(){
 	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
 	
 		
-		
+	/////////////
+	
+	vector<float> distribution;
+	for (int i = 0; i < 10; i++) {
+		distribution.push_back(0.0);
+	}
+	distributionGUI = new ofxUICanvas();
+	distributionGUI->setFont("GUI/Lekton-Regular.ttf");
+	distributionGUI->setPosition(300, 0);
+	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
+	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
+	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
+	distributionGUI->autoSizeToFitWidgets();
+	//distributionGUI->setVisible(false);
+	
 	
 	gui1->setTheme(OFX_UI_THEME_DEFAULT);
 	gui2->setTheme(OFX_UI_THEME_DEFAULT);
 	generalGUI->setTheme(OFX_UI_THEME_DEFAULT);
 	resultsGui->setTheme(OFX_UI_THEME_DEFAULT);
+	distributionGUI->setTheme(OFX_UI_THEME_DEFAULT);
 
 
 

@@ -77,6 +77,8 @@ private:
 	ofxUIScrollableCanvas *gui2;
 	static ofxUIScrollableCanvas *resultsGui;
 	ofxUICanvas *generalGUI;
+	ofxUICanvas *distributionGUI;
+	ofxUIMovingGraph * mg;
 	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
