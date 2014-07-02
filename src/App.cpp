@@ -135,23 +135,83 @@ void App::guiEvent(ofxUIEventArgs &e){
 	if(name == "Uniform"){
 		c->setDistribution(uniform);
 		mg->setBuffer(uniform->getValuesForGraphic(1000));
+		triangularDistGUI->setVisible(false);
+		linearDistGUI->setVisible(false);
+		exponentialDistGUI->setVisible(false);
+		gaussDistGUI->setVisible(false);
 	}
+	
+	
 	else if(name == "Linear"){
 		c->setDistribution(linear);
 		mg->setBuffer(linear->getValuesForGraphic(1000));
+		triangularDistGUI->setVisible(false);
+		linearDistGUI->setVisible(true);
+		exponentialDistGUI->setVisible(false);
+		gaussDistGUI->setVisible(false);
+
 	}
+	else if(name == "Up"){
+		linear->setDirection(Up);
+		mg->setBuffer(linear->getValuesForGraphic(1000));
+	}
+	else if(name == "Down"){
+		linear->setDirection(Down);
+		mg->setBuffer(linear->getValuesForGraphic(1000));
+	}
+	
+	
 	else if(name == "Triangular"){
 		c->setDistribution(triangular);
 		mg->setBuffer(triangular->getValuesForGraphic(1000));
+		triangularDistGUI->setVisible(true);
+		linearDistGUI->setVisible(false);
+		exponentialDistGUI->setVisible(false);
+		gaussDistGUI->setVisible(false);
 	}
+	else if(name == "Triangle Base"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		triangular->setTriangleBase(slider->getValue());
+		mg->setBuffer(triangular->getValuesForGraphic(1000));
+	}
+	
+	
+	
 	else if(name == "Exponential"){
 		c->setDistribution(exponential);
 		mg->setBuffer(exponential->getValuesForGraphic(1000));
+		triangularDistGUI->setVisible(false);
+		linearDistGUI->setVisible(false);
+		exponentialDistGUI->setVisible(true);
+		gaussDistGUI->setVisible(false);
 	}
+	else if (name == "Lambda"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		exponential->setLambda(slider->getValue());
+		mg->setBuffer(exponential->getValuesForGraphic(1000));
+	}
+	
+	
 	else if(name == "Gauss"){
 		c->setDistribution(gauss);
 		mg->setBuffer(gauss->getValuesForGraphic(1000));
+		triangularDistGUI->setVisible(false);
+		linearDistGUI->setVisible(false);
+		exponentialDistGUI->setVisible(false);
+		gaussDistGUI->setVisible(true);
 	}
+	else if (name == "Sigma"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		gauss->setSigma(slider->getValue());
+		mg->setBuffer(gauss->getValuesForGraphic(1000));
+	}
+	else if (name == "Mu"){
+		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+		gauss->setMu(slider->getValue());
+		mg->setBuffer(gauss->getValuesForGraphic(1000));
+	}
+	
+	
 	else if(name == "Cauchy"){
 		c->setDistribution(cauchy);
 		mg->setBuffer(cauchy->getValuesForGraphic(1000));
@@ -391,8 +451,59 @@ void App::initGUI(){
 	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
 	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
 	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
+	distributionGUI->addSpacer();
 	distributionGUI->autoSizeToFitWidgets();
 	//distributionGUI->setVisible(false);
+	
+	linearDistGUI = new ofxUICanvas();
+	linearDistGUI->setFont("GUI/Lekton-Regular.ttf");
+	linearDistGUI->setPosition(300, 113);
+	linearDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
+	
+	vector<string> op1;
+	op1.push_back("Up");
+	op1.push_back("Down");
+	linearDistGUI->addRadio("Direction", op1);
+	
+	linearDistGUI->autoSizeToFitWidgets();
+	linearDistGUI->setWidth(211);
+	linearDistGUI->setVisible(false);
+	ofAddListener(linearDistGUI->newGUIEvent, this, &App::guiEvent);
+	
+	
+	triangularDistGUI = new ofxUICanvas();
+	triangularDistGUI->setFont("GUI/Lekton-Regular.ttf");
+	triangularDistGUI->setPosition(300, 113);
+	triangularDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
+	triangularDistGUI->addSlider("Triangle Base", 0.01, 1.0, 1.0);
+	triangularDistGUI->autoSizeToFitWidgets();
+	triangularDistGUI->setWidth(211);
+	triangularDistGUI->setVisible(false);
+	ofAddListener(triangularDistGUI->newGUIEvent, this, &App::guiEvent);
+	
+	
+	
+	exponentialDistGUI = new ofxUICanvas();
+	exponentialDistGUI->setFont("GUI/Lekton-Regular.ttf");
+	exponentialDistGUI->setPosition(300, 113);
+	exponentialDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
+	exponentialDistGUI->addSlider("Lambda", 0.5, 10.0, 1.0);
+	exponentialDistGUI->autoSizeToFitWidgets();
+	exponentialDistGUI->setWidth(211);
+	exponentialDistGUI->setVisible(false);
+	ofAddListener(exponentialDistGUI->newGUIEvent, this, &App::guiEvent);
+	
+	
+	gaussDistGUI = new ofxUICanvas();
+	gaussDistGUI->setFont("GUI/Lekton-Regular.ttf");
+	gaussDistGUI->setPosition(300, 113);
+	gaussDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
+	gaussDistGUI->addSlider("Sigma", 0.5, 10.0, 0.5);
+	gaussDistGUI->addSlider("Mu", 0.5, 10.0, 5.0);
+	gaussDistGUI->autoSizeToFitWidgets();
+	gaussDistGUI->setWidth(211);
+	gaussDistGUI->setVisible(false);
+	ofAddListener(gaussDistGUI->newGUIEvent, this, &App::guiEvent);
 	
 	
 	gui1->setTheme(OFX_UI_THEME_DEFAULT);

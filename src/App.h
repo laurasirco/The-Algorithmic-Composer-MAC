@@ -80,6 +80,11 @@ private:
 	ofxUICanvas *distributionGUI;
 	ofxUIMovingGraph * mg;
 	
+	ofxUICanvas * linearDistGUI;
+	ofxUICanvas * triangularDistGUI;
+	ofxUICanvas * exponentialDistGUI;
+	ofxUICanvas * gaussDistGUI;
+	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
 	
