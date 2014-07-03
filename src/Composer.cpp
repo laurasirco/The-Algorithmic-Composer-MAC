@@ -10,4 +10,7 @@
 
 Composer::Composer(){
     
+	stems = 1;
+	meter = 2;
+	pattern = 4;
 }

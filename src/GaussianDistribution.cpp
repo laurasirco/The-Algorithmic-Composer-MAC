@@ -7,11 +7,12 @@
 //
 
 #include "GaussianDistribution.h"
+#include <math.h>
 
 GaussianDistribution::GaussianDistribution(){
-	mu = 5;
+	mu = 0.5;
 	mean = mu;
-	sigma = 0.5;
+	sigma = 0.15;
 	spread = sigma;
 }
 
@@ -22,8 +23,8 @@ GaussianDistribution::~GaussianDistribution(){
 float GaussianDistribution::getValue(){
 	
 	int N = 12;
-	float halfN = 6;
-	float scale = 1;
+	float halfN = N/2;
+	float scale = 1/sqrtf(N/12);
 	float sum = 0;
 	
 	for(int k = 1; k < N; k++){

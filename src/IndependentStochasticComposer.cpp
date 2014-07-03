@@ -20,10 +20,9 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	scale = 0;
 	minOct = 2;
 	maxOct = 4;
-	stems = 1;
 }
 
-std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite, int meter, int pattern){
+std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 	
 	std::vector<Figure *> fragment;
 	float counter = 0.0;

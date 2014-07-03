@@ -10,8 +10,8 @@
 #include <math.h>
 
 BetaDistribution::BetaDistribution(){
-	a = 1;
-	b = 1;
+	a = 0.5;
+	b = 0.5;
 	mean = a/(a+b);
 }
 

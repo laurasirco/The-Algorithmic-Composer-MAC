@@ -28,6 +28,7 @@ void Player::play(std::vector<Figure*> f){
 	i = 0;
 	count = 0;
 	allPlayed = false;
+	playing = true;
 	
 	float framesQuarter = (60/BPM)/(1/FPS);
 	
@@ -166,6 +167,7 @@ void Player::update(){
 	
 	if (i == fragment.size() - 1 && (count == x)) {
 		allPlayed = true;
+		playing = false;
 	}
 	else{
 		//cout<<"Count "<<count<<" to x "<<x<<endl;

@@ -23,6 +23,7 @@ public:
 	void update();
 	void setTempo(int b){ BPM = b; }
 	bool isAllPlayed(){ return allPlayed; }
+	bool isPlaying(){ return playing; }
 private:
 	int BPM;
 	int count;
@@ -30,6 +31,7 @@ private:
 	std::vector<Figure *> fragment;
 	int i;
 	bool allPlayed;
+	bool playing;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Player__) */

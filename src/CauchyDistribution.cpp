@@ -10,7 +10,7 @@
 #include <math.h>
 
 CauchyDistribution::CauchyDistribution(){
-	alpha = 10;
+	alpha = 1;
 }
 
 CauchyDistribution::~CauchyDistribution(){

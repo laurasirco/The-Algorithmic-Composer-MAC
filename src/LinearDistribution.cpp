@@ -28,7 +28,7 @@ float LinearDistribution::getValue(){
 			v1 = v2;
 	}
 	else{
-		if (v2 > v2) {
+		if (v2 > v1) {
 			v1 = v2;
 		}
 	}

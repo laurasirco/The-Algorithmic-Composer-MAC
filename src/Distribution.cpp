@@ -28,7 +28,10 @@ vector<float> Distribution::getValuesForGraphic(int samples){
 	for (int i = 0; i < samples; i++) {
 		float v = getValue();
 		
-		if(v >= 0.1 && v < 0.2)
+		
+		if(v >= 0.0 && v < 0.1)
+			values[0] += 0.1;
+		else if(v >= 0.1 && v < 0.2)
 			values[1] += 0.1;
 		else if(v >= 0.2 && v < 0.3)
 			values[2] += 0.1;
@@ -46,8 +49,6 @@ vector<float> Distribution::getValuesForGraphic(int samples){
 			values[8] += 0.1;
 		else if(v >= 0.9 && v < 1.0)
 			values[9] += 0.1;
-		else
-			values[0] += 0.1;
 	}
 	
 	return values;

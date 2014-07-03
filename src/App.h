@@ -89,6 +89,10 @@ private:
 	ofxUICanvas * weibullDistGUI;
 	ofxUICanvas * poissonDistGUI;
 	
+	ofxUICanvas * styleGUI;
+	ofColor backgroundColor; 
+	float red, green, blue;
+	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
 	
