@@ -24,9 +24,10 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 
 std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 	
+	cout<<"Compose "<<stems<<", "<<meter<<"/"<<pattern<<", Scale "<<NamesOfScales[scale]<<endl;
 	std::vector<Figure *> fragment;
 	float counter = 0.0;
-	float total = (float)meter / (float)pattern;
+	float total = calculeTimePerStem();
 	bool f;
 	Type t;
 	float duration;
@@ -36,25 +37,31 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 		
 		while(counter < total){
 			
-			f = Randomize::getRandomFigure();
-			//f = true;
+			if(wantSilences)
+				f = Randomize::getRandomFigure();
+			else
+				f = true;
 			
 			t = (Type)mapValue(distribution->getValue(), 0, 12);
 			
 			duration = Figure::typeToDuration(t);
 			//cout<<"duration: "<<duration<<endl;
+			int tests = 0;
 			
 			while(counter + duration > total){
 				
 				float difference = total - counter;
 				
-				if(Figure::durationToType(difference) == SixtyFourth)
-					t = SixtyFourth;
+				if(tests == 20){
+					t = Figure::durationToType(difference);
+				}
 				else
 					t = (Type)mapValue(distribution->getValue(), 0, 12);
 				
 				duration = Figure::typeToDuration(t);
 				//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+				
+				tests++;
 			}
 			counter += duration;
 			

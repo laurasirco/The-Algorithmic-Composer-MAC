@@ -21,10 +21,14 @@ public:
 	void setStems(int s){ stems = s; }
 	void setMeter(int m){ meter = m; }
 	void setPattern(int p){ pattern = p; }
+	void setWantSilences(bool s){ wantSilences = s; }
 protected:
 	int stems;
 	int meter;
 	int pattern;
+	bool wantSilences;
+	
+	float calculeTimePerStem();
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Composer__) */

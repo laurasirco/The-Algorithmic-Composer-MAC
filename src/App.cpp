@@ -16,11 +16,6 @@ ofxUIScrollableCanvas * App::resultsGui = NULL;
 
 void App::setup(){
     
-	
-	
-	initGUI();
-	initSynth();
-    
 	uniform = new UniformDistribution();
 	
 	linear = new LinearDistribution();
@@ -55,6 +50,9 @@ void App::setup(){
 	
 	player = new Player(60);
 	
+	initGUI();
+	initSynth();
+	
 	//player->play(result);
 	
 
@@ -71,9 +69,11 @@ void App::update(){
 
 //--------------------------------------------------------------
 void App::draw(){
-	backgroundColor = ofColor(red, green, blue);
 	
+	backgroundColor = ofColor(red, green, blue);
     ofBackground(backgroundColor);
+	
+	musicNotesFont.drawString("`ACDGF", 400, 600);
 }
 
 //--------------------------------------------------------------
@@ -148,7 +148,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	if(name == "Uniform"){
 		c->setDistribution(uniform);
-		mg->setBuffer(uniform->getValuesForGraphic(1000));
+		setValuesForGraph(uniform);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -162,7 +162,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Linear"){
 		c->setDistribution(linear);
-		mg->setBuffer(linear->getValuesForGraphic(1000));
+		setValuesForGraph(linear);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(true);
 		exponentialDistGUI->setVisible(false);
@@ -174,17 +174,17 @@ void App::guiEvent(ofxUIEventArgs &e){
 	}
 	else if(name == "Up"){
 		linear->setDirection(Up);
-		mg->setBuffer(linear->getValuesForGraphic(1000));
+		setValuesForGraph(linear);
 	}
 	else if(name == "Down"){
 		linear->setDirection(Down);
-		mg->setBuffer(linear->getValuesForGraphic(1000));
+		setValuesForGraph(linear);
 	}
 	
 	
 	else if(name == "Triangular"){
 		c->setDistribution(triangular);
-		mg->setBuffer(triangular->getValuesForGraphic(1000));
+		setValuesForGraph(triangular);
 		triangularDistGUI->setVisible(true);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -197,14 +197,14 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if(name == "Triangle Base"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		triangular->setTriangleBase(slider->getValue());
-		mg->setBuffer(triangular->getValuesForGraphic(1000));
+		setValuesForGraph(triangular);
 	}
 	
 	
 	
 	else if(name == "Exponential"){
 		c->setDistribution(exponential);
-		mg->setBuffer(exponential->getValuesForGraphic(1000));
+		setValuesForGraph(exponential);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(true);
@@ -217,13 +217,13 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "Lambda"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		exponential->setLambda(slider->getValue());
-		mg->setBuffer(exponential->getValuesForGraphic(1000));
+		setValuesForGraph(exponential);
 	}
 	
 	
 	else if(name == "Gaussian"){
 		c->setDistribution(gauss);
-		mg->setBuffer(gauss->getValuesForGraphic(1000));
+		setValuesForGraph(gauss);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -236,18 +236,18 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "Sigma"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		gauss->setSigma(slider->getValue());
-		mg->setBuffer(gauss->getValuesForGraphic(1000));
+		setValuesForGraph(gauss);
 	}
 	else if (name == "Mu"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		gauss->setMu(slider->getValue());
-		mg->setBuffer(gauss->getValuesForGraphic(1000));
+		setValuesForGraph(gauss);
 	}
 	
 	
 	else if(name == "Cauchy"){
 		c->setDistribution(cauchy);
-		mg->setBuffer(cauchy->getValuesForGraphic(1000));
+		setValuesForGraph(cauchy);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -260,13 +260,13 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "Alpha"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		cauchy->setAlpha(slider->getValue());
-		mg->setBuffer(cauchy->getValuesForGraphic(1000));
+		setValuesForGraph(cauchy);
 	}
 	
 	
 	else if(name == "Beta"){
 		c->setDistribution(beta);
-		mg->setBuffer(beta->getValuesForGraphic(1000));
+		setValuesForGraph(beta);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -279,17 +279,17 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "A"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		beta->setA(slider->getValue());
-		mg->setBuffer(beta->getValuesForGraphic(1000));
+		setValuesForGraph(beta);
 	}
 	else if (name == "B"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		beta->setB(slider->getValue());
-		mg->setBuffer(beta->getValuesForGraphic(1000));
+		setValuesForGraph(beta);
 	}
 	
 	else if(name == "Weibull"){
 		c->setDistribution(weibull);
-		mg->setBuffer(weibull->getValuesForGraphic(1000));
+		setValuesForGraph(weibull);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -302,17 +302,17 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "T"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		weibull->setT(slider->getValue());
-		mg->setBuffer(weibull->getValuesForGraphic(1000));
+		setValuesForGraph(weibull);
 	}
 	else if (name == "S"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		weibull->setS(slider->getValue());
-		mg->setBuffer(weibull->getValuesForGraphic(1000));
+		setValuesForGraph(weibull);
 	}
 	
 	else if(name == "Poisson"){
 		c->setDistribution(poisson);
-		mg->setBuffer(poisson->getValuesForGraphic(1000));
+		setValuesForGraph(poisson);
 		triangularDistGUI->setVisible(false);
 		linearDistGUI->setVisible(false);
 		exponentialDistGUI->setVisible(false);
@@ -325,7 +325,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if (name == "lambda"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		poisson->setv(slider->getValue());
-		mg->setBuffer(poisson->getValuesForGraphic(1000));
+		setValuesForGraph(poisson);
 	}
 	
 	else if(name == "COMPOSE"){
@@ -379,22 +379,42 @@ void App::guiEvent(ofxUIEventArgs &e){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		c->setPattern((int)slider->getValue());
 	}
-	
-	//SCALE FINDER
-	
-	else{
-		
-		bool found = false;
-		int count = 0;
-		while(!found && count < 38){
-			if (name == NamesOfScales[count]) {
-				found = true;
-			}
-			else count++;
-		}
-		
-		cout<<count<<endl;
+	else if(name == "Notes"){
+		ofxUIToggle * toggle = e.getToggle();
+		if(toggle->getValue())
+			c->setWantSilences(false);
 	}
+	else if(name == "Notes + Silences"){
+		ofxUIToggle * toggle = e.getToggle();
+		if(toggle->getValue())
+			c->setWantSilences(true);
+	}
+	else if(kind == OFX_UI_WIDGET_TOGGLE)
+    {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
+		
+		if(toggle->getParent()->getName() == "Scale"){
+			
+			bool found = false;
+			int count = 0;
+			while(!found && count < 38){
+				if (name == NamesOfScales[count]) {
+					found = true;
+				}
+				else count++;
+			}
+		}
+		else if (toggle->getParent()->getName() == "Meter"){
+			int meter = atoi(name.c_str());
+			c->setMeter(meter);
+		}
+		else if(toggle->getParent()->getName() == "Pattern"){
+			int meter = atoi(name.c_str());
+			c->setPattern(meter);
+		}
+
+    }
+	
 
 }
 
@@ -460,6 +480,8 @@ void App::initGUI(){
 	red = 156;     blue = 248;    green = 214;
 	backgroundColor = ofColor(red, green, blue);
 	
+	musicNotesFont.loadFont("GUI/LASSUS.TTF", 100, false);
+	
     ofBackground(backgroundColor);
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
@@ -502,6 +524,23 @@ void App::initGUI(){
 	/////////////
 	
 	
+	vector<float> distribution;
+	for (int i = 0; i < 10; i++) {
+		distribution.push_back(0.0);
+	}
+	distributionGUI = new ofxUICanvas();
+	distributionGUI->setFont("GUI/Lekton-Regular.ttf");
+	distributionGUI->setPosition(210, 0);
+	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
+	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
+	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
+	distributionGUI->addSpacer();
+	distributionGUI->autoSizeToFitWidgets();
+	//distributionGUI->setVisible(false);
+	
+	
+	///////////
+	
 	gui1 = new ofxUICanvas();
 	gui1->setFont("GUI/Lekton-Regular.ttf");
 	gui1->setHeight(360);
@@ -525,17 +564,40 @@ void App::initGUI(){
 	distributions.push_back("Weibull");
 	distributions.push_back("Poisson");
 	
-	gui1->addRadio("Distribution", distributions);
-		
+	ofxUIRadio * dis = gui1->addRadio("Distribution", distributions);
+	dis->getToggles()[0]->setValue(true);
+	setValuesForGraph(uniform);
+	
 	gui1->addSpacer();
 	
 	gui1->addLabel("MUSICAL PARAMETERS");
 	gui1->addRangeSlider("Octaves", 0, 10, 2, 4);
 	gui1->addSlider("Stems", 1, 20, 1);
-	gui1->addSlider("Meter", 2.0, 4.0, 2.0);
-	gui1->addSlider("Pattern", 1.0, 16.0, 2.0);
-	gui1->addSpacer(210, 4);
-	gui1->addLabel("SCALE", OFX_UI_FONT_MEDIUM);
+	gui1->addSpacer(210, 3);
+	
+	vector<string> meter;
+	meter.push_back("2"); meter.push_back("3"); meter.push_back("4");
+	
+	gui1->addLabel("Meter", OFX_UI_FONT_SMALL);
+	ofxUIRadio * mR = gui1->addRadio("Meter", meter, OFX_UI_ORIENTATION_HORIZONTAL);
+	mR->getToggles()[0]->setValue(true);
+	
+	vector<string> pattern;
+	pattern.push_back("1"); pattern.push_back("2"); pattern.push_back("4"); pattern.push_back("8"); pattern.push_back("16");
+	
+	gui1->addLabel("Pattern", OFX_UI_FONT_SMALL);
+	ofxUIRadio * pR = gui1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
+	pR->getToggles()[2]->setValue(true);
+
+	gui1->addSpacer(210, 3);
+	vector<string> figures;
+	figures.push_back("Notes");
+	figures.push_back("Notes + Silences");
+	ofxUIRadio * figuresRadio = gui1->addRadio("Figures", figures);
+	figuresRadio->getToggles()[1]->setValue(true);
+	
+	gui1->addSpacer(210, 3);
+	gui1->addLabel("Scale", OFX_UI_FONT_SMALL);
 	gui1->autoSizeToFitWidgets();
 	gui1->setWidth(210);
 	
@@ -550,11 +612,12 @@ void App::initGUI(){
 	gui2->setScrollAreaToScreen();
     gui2->setScrollableDirections(false, true);
 	gui2->setFont("GUI/Lekton-Regular.ttf");
-	gui2->setPosition(0, 407);
+	gui2->setPosition(0, 471);
 	
 	
 	vector<string> scales(NamesOfScales, NamesOfScales + sizeof(NamesOfScales) / sizeof(string));
 	scaleRadioButtons = gui2->addRadio("Scale", scales);
+	scaleRadioButtons->getToggles()[0]->setValue(true);
 	
 	gui2->autoSizeToFitWidgets();
 	gui2->setWidth(210);
@@ -580,20 +643,6 @@ void App::initGUI(){
 	
 		
 	/////////////
-	
-	vector<float> distribution;
-	for (int i = 0; i < 10; i++) {
-		distribution.push_back(0.0);
-	}
-	distributionGUI = new ofxUICanvas();
-	distributionGUI->setFont("GUI/Lekton-Regular.ttf");
-	distributionGUI->setPosition(210, 0);
-	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
-	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
-	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
-	distributionGUI->addSpacer();
-	distributionGUI->autoSizeToFitWidgets();
-	//distributionGUI->setVisible(false);
 	
 	
 	linearDistGUI = new ofxUICanvas();
@@ -689,5 +738,21 @@ void App::initGUI(){
 	poissonDistGUI->setWidth(211);
 	poissonDistGUI->setVisible(false);
 	ofAddListener(poissonDistGUI->newGUIEvent, this, &App::guiEvent);
+	
+}
+
+
+void App::setValuesForGraph(Distribution * d){
+	
+	vector<float> values = d->getValuesForGraphic(1000);
+	
+	float max = 0.0;
+	for(int i = 0; i < values.size(); i++){
+		if(values[i] > max)
+			max = values[i];
+	}
+	
+	mg->setBuffer(values);
+	mg->setMax(max + 5);
 	
 }

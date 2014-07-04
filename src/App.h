@@ -56,6 +56,7 @@ private:
 	
 	void initSynth();
 	void initGUI();
+	void setValuesForGraph(Distribution * d);
 	
 	std::vector<Figure *> composition;
 	
@@ -92,6 +93,7 @@ private:
 	ofxUICanvas * styleGUI;
 	ofColor backgroundColor; 
 	float red, green, blue;
+	ofTrueTypeFont musicNotesFont;
 	
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
