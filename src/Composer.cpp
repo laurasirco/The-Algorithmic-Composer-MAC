@@ -16,6 +16,11 @@ Composer::Composer(){
 	wantSilences = true;
 }
 
+Composer::~Composer(){
+	
+	
+}
+
 float Composer::calculeTimePerStem(){
 
 	float time = 0.0;

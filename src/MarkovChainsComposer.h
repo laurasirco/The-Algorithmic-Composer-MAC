@@ -27,7 +27,7 @@ public:
 	
 	void addMidiToChain(string filename);
 private:
-
+	float ** matrix;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__MarkovChainsComposer__) */

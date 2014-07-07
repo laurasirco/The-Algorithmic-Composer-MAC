@@ -1,5 +1,6 @@
 #include "App.h"
 #include "IndependentStochasticComposer.h"
+#include "MarkovChainsComposer.h"
 #include "Figure.h"
 #include "Scales.h"
 
@@ -55,6 +56,12 @@ void App::setup(){
 	initSynth();
 	
 	//player->play(result);
+	
+	MarkovChainsComposer * mc = new MarkovChainsComposer();
+	mc->addMidiToChain("../../../data/entertainer.mid");
+	mc->setStems(10);
+	vector<Figure *> notes = mc->compose();
+	player->play(notes);
 
 }
 
