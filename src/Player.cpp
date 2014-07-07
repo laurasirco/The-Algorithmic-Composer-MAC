@@ -15,6 +15,7 @@ Player::Player(int b){
 	BPM = b;
 	i = 0;
 	allPlayed = true;
+	playing = false;
 }
 
 Player::~Player(){

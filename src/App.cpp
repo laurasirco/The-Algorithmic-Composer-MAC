@@ -3,6 +3,7 @@
 #include "Figure.h"
 #include "Scales.h"
 
+
 #include <vector>
 #include <string>
 #include <sstream>
@@ -54,7 +55,6 @@ void App::setup(){
 	initSynth();
 	
 	//player->play(result);
-	
 
 }
 
@@ -345,20 +345,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if(name == "THEME"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 
-		gui1->setTheme((int)slider->getValue());
-		gui2->setTheme((int)slider->getValue());
-		generalGUI->setTheme((int)slider->getValue());
-		resultsGui->setTheme((int)slider->getValue());
-		distributionGUI->setTheme((int)slider->getValue());
-		triangularDistGUI->setTheme((int)slider->getValue());
-		linearDistGUI->setTheme((int)slider->getValue());
-		exponentialDistGUI->setTheme((int)slider->getValue());
-		gaussDistGUI->setTheme((int)slider->getValue());
-		cauchyDistGUI->setTheme((int)slider->getValue());
-		betaDistGUI->setTheme((int)slider->getValue());
-		weibullDistGUI->setTheme((int)slider->getValue());
-		poissonDistGUI->setTheme((int)slider->getValue());
-		styleGUI->setTheme((int)slider->getValue());
+		setGUITheme((int)slider->getValue());
 		
 	}
 	
@@ -477,7 +464,10 @@ void App::initSynth(){
 
 void App::initGUI(){
 	
-	red = 156;     blue = 248;    green = 214;
+	red = 236;
+	green = 250;
+	blue = 244;
+	
 	backgroundColor = ofColor(red, green, blue);
 	
 	musicNotesFont.loadFont("GUI/LASSUS.TTF", 100, false);
@@ -489,26 +479,50 @@ void App::initGUI(){
 
 	ofSetColor(0,0,0);
 	
+	
+	methodGUI = new ofxUICanvas();
+	methodGUI->setFont("GUI/Lekton-Regular.ttf");
+	methodGUI->addLabel("METHOD", OFX_UI_FONT_LARGE);
+	methodGUI->addSpacer();
+	methodGUI->setPosition(0, 0);
+	
+	vector<string> methods;
+	methods.push_back("Independent Stochastic");
+	methods.push_back("Markov Chains");
+	methods.push_back("Random Walk");
+	
+	ofxUIRadio * m = methodGUI->addRadio("Method", methods, OFX_UI_ORIENTATION_HORIZONTAL);
+	m->getToggles()[0]->setValue(true);
+	methodGUI->addSpacer();
+	methodGUI->autoSizeToFitWidgets();
+	methodGUI->setWidth(421);
+	ofAddListener(methodGUI->newGUIEvent,this,&App::guiEvent);
+	guis.push_back(methodGUI);
+
+	//////////
+	
 	styleGUI = new ofxUICanvas();
 	styleGUI->setFont("GUI/Lekton-Regular.ttf");
 	styleGUI->addLabel("CONTEXTUAL MENU");
     styleGUI->addSpacer();
     styleGUI->addFPSSlider("FPS");
     styleGUI->addSpacer();
-	styleGUI->addSlider("THEME", 0.0, 42.0, 1.0);
+	styleGUI->addSlider("THEME", 0.0, 42.0, 3.0);
 	styleGUI->addSpacer();
     styleGUI->addSlider("RED", 0.0, 255.0, &red);
     styleGUI->addSlider("GREEN", 0.0, 255.0, &green);
     styleGUI->addSlider("BLUE", 0.0, 255.0, &blue);
 	styleGUI->setVisible(false);
 	ofAddListener(styleGUI->newGUIEvent,this,&App::guiEvent);
+	guis.push_back(styleGUI);
+
 	
 	//
 	
 	generalGUI = new ofxUICanvas();
 	generalGUI->setFont("GUI/Lekton-Regular.ttf");
 	
-	generalGUI->setPosition(980, 0);
+	generalGUI->setPosition(724, 0);
 	generalGUI->setWidth(300);
 	generalGUI->setHeight(120);
 	
@@ -519,7 +533,8 @@ void App::initGUI(){
 	generalGUI->addLabel("RESULTS", OFX_UI_FONT_LARGE);
 	generalGUI->addSpacer();
 	ofAddListener(generalGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(generalGUI);
+
 	
 	/////////////
 	
@@ -530,28 +545,28 @@ void App::initGUI(){
 	}
 	distributionGUI = new ofxUICanvas();
 	distributionGUI->setFont("GUI/Lekton-Regular.ttf");
-	distributionGUI->setPosition(210, 0);
+	distributionGUI->setPosition(210, 51);
 	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
 	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
 	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
 	distributionGUI->addSpacer();
 	distributionGUI->autoSizeToFitWidgets();
-	//distributionGUI->setVisible(false);
-	
+	guis.push_back(distributionGUI);
+
 	
 	///////////
 	
-	gui1 = new ofxUICanvas();
-	gui1->setFont("GUI/Lekton-Regular.ttf");
-	gui1->setHeight(360);
-	gui1->setPosition(0, 0);
+	isGUI1 = new ofxUICanvas();
+	isGUI1->setFont("GUI/Lekton-Regular.ttf");
+	isGUI1->setHeight(360);
+	isGUI1->setPosition(0, 51);
 	
 	
-	gui1->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
-	gui1->addSpacer();
+	isGUI1->addLabel("STOCHASTIC COMPOSER", OFX_UI_FONT_LARGE);
+	isGUI1->addSpacer();
 	
 	
-	gui1->addLabel("DISTRIBUTION");
+	isGUI1->addLabel("DISTRIBUTION");
 	
 	vector<string> distributions;
 	distributions.push_back("Uniform");
@@ -564,65 +579,67 @@ void App::initGUI(){
 	distributions.push_back("Weibull");
 	distributions.push_back("Poisson");
 	
-	ofxUIRadio * dis = gui1->addRadio("Distribution", distributions);
+	ofxUIRadio * dis = isGUI1->addRadio("Distribution", distributions);
 	dis->getToggles()[0]->setValue(true);
 	setValuesForGraph(uniform);
 	
-	gui1->addSpacer();
+	isGUI1->addSpacer();
 	
-	gui1->addLabel("MUSICAL PARAMETERS");
-	gui1->addRangeSlider("Octaves", 0, 10, 2, 4);
-	gui1->addSlider("Stems", 1, 20, 1);
-	gui1->addSpacer(210, 3);
+	isGUI1->addLabel("MUSICAL PARAMETERS");
+	isGUI1->addRangeSlider("Octaves", 0, 10, 2, 4);
+	isGUI1->addSlider("Stems", 1, 20, 1);
+	isGUI1->addSpacer(210, 3);
 	
 	vector<string> meter;
 	meter.push_back("2"); meter.push_back("3"); meter.push_back("4");
 	
-	gui1->addLabel("Meter", OFX_UI_FONT_SMALL);
-	ofxUIRadio * mR = gui1->addRadio("Meter", meter, OFX_UI_ORIENTATION_HORIZONTAL);
+	isGUI1->addLabel("Meter", OFX_UI_FONT_SMALL);
+	ofxUIRadio * mR = isGUI1->addRadio("Meter", meter, OFX_UI_ORIENTATION_HORIZONTAL);
 	mR->getToggles()[0]->setValue(true);
 	
 	vector<string> pattern;
 	pattern.push_back("1"); pattern.push_back("2"); pattern.push_back("4"); pattern.push_back("8"); pattern.push_back("16");
 	
-	gui1->addLabel("Pattern", OFX_UI_FONT_SMALL);
-	ofxUIRadio * pR = gui1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
+	isGUI1->addLabel("Pattern", OFX_UI_FONT_SMALL);
+	ofxUIRadio * pR = isGUI1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
 	pR->getToggles()[2]->setValue(true);
 
-	gui1->addSpacer(210, 3);
+	isGUI1->addSpacer(210, 3);
 	vector<string> figures;
 	figures.push_back("Notes");
 	figures.push_back("Notes + Silences");
-	ofxUIRadio * figuresRadio = gui1->addRadio("Figures", figures);
+	ofxUIRadio * figuresRadio = isGUI1->addRadio("Figures", figures);
 	figuresRadio->getToggles()[1]->setValue(true);
 	
-	gui1->addSpacer(210, 3);
-	gui1->addLabel("Scale", OFX_UI_FONT_SMALL);
-	gui1->autoSizeToFitWidgets();
-	gui1->setWidth(210);
+	isGUI1->addSpacer(210, 3);
+	isGUI1->addLabel("Scale", OFX_UI_FONT_SMALL);
+	isGUI1->autoSizeToFitWidgets();
+	isGUI1->setWidth(210);
 	
-	ofAddListener(gui1->newGUIEvent, this, &App::guiEvent);
+	ofAddListener(isGUI1->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(isGUI1);
 
 	
 	//////////////////
 	
 	
-	gui2 = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
+	isGUI2 = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
 	
-	gui2->setScrollAreaToScreen();
-    gui2->setScrollableDirections(false, true);
-	gui2->setFont("GUI/Lekton-Regular.ttf");
-	gui2->setPosition(0, 471);
+	isGUI2->setScrollAreaToScreen();
+    isGUI2->setScrollableDirections(false, true);
+	isGUI2->setFont("GUI/Lekton-Regular.ttf");
+	isGUI2->setPosition(0, 522);
 	
 	
 	vector<string> scales(NamesOfScales, NamesOfScales + sizeof(NamesOfScales) / sizeof(string));
-	scaleRadioButtons = gui2->addRadio("Scale", scales);
+	scaleRadioButtons = isGUI2->addRadio("Scale", scales);
 	scaleRadioButtons->getToggles()[0]->setValue(true);
 	
-	gui2->autoSizeToFitWidgets();
-	gui2->setWidth(210);
-	gui2->getRect()->setWidth(ofGetWidth());
-	ofAddListener(gui2->newGUIEvent, this, &App::guiEvent);
+	isGUI2->autoSizeToFitWidgets();
+	isGUI2->setWidth(210);
+	isGUI2->getRect()->setWidth(ofGetWidth());
+	ofAddListener(isGUI2->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(isGUI2);
 
 	
 	///////////////
@@ -635,19 +652,20 @@ void App::initGUI(){
 	resultsGui->setScrollAreaToScreen();
     resultsGui->setScrollableDirections(false, true);
 	
-	resultsGui->setPosition(980, 120);
-	resultsGui->setHeight(640);
+	resultsGui->setPosition(724, 120);
+	resultsGui->setHeight(648);
 	resultsGui->setWidth(300);
 	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
 	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
-	
+	guis.push_back(resultsGui);
+
 		
 	/////////////
 	
 	
 	linearDistGUI = new ofxUICanvas();
 	linearDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	linearDistGUI->setPosition(210, 113);
+	linearDistGUI->setPosition(210, 164);
 	linearDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	vector<string> op1;
 	op1.push_back("Up");
@@ -657,34 +675,37 @@ void App::initGUI(){
 	linearDistGUI->setWidth(211);
 	linearDistGUI->setVisible(false);
 	ofAddListener(linearDistGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(linearDistGUI);
+
 	
 	triangularDistGUI = new ofxUICanvas();
 	triangularDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	triangularDistGUI->setPosition(210, 113);
+	triangularDistGUI->setPosition(210, 164);
 	triangularDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	triangularDistGUI->addSlider("Triangle Base", 0.01, 1.0, 1.0);
 	triangularDistGUI->autoSizeToFitWidgets();
 	triangularDistGUI->setWidth(211);
 	triangularDistGUI->setVisible(false);
 	ofAddListener(triangularDistGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(triangularDistGUI);
+
 	
 	
 	exponentialDistGUI = new ofxUICanvas();
 	exponentialDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	exponentialDistGUI->setPosition(210, 113);
+	exponentialDistGUI->setPosition(210, 164);
 	exponentialDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	exponentialDistGUI->addSlider("Lambda", 0.5, 10.0, 1.0);
 	exponentialDistGUI->autoSizeToFitWidgets();
 	exponentialDistGUI->setWidth(211);
 	exponentialDistGUI->setVisible(false);
 	ofAddListener(exponentialDistGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(exponentialDistGUI);
+
 	
 	gaussDistGUI = new ofxUICanvas();
 	gaussDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	gaussDistGUI->setPosition(210, 113);
+	gaussDistGUI->setPosition(210, 164);
 	gaussDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	gaussDistGUI->addSlider("Sigma", 0.1, 10.0, 0.15);
 	gaussDistGUI->addSlider("Mu", -1.5, 1.5, 0.5);
@@ -696,18 +717,19 @@ void App::initGUI(){
 	
 	cauchyDistGUI = new ofxUICanvas();
 	cauchyDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	cauchyDistGUI->setPosition(210, 113);
+	cauchyDistGUI->setPosition(210, 164);
 	cauchyDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	cauchyDistGUI->addSlider("Alpha", 0.1, 2.5, 1.0);
 	cauchyDistGUI->autoSizeToFitWidgets();
 	cauchyDistGUI->setWidth(211);
 	cauchyDistGUI->setVisible(false);
 	ofAddListener(cauchyDistGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(cauchyDistGUI);
+
 	
 	betaDistGUI = new ofxUICanvas();
 	betaDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	betaDistGUI->setPosition(210, 113);
+	betaDistGUI->setPosition(210, 164);
 	betaDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	betaDistGUI->addSlider("A", 0.1, 4.0, 0.5);
 	betaDistGUI->addSlider("B", 0.1, 4.0, 0.5);
@@ -715,11 +737,12 @@ void App::initGUI(){
 	betaDistGUI->setWidth(211);
 	betaDistGUI->setVisible(false);
 	ofAddListener(betaDistGUI->newGUIEvent, this, &App::guiEvent);
-	
+	guis.push_back(betaDistGUI);
+
 	
 	weibullDistGUI = new ofxUICanvas();
 	weibullDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	weibullDistGUI->setPosition(210, 113);
+	weibullDistGUI->setPosition(210, 164);
 	weibullDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	weibullDistGUI->addSlider("T", 0.1, 10.0, 1.0);
 	weibullDistGUI->addSlider("S", 0.1, 3.0, 1.0);
@@ -727,17 +750,23 @@ void App::initGUI(){
 	weibullDistGUI->setWidth(211);
 	weibullDistGUI->setVisible(false);
 	ofAddListener(weibullDistGUI->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(weibullDistGUI);
+
 	
 	
 	poissonDistGUI = new ofxUICanvas();
 	poissonDistGUI->setFont("GUI/Lekton-Regular.ttf");
-	poissonDistGUI->setPosition(210, 113);
+	poissonDistGUI->setPosition(210, 164);
 	poissonDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	poissonDistGUI->addSlider("lambda", 0.1, 100.0, 100.0);
 	poissonDistGUI->autoSizeToFitWidgets();
 	poissonDistGUI->setWidth(211);
 	poissonDistGUI->setVisible(false);
 	ofAddListener(poissonDistGUI->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(poissonDistGUI);
+
+	
+	setGUITheme(3);
 	
 }
 
@@ -755,4 +784,29 @@ void App::setValuesForGraph(Distribution * d){
 	mg->setBuffer(values);
 	mg->setMax(max + 5);
 	
+}
+
+
+void App::showIndependentStochasticGUI(bool show){
+	
+	
+	isGUI1->setVisible(show);
+	isGUI2->setVisible(show);
+	distributionGUI->setVisible(show);
+	linearDistGUI->setVisible(show);
+	triangularDistGUI->setVisible(show);
+	exponentialDistGUI->setVisible(show);
+	gaussDistGUI->setVisible(show);
+	cauchyDistGUI->setVisible(show);
+	betaDistGUI->setVisible(show);
+	weibullDistGUI->setVisible(show);
+	poissonDistGUI->setVisible(show);
+}
+
+
+void App::setGUITheme(int i){
+	
+	for (int j = 0; j < guis.size(); j++) {
+		guis[j]->setTheme(i);
+	}
 }
