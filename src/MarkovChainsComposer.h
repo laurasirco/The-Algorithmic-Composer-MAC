@@ -26,6 +26,7 @@ public:
     std::vector<Figure *> compose(bool infinite = false);
 	
 	void addMidiToChain(string filename);
+	void cleanMatrices();
 private:
 	float ** pitchesMatrix;
 	float ** durationsMatrix;

@@ -229,3 +229,19 @@ void MarkovChainsComposer::addMidiToChain(string filename){
 	}
 	
 }
+
+void MarkovChainsComposer::cleanMatrices(){
+	
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 12; j++) {
+			pitchesMatrix[i][j] = 0.0;
+		}
+	}
+	
+	for (int i = 0; i < 13; i++) {
+		for (int j = 0; j < 13; j++) {
+			durationsMatrix[i][j] = 0.0;
+		}
+	}
+	
+}
