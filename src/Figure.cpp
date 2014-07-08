@@ -7,6 +7,7 @@
 //
 
 #include "Figure.h"
+#include <cmath>
 
 Figure::Figure(Type t){
 	
@@ -50,6 +51,8 @@ Figure::Figure(Type t){
 		case SixtyFourth:
 			duration = 0.015625;
 			break;
+		case NotAFigure:
+			duration = 0.0;
 		default:
 			break;
 	}
@@ -68,6 +71,7 @@ Figure::Figure(Type t){
 	typeNames.push_back("DThirtySecond");
 	typeNames.push_back("ThirtySecond");
 	typeNames.push_back("SixtyFourth");
+	typeNames.push_back("Not a figure");
 	
 }
 
@@ -137,6 +141,37 @@ Type Figure::durationToType(float d){
 		t = SixtyFourth;
 	else
 		t = NotAFigure;
+	
+	
+	if(t == NotAFigure){
+		
+		if (abs(d - (1.0 + 0.5)) < 0.05)
+			t = DWhole;
+		else if (abs(d - 1.0) < 0.05)
+			t = Whole;
+		else if (abs(d - (0.5 + 0.5/2)) < 0.05)
+			t = DHalf;
+		else if (abs(d - 0.5) < 0.05)
+			t = Half;
+		else if (abs(d - (0.25 + 0.25/2)) < 0.05)
+			t = DQuarter;
+		else if (abs(d - 0.25) < 0.05)
+			t = Quarter;
+		else if(abs(d - (0.125 + 0.125/2)) < 0.05)
+			t = DEighth;
+		else if (abs(d - 0.125) < 0.05)
+			t = Eighth;
+		else if (abs(d - (0.0625 + 0.0625/2)) < 0.05)
+			t = DSixteenth;
+		else if (abs(d - 0.0625) < 0.05)
+			t = Sixteenth;
+		else if (abs(d - (0.03125 + 0.03125/2)) < 0.05)
+			t = DThirtySecond;
+		else if (abs(d - 0.03125) < 0.05)
+			t = ThirtySecond;
+		else if (abs(d - 0.015625) < 0.05)
+			t = SixtyFourth;
+	}
 	
 	return t;
 }

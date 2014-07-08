@@ -13,6 +13,10 @@
 #include "Figure.h"
 #include <vector>
 
+enum CType {
+	IndependentStochastic, MarkovChains
+};
+
 class Composer{
 public:
 	Composer();
@@ -22,11 +26,14 @@ public:
 	void setMeter(int m){ meter = m; }
 	void setPattern(int p){ pattern = p; }
 	void setWantSilences(bool s){ wantSilences = s; }
+	
+	CType getType(){ return type; }
 protected:
 	int stems;
 	int meter;
 	int pattern;
 	bool wantSilences;
+	CType type;
 	
 	float calculeTimePerStem();
 };

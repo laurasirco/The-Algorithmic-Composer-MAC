@@ -16,6 +16,7 @@ using namespace MIDIConstants;
 vector<Figure *> Midi::readMidiFile(string filename){
 	
 	vector<Figure *> figures;
+	int ppqn = 0;
 	
 	MIDIFileReader fr(filename);
 	if (!fr.isOK()) {
@@ -38,6 +39,7 @@ vector<Figure *> Midi::readMidiFile(string filename){
 		int td = fr.getTimingDivision();
 		if (td < 32768) {
 			cout << "Timing division: " << fr.getTimingDivision() << " ppq" << endl;
+			ppqn = fr.getTimingDivision();
 			
 		} else {
 			int frames = 256 - (td >> 8);
@@ -129,16 +131,23 @@ vector<Figure *> Midi::readMidiFile(string filename){
 				}
 				
 				Note * note;
+				float division = 0.0;
+				
 				switch (j->getMessageType()) {
 						
 					case MIDI_NOTE_ON:
+												
 						cout << t << ": Note: channel " << ch
 						<< " duration " << j->getDuration()
 						<< " pitch " << j->getPitch()
 						<< " velocity " << j->getVelocity()
 						<< endl;
 						
-						note = new Note(Whole, j->getPitch(), j->getVelocity());
+						division = (float)j->getDuration() / (float)ppqn;
+						
+						note = new Note(Figure::durationToType(division), j->getPitch(), j->getVelocity());
+						note->printMyself();
+						
 						figures.push_back(note);
 						
 						break;

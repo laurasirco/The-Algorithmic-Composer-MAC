@@ -15,15 +15,25 @@
 
 MarkovChainsComposer::MarkovChainsComposer(){
 	
-	matrix = new float*[12];
+	pitchesMatrix = new float*[12];
 	for(int i = 0; i < 12; ++i){
-		matrix[i] = new float[12];
+		pitchesMatrix[i] = new float[12];
 		
 		for (int j = 0; j < 12; j++) {
-			matrix[i][j] = 0.0;
+			pitchesMatrix[i][j] = 1.0; //All starts with one, to avoid dead ends
 		}
 	}
 	
+	durationsMatrix = new float*[13];
+	for (int i = 0; i < 13; ++i) {
+		durationsMatrix[i] = new float[13];
+		
+		for (int j = 0; j < 13; j++) {
+			durationsMatrix[i][j] = 1.0;
+		}
+	}
+	
+	type = MarkovChains;
 	
 }
 
@@ -40,10 +50,10 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 	float counter = 0.0;
 	float total = calculeTimePerStem();
 	bool f;
-	Type t;
 	float duration;
 	UniformDistribution * distribution = new UniformDistribution();
 	int prevPitch = -1;
+	Type prevDur = NotAFigure;
 	
 	for(int i = 0; i < stems; i++){
 		
@@ -51,25 +61,43 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			
 			f = true;
-			t = Quarter;
+			float value = distribution->getValue();
+			float sum = 0.0;
+			Type dur = Quarter;
 			
-			duration = Figure::typeToDuration(t);
-			//cout<<"duration: "<<duration<<endl;
-			int tests = 0;
-			
-			while(counter + duration > total){
-				
-				float difference = total - counter;
-				
-				if(tests == 20){
-					t = Figure::durationToType(difference);
+			if (prevDur != NotAFigure) {
+				int c = 0;
+				bool found = false;
+				while (c < 12 && !found) {
+					sum += durationsMatrix[c][prevDur];
+					if (value >= sum && value < sum + durationsMatrix[c + 1][prevDur]) {
+						dur = (Type)c;
+						found = true;
+					}
+					c++;
 				}
 				
-				duration = Figure::typeToDuration(t);
-				//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
-				
-				tests++;
+				sum += durationsMatrix[12][prevDur];
+				if (value >= sum && value < 1.0 && !found) {
+					dur = (Type)12;
+				}
 			}
+			prevDur = dur;
+						
+			duration = Figure::typeToDuration(dur);
+			cout<<"duration: "<<duration<<endl;
+			
+			if(counter + duration > total){
+				
+				float difference = total - counter;
+
+				dur = Figure::durationToType(difference);
+				
+				duration = Figure::typeToDuration(dur);
+				cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+
+			}
+			
 			counter += duration;
 			
 			
@@ -82,68 +110,24 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			int tone = 0;
 			
 			//Calcule tone
-			float value = distribution->getValue();
-			float sum = 0.0;
+			value = distribution->getValue();
+			sum = 0.0;
 			
 			if(prevPitch != -1){
 				
-				sum += matrix[0][prevPitch];
-				if (value >= sum && value < sum + matrix[1][prevPitch]) {
-					tone = 0;
+				int c = 0;
+				bool found = false;
+				while (c < 11 && !found) {
+					sum += pitchesMatrix[c][prevPitch];
+					if (value >= sum && value < sum + pitchesMatrix[c + 1][prevPitch]) {
+						tone = c;
+						found = true;
+					}
+					c++;
 				}
 				
-				sum += matrix[1][prevPitch];
-				if (value >= sum && value < sum + matrix[2][prevPitch]) {
-					tone = 1;
-				}
-				
-				sum += matrix[2][prevPitch];
-				if (value >= sum && value < sum + matrix[3][prevPitch]) {
-					tone = 2;
-				}
-				
-				sum += matrix[3][prevPitch];
-				if (value >= sum && value < sum + matrix[4][prevPitch]) {
-					tone = 3;
-				}
-				
-				sum += matrix[4][prevPitch];
-				if (value >= sum && value < sum + matrix[5][prevPitch]) {
-					tone = 4;
-				}
-				
-				sum += matrix[5][prevPitch];
-				if (value >= sum && value < sum + matrix[6][prevPitch]) {
-					tone = 5;
-				}
-				
-				sum += matrix[6][prevPitch];
-				if (value >= sum && value < sum + matrix[7][prevPitch]) {
-					tone = 6;
-				}
-				
-				sum += matrix[7][prevPitch];
-				if (value >= sum && value < sum + matrix[8][prevPitch]) {
-					tone = 7;
-				}
-				
-				sum += matrix[8][prevPitch];
-				if (value >= sum && value < sum + matrix[9][prevPitch]) {
-					tone = 8;
-				}
-				
-				sum += matrix[9][prevPitch];
-				if (value >= sum && value < sum + matrix[10][prevPitch]) {
-					tone = 9;
-				}
-				
-				sum += matrix[10][prevPitch];
-				if (value >= sum && value < sum + matrix[11][prevPitch]) {
-					tone = 10;
-				}
-				
-				sum += matrix[11][prevPitch];
-				if (value >= sum && value < 1.0) {
+				sum += pitchesMatrix[11][prevPitch];
+				if (value >= sum && value < 1.0 && !found) {
 					tone = 11;
 				}
 				
@@ -159,7 +143,7 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			
 			int velocity = 50;
-			Note * note = new Note(t, pitch, velocity);
+			Note * note = new Note(dur, pitch, velocity);
 			fragment.push_back(note);
 			
 		}
@@ -174,39 +158,72 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 void MarkovChainsComposer::addMidiToChain(string filename){
 	
 	vector<Figure *> input = Midi::readMidiFile(filename);
-	int prev = -1;
+	int prevPitch = -1;
 	int rPitch = -1;
+	Type prevDur = NotAFigure;
+	Type dur = NotAFigure;
 	
 	for (int i = 0; i < input.size(); i++) {
+		
+		prevDur = dur;
+		dur = input[i]->getType();
+		if(prevDur != NotAFigure)
+			durationsMatrix[prevDur][dur]++;
 		
 		if (input[i]->getKind() == KNote) {
 			
 			Note * n = (Note *) input[i];
 			
-			prev = rPitch;
+			prevPitch = rPitch;
 			rPitch = n->getPitch() % 11;
 			
-			if(prev != -1)
-				matrix[prev][rPitch]++;
+			if(prevPitch != -1)
+				pitchesMatrix[prevPitch][rPitch]++;
 			
 		}
 	}
 	
+	
+	//Pitches Matrix normalization
 	for (int i = 0; i < 12; i++) {
 		
 		float sum = 0;
 		
 		for (int j = 0; j < 12; j++) {
-			sum += matrix[j][i];
+			sum += pitchesMatrix[j][i];
 		}
 		for (int j = 0; j < 12; j++) {
-			matrix[j][i] /= sum;
+			pitchesMatrix[j][i] /= sum;
 		}
 	}
 	
+	//Durations Matrix normalization
+	for (int i = 0; i < 13; i++) {
+		
+		float sum = 0;
+		
+		for (int j = 0; j < 13; j++) {
+			sum += durationsMatrix[j][i];
+		}
+		for (int j = 0; j < 13; j++) {
+			durationsMatrix[j][i] /= sum;
+		}
+	}
+	
+	
+	cout<<"PITCHES MATRIX"<<endl;
 	for (int i = 0; i < 12; i++) {
 		for (int j = 0; j < 12; j++) {
-			cout << matrix[i][j] << " ";
+			cout << pitchesMatrix[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+	
+	cout<<"DURATIONS MATRIX"<<endl;
+	for (int i = 0; i < 13; i++) {
+		for (int j = 0; j < 13; j++) {
+			cout << durationsMatrix[i][j] << " ";
 		}
 		cout << endl;
 	}

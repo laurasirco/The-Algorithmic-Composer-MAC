@@ -20,6 +20,7 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	scale = 0;
 	minOct = 2;
 	maxOct = 4;
+	type = IndependentStochastic;
 }
 
 std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){

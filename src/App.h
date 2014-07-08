@@ -58,6 +58,7 @@ private:
 	void initGUI();
 	void setValuesForGraph(Distribution * d);
 	void showIndependentStochasticGUI(bool show);
+	void showMarkovChainsGUI(bool show);
 	void setGUITheme(int i);
 	
 	std::vector<Figure *> composition;
@@ -103,5 +104,11 @@ private:
 	ofxUICanvas * betaDistGUI;
 	ofxUICanvas * weibullDistGUI;
 	ofxUICanvas * poissonDistGUI;
+	
+	
+	/* MARKOV CHAINS GUI */
+	
+	ofxUICanvas *mcGUI1;
+	ofxUILabel *fileLabel;
 	
 };
