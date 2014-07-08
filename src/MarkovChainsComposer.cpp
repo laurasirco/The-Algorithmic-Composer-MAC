@@ -34,6 +34,7 @@ MarkovChainsComposer::MarkovChainsComposer(){
 	}
 	
 	type = MarkovChains;
+	startingNote = 0;
 	
 }
 
@@ -72,6 +73,7 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 					sum += durationsMatrix[c][prevDur];
 					if (value >= sum && value < sum + durationsMatrix[c + 1][prevDur]) {
 						dur = (Type)c;
+						cout<<"Found: "<<dur<<endl;
 						found = true;
 					}
 					c++;
@@ -82,7 +84,6 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 					dur = (Type)12;
 				}
 			}
-			prevDur = dur;
 						
 			duration = Figure::typeToDuration(dur);
 			cout<<"duration: "<<duration<<endl;
@@ -93,11 +94,11 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 
 				dur = Figure::durationToType(difference);
 				
-				duration = Figure::typeToDuration(dur);
-				cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+				cout<<"duration: "<<difference<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
 
 			}
 			
+			prevDur = dur;
 			counter += duration;
 			
 			
@@ -107,7 +108,7 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			else if (scale == 1)
 				max = 5;
 			
-			int tone = 0;
+			int tone = startingNote;
 			
 			//Calcule tone
 			value = distribution->getValue();
@@ -167,7 +168,7 @@ void MarkovChainsComposer::addMidiToChain(string filename){
 		
 		prevDur = dur;
 		dur = input[i]->getType();
-		if(prevDur != NotAFigure)
+		if(prevDur != NotAFigure && dur != NotAFigure)
 			durationsMatrix[prevDur][dur]++;
 		
 		if (input[i]->getKind() == KNote) {
@@ -211,7 +212,7 @@ void MarkovChainsComposer::addMidiToChain(string filename){
 	}
 	
 	
-	cout<<"PITCHES MATRIX"<<endl;
+	/*cout<<"PITCHES MATRIX"<<endl;
 	for (int i = 0; i < 12; i++) {
 		for (int j = 0; j < 12; j++) {
 			cout << pitchesMatrix[i][j] << " ";
@@ -226,7 +227,7 @@ void MarkovChainsComposer::addMidiToChain(string filename){
 			cout << durationsMatrix[i][j] << " ";
 		}
 		cout << endl;
-	}
+	}*/
 	
 }
 

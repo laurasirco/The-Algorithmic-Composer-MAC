@@ -28,6 +28,7 @@ public:
     ~Figure();
 	static float typeToDuration(Type t);
 	static Type durationToType(float d);
+	static Type MIDIDurationToType(int ppq, int duration);
 	virtual void printMyself() = 0;
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }

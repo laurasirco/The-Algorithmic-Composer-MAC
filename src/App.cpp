@@ -58,16 +58,16 @@ void App::setup(){
 	//player->play(result);
 	
 	/*MarkovChainsComposer * mc = new MarkovChainsComposer();
-	mc->addMidiToChain("../../../data/mozart_eine_kleine.mid");
-	mc->setStems(10);
-	vector<Figure *> notes = mc->compose();
-	player->play(notes);*/
-
+	 mc->addMidiToChain("../../../data/mozart_eine_kleine.mid");
+	 mc->setStems(10);
+	 vector<Figure *> notes = mc->compose();
+	 player->play(notes);*/
+	
 }
 
 //--------------------------------------------------------------
 void App::update(){
-
+	
 	if(!player->isAllPlayed())
 		player->update();
 	else
@@ -85,22 +85,22 @@ void App::draw(){
 
 //--------------------------------------------------------------
 void App::keyPressed(int key){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::keyReleased(int key){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::mouseMoved(int x, int y ){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::mouseDragged(int x, int y, int button){
-
+	
 }
 
 //--------------------------------------------------------------
@@ -120,22 +120,22 @@ void App::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void App::mouseReleased(int x, int y, int button){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::windowResized(int w, int h){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::gotMessage(ofMessage msg){
-
+	
 }
 
 //--------------------------------------------------------------
 void App::dragEvent(ofDragInfo dragInfo){
-
+	
 }
 
 void App::audioRequested (float * output, int bufferSize, int nChannels){
@@ -151,9 +151,9 @@ void App::guiEvent(ofxUIEventArgs &e){
 	string name = e.getName();
 	int kind = e.getKind();
 	
-
+	
 	IndependentStochasticComposer * c = dynamic_cast<IndependentStochasticComposer *>(composer);
-
+	
 	
 	
 	if(name == "Uniform"){
@@ -286,12 +286,12 @@ void App::guiEvent(ofxUIEventArgs &e){
 		weibullDistGUI->setVisible(false);
 		poissonDistGUI->setVisible(false);
 	}
-	else if (name == "A"){
+	else if (name == "a"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		beta->setA(slider->getValue());
 		setValuesForGraph(beta);
 	}
-	else if (name == "B"){
+	else if (name == "b"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		beta->setB(slider->getValue());
 		setValuesForGraph(beta);
@@ -354,7 +354,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "THEME"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
-
+		
 		setGUITheme((int)slider->getValue());
 		
 	}
@@ -398,10 +398,14 @@ void App::guiEvent(ofxUIEventArgs &e){
 		//Check if the user opened a file
 		if (openFileResult.bSuccess){
 			
-			ofLogVerbose("User selected a file");
-			MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
-			mc->addMidiToChain(openFileResult.getPath());
-			fileLabel->setLabel(openFileResult.getName());
+			
+			std::size_t found = openFileResult.getName().find(".mid");
+			if (found!=std::string::npos){
+				ofLogVerbose("User selected a file");
+				MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
+				mc->addMidiToChain(openFileResult.getPath());
+				fileLabel->setLabel(openFileResult.getName());
+			}
 			
 			
 		}else {
@@ -432,10 +436,39 @@ void App::guiEvent(ofxUIEventArgs &e){
 			int meter = atoi(name.c_str());
 			composer->setPattern(meter);
 		}
-
+		else if(toggle->getParent()->getName() == "Starting Note"){
+			
+			MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
+			
+			if (toggle->getName() == "C")
+				mc->setStartingNote(0);
+			else if (toggle->getName() == "C#")
+				mc->setStartingNote(1);
+			else if (toggle->getName() == "D")
+				mc->setStartingNote(2);
+			else if (toggle->getName() == "D#")
+				mc->setStartingNote(3);
+			else if (toggle->getName() == "E")
+				mc->setStartingNote(4);
+			else if (toggle->getName() == "F")
+				mc->setStartingNote(5);
+			else if (toggle->getName() == "F#")
+				mc->setStartingNote(6);
+			else if (toggle->getName() == "G")
+				mc->setStartingNote(7);
+			else if (toggle->getName() == "G#")
+				mc->setStartingNote(8);
+			else if (toggle->getName() == "A")
+				mc->setStartingNote(9);
+			else if (toggle->getName() == "A#")
+				mc->setStartingNote(10);
+			else if (toggle->getName() == "B")
+				mc->setStartingNote(11);
+		}
+		
     }
 	
-
+	
 }
 
 void App::setMidiNote(int note){
@@ -454,7 +487,7 @@ void App::setVolume(float volume){
 }
 
 void App::setCurrentFigure(Figure *f){
-		
+	
 	
 	resultsGui->addTextArea("text", "\n", OFX_UI_FONT_SMALL);
 	resultsGui->addTextArea("text", f->getDescription(), OFX_UI_FONT_SMALL);
@@ -492,7 +525,7 @@ void App::initSynth(){
 	SineWave secondPartial = SineWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
-	synth.setOutputGen( (tone + firstPartial + secondPartial) * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(volume).legato(1));
+	synth.setOutputGen( (tone + firstPartial + secondPartial) * ADSR(0.3f, 0.0f, 0.1f, 0.1f).trigger(volume).legato(0));
 }
 
 void App::initGUI(){
@@ -509,7 +542,7 @@ void App::initGUI(){
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
 	ofEnableSmoothing();
-
+	
 	ofSetColor(0,0,0);
 	
 	
@@ -531,7 +564,7 @@ void App::initGUI(){
 	methodGUI->setWidth(421);
 	ofAddListener(methodGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(methodGUI);
-
+	
 	//////////
 	
 	styleGUI = new ofxUICanvas();
@@ -548,7 +581,7 @@ void App::initGUI(){
 	styleGUI->setVisible(false);
 	ofAddListener(styleGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(styleGUI);
-
+	
 	
 	//
 	
@@ -567,7 +600,7 @@ void App::initGUI(){
 	generalGUI->addSpacer();
 	ofAddListener(generalGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(generalGUI);
-
+	
 	
 	/////////////
 	
@@ -585,7 +618,7 @@ void App::initGUI(){
 	distributionGUI->addSpacer();
 	distributionGUI->autoSizeToFitWidgets();
 	guis.push_back(distributionGUI);
-
+	
 	
 	///////////
 	
@@ -636,7 +669,7 @@ void App::initGUI(){
 	isGUI1->addLabel("Pattern", OFX_UI_FONT_SMALL);
 	ofxUIRadio * pR = isGUI1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
 	pR->getToggles()[2]->setValue(true);
-
+	
 	isGUI1->addSpacer(210, 3);
 	vector<string> figures;
 	figures.push_back("Notes");
@@ -651,7 +684,7 @@ void App::initGUI(){
 	
 	ofAddListener(isGUI1->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(isGUI1);
-
+	
 	
 	//////////////////
 	
@@ -673,13 +706,13 @@ void App::initGUI(){
 	isGUI2->getRect()->setWidth(ofGetWidth());
 	ofAddListener(isGUI2->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(isGUI2);
-
+	
 	
 	///////////////
 	
 	
 	string textString = "1. Select distribution \n\n3. Select Scale \n\n2. Press COMPOSE \n\n3. Press PLAY";
-		
+	
 	resultsGui = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
 	resultsGui->setFont("GUI/Lekton-Regular.ttf");
 	resultsGui->setScrollAreaToScreen();
@@ -691,8 +724,8 @@ void App::initGUI(){
 	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
 	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
 	guis.push_back(resultsGui);
-
-		
+	
+	
 	/////////////
 	
 	
@@ -709,7 +742,7 @@ void App::initGUI(){
 	linearDistGUI->setVisible(false);
 	ofAddListener(linearDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(linearDistGUI);
-
+	
 	
 	triangularDistGUI = new ofxUICanvas();
 	triangularDistGUI->setFont("GUI/Lekton-Regular.ttf");
@@ -721,7 +754,7 @@ void App::initGUI(){
 	triangularDistGUI->setVisible(false);
 	ofAddListener(triangularDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(triangularDistGUI);
-
+	
 	
 	
 	exponentialDistGUI = new ofxUICanvas();
@@ -734,7 +767,7 @@ void App::initGUI(){
 	exponentialDistGUI->setVisible(false);
 	ofAddListener(exponentialDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(exponentialDistGUI);
-
+	
 	
 	gaussDistGUI = new ofxUICanvas();
 	gaussDistGUI->setFont("GUI/Lekton-Regular.ttf");
@@ -758,20 +791,20 @@ void App::initGUI(){
 	cauchyDistGUI->setVisible(false);
 	ofAddListener(cauchyDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(cauchyDistGUI);
-
+	
 	
 	betaDistGUI = new ofxUICanvas();
 	betaDistGUI->setFont("GUI/Lekton-Regular.ttf");
 	betaDistGUI->setPosition(210, 171);
 	betaDistGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
-	betaDistGUI->addSlider("A", 0.1, 4.0, 0.5);
-	betaDistGUI->addSlider("B", 0.1, 4.0, 0.5);
+	betaDistGUI->addSlider("a", 0.1, 4.0, 0.5);
+	betaDistGUI->addSlider("b", 0.1, 4.0, 0.5);
 	betaDistGUI->autoSizeToFitWidgets();
 	betaDistGUI->setWidth(211);
 	betaDistGUI->setVisible(false);
 	ofAddListener(betaDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(betaDistGUI);
-
+	
 	
 	weibullDistGUI = new ofxUICanvas();
 	weibullDistGUI->setFont("GUI/Lekton-Regular.ttf");
@@ -784,7 +817,7 @@ void App::initGUI(){
 	weibullDistGUI->setVisible(false);
 	ofAddListener(weibullDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(weibullDistGUI);
-
+	
 	
 	
 	poissonDistGUI = new ofxUICanvas();
@@ -797,7 +830,7 @@ void App::initGUI(){
 	poissonDistGUI->setVisible(false);
 	ofAddListener(poissonDistGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(poissonDistGUI);
-
+	
 	
 	/* MARKOV CHAINS */
 	
@@ -815,11 +848,11 @@ void App::initGUI(){
 	mcGUI1->addLabel("Meter", OFX_UI_FONT_SMALL);
 	mR = mcGUI1->addRadio("Meter", meter, OFX_UI_ORIENTATION_HORIZONTAL);
 	mR->getToggles()[0]->setValue(true);
-
+	
 	mcGUI1->addLabel("Pattern", OFX_UI_FONT_SMALL);
 	pR = mcGUI1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
 	pR->getToggles()[2]->setValue(true);
-
+	
 	mcGUI1->addLabel("Starting Note", OFX_UI_FONT_SMALL);
 	vector<string> start;
 	start.push_back("C"); start.push_back("C#"); start.push_back("D"); start.push_back("D#"); start.push_back("E"); start.push_back("F"); start.push_back("F#");
@@ -859,6 +892,16 @@ void App::showIndependentStochasticGUI(bool show){
 	isGUI1->setVisible(show);
 	isGUI2->setVisible(show);
 	distributionGUI->setVisible(show);
+	if(show == false){
+		linearDistGUI->setVisible(show);
+		triangularDistGUI->setVisible(show);
+		exponentialDistGUI->setVisible(show);
+		gaussDistGUI->setVisible(show);
+		cauchyDistGUI->setVisible(show);
+		betaDistGUI->setVisible(show);
+		weibullDistGUI->setVisible(show);
+		poissonDistGUI->setVisible(show);
+	}
 }
 
 void App::showMarkovChainsGUI(bool show){

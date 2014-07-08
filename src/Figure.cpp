@@ -142,36 +142,86 @@ Type Figure::durationToType(float d){
 	else
 		t = NotAFigure;
 	
+	return t;
+}
+
+
+Type Figure::MIDIDurationToType(int ppq, int duration){
 	
-	if(t == NotAFigure){
+	float division = (float)duration/(float)ppq;
+	Type t;
+	
+	if (division == 6.0) {
+		t = DWhole;
+	}
+	else if (division == 4.0){
+		t = Whole;
+	}
+	else if (division == 3.0){
+		t = DHalf;
+	}
+	else if (division == 2.0){
+		t = Half;
+	}
+	else if (division == 1.5) {
+		t = DQuarter;
+	}
+	else if (division == 1.0) {
+		t = Quarter;
+	}
+	else if (division == 0.75){
+		t = DEighth;
+	}
+	else if (division == 0.5){
+		t = Eighth;
+	}
+	else if (division == 0.25 + 0.25/2){
+		t = DSixteenth;
+	}
+	else if (division == 0.25){
+		t = Sixteenth;
+	}
+	else if (division == 0.125 + 0.125/2){
+		t = DThirtySecond;
+	}
+	else if (division == 0.125){
+		t = ThirtySecond;
+	}
+	else if (division == 0.125/2){
+		t = SixtyFourth;
+	}
+	else{
 		
-		if (abs(d - (1.0 + 0.5)) < 0.05)
+		if (abs(division - (6.0)) < 0.5)
 			t = DWhole;
-		else if (abs(d - 1.0) < 0.05)
+		else if (abs(division - 4.0) < 0.5)
 			t = Whole;
-		else if (abs(d - (0.5 + 0.5/2)) < 0.05)
+		else if (abs(division - (3.0)) < 0.3)
 			t = DHalf;
-		else if (abs(d - 0.5) < 0.05)
+		else if (abs(division - 2.0) < 0.25)
 			t = Half;
-		else if (abs(d - (0.25 + 0.25/2)) < 0.05)
+		else if (abs(division - (1.5)) < 0.2)
 			t = DQuarter;
-		else if (abs(d - 0.25) < 0.05)
+		else if (abs(division - 1.0) < 0.15)
 			t = Quarter;
-		else if(abs(d - (0.125 + 0.125/2)) < 0.05)
+		else if(abs(division - (0.75)) < 0.1)
 			t = DEighth;
-		else if (abs(d - 0.125) < 0.05)
+		else if (abs(division - 0.5) < 0.1)
 			t = Eighth;
-		else if (abs(d - (0.0625 + 0.0625/2)) < 0.05)
+		else if (abs(division - (0.375)) < 0.02)
 			t = DSixteenth;
-		else if (abs(d - 0.0625) < 0.05)
+		else if (abs(division - 0.25) < 0.05)
 			t = Sixteenth;
-		else if (abs(d - (0.03125 + 0.03125/2)) < 0.05)
+		else if (abs(division - (0.1875)) < 0.012)
 			t = DThirtySecond;
-		else if (abs(d - 0.03125) < 0.05)
+		else if (abs(division - 0.125) < 0.01)
 			t = ThirtySecond;
-		else if (abs(d - 0.015625) < 0.05)
+		else if (abs(division - 0.0625) < 0.005)
 			t = SixtyFourth;
+		
 	}
 	
 	return t;
+	
+	
 }

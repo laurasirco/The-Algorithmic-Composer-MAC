@@ -131,7 +131,6 @@ vector<Figure *> Midi::readMidiFile(string filename){
 				}
 				
 				Note * note;
-				float division = 0.0;
 				
 				switch (j->getMessageType()) {
 						
@@ -143,9 +142,7 @@ vector<Figure *> Midi::readMidiFile(string filename){
 						<< " velocity " << j->getVelocity()
 						<< endl;
 						
-						division = (float)j->getDuration() / (float)ppqn;
-						
-						note = new Note(Figure::durationToType(division), j->getPitch(), j->getVelocity());
+						note = new Note(Figure::MIDIDurationToType(ppqn, j->getDuration()), j->getPitch(), j->getVelocity());
 						note->printMyself();
 						
 						figures.push_back(note);

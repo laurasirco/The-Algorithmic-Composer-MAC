@@ -27,9 +27,12 @@ public:
 	
 	void addMidiToChain(string filename);
 	void cleanMatrices();
+	void setStartingNote(int i){ startingNote = i; }
+	
 private:
 	float ** pitchesMatrix;
 	float ** durationsMatrix;
+	int startingNote;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__MarkovChainsComposer__) */
