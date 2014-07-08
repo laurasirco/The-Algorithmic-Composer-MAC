@@ -338,12 +338,12 @@ void App::guiEvent(ofxUIEventArgs &e){
 		setValuesForGraph(poisson);
 	}
 	
-	else if(name == "COMPOSE"){
+	else if(name == "COMPOSE"  && e.getButton()->getValue() == true){
 		composition.clear();
 		composition = composer->compose();
 		resultsGui->removeWidgets();
 	}
-	else if(name == "PLAY" && composition.size() > 0 && !player->isPlaying()){
+	else if(name == "PLAY" && composition.size() > 0 && !player->isPlaying()  && e.getButton()->getValue() == true){
 		player->play(composition);
 	}
 	
@@ -392,7 +392,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		mc->addMidiToChain("../../../data/mozart_eine_kleine.mid");
 		fileLabel->setLabel("mozart_eine_kleine.mid");
 	}
-	else if(name == "Select .mid file"){
+	else if(name == "Select .mid file" && e.getButton()->getValue() == true){
 		ofFileDialogResult openFileResult= ofSystemLoadDialog("Select a .mid file");
 		
 		//Check if the user opened a file
