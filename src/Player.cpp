@@ -22,6 +22,15 @@ Player::~Player(){
 	
 }
 
+void Player::stop(){
+	
+	playing = false;
+	allPlayed = true;
+	i = fragment.size() - 1;
+	fragment.clear();
+	App::setIsSilence(true);
+}
+
 void Player::play(std::vector<Figure*> f){
 	
 	float FPS = App::getFramerate();
@@ -30,6 +39,7 @@ void Player::play(std::vector<Figure*> f){
 	count = 0;
 	allPlayed = false;
 	playing = true;
+	paused = false;
 	
 	float framesQuarter = (60/BPM)/(1/FPS);
 	
@@ -97,7 +107,7 @@ void Player::play(std::vector<Figure*> f){
 
 void Player::update(){
 	
-	if((count == x) && (i+1 < fragment.size())){ //next note
+	if((count == x) && (i+1 < fragment.size()) && !paused){ //next note
 		
 		i++;
 		count = 0;
@@ -160,6 +170,7 @@ void Player::update(){
 			App::setIsSilence(false);
 			App::setVolume(n->getVelocity());
 			App::setMidiNote(n->getPitch());
+			App::setVolume((float)n->getVelocity());
 		}
 		else
 			App::setIsSilence(true);
@@ -172,7 +183,10 @@ void Player::update(){
 	}
 	else{
 		//cout<<"Count "<<count<<" to x "<<x<<endl;
-		count++;
+		if(!paused)
+			count++;
+		else
+			App::setIsSilence(true);
 	}
 	
 }

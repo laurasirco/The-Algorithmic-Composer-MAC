@@ -3,6 +3,7 @@
 #include "MarkovChainsComposer.h"
 #include "Figure.h"
 #include "Scales.h"
+#include "Midi.h"
 
 
 #include <vector>
@@ -62,6 +63,8 @@ void App::setup(){
 	 mc->setStems(10);
 	 vector<Figure *> notes = mc->compose();
 	 player->play(notes);*/
+	
+	player->play(Midi::readMidiFile("../../../data/mozart_eine_kleine.mid"));
 	
 }
 
@@ -344,7 +347,22 @@ void App::guiEvent(ofxUIEventArgs &e){
 		resultsGui->removeWidgets();
 	}
 	else if(name == "PLAY" && composition.size() > 0 && !player->isPlaying()  && e.getButton()->getValue() == true){
-		player->play(composition);
+		
+		if(!player->isPaused())
+			player->play(composition);
+		else{
+			player->unpause();
+			pauseToggle->setValue(false);
+		}
+	}
+	else if (name == "PAUSE"){
+		if(e.getToggle()->getValue() == true)
+			player->pause();
+		else
+			player->unpause();
+	}
+	else if (name == "STOP" && e.getButton()->getValue() == true){
+		player->stop();
 	}
 	
 	else if(name == "TEMPO"){
@@ -477,13 +495,17 @@ void App::setMidiNote(int note){
 
 void App::setIsSilence(bool t){
 	if(t == false)
-		synth.setParameter("volume", 1);
+		synth.setParameter("trigger", 1);
 	else
-		synth.setParameter("volume", 0);
+		synth.setParameter("trigger", 0);
 }
 
 void App::setVolume(float volume){
-	//synth.setParameter("volume", volume);
+	
+	volume /= 100.0;
+	cout<<"volume "<<volume<<endl;
+	synth.setParameter("volume", volume);
+	
 }
 
 void App::setCurrentFigure(Figure *f){
@@ -504,7 +526,9 @@ void App::initSynth(){
 	ControlGenerator midiNote = synth.addParameter("midiNumber");
 	
 	ControlGenerator volume = synth.addParameter("volume");
-	synth.setParameter("volume", 1);
+	ControlGenerator trigger = synth.addParameter("trigger");
+	synth.setParameter("trigger", 1);
+	synth.setParameter("volume", 1.0);
 	
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
@@ -525,7 +549,8 @@ void App::initSynth(){
 	SineWave secondPartial = SineWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
-	synth.setOutputGen( (tone + firstPartial + secondPartial) * ADSR(0.3f, 0.0f, 0.1f, 0.1f).trigger(volume).legato(0));
+	synth.setOutputGen( (tone + firstPartial + secondPartial) * volume * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(trigger).legato(1));
+
 }
 
 void App::initGUI(){
@@ -593,7 +618,12 @@ void App::initGUI(){
 	generalGUI->setHeight(120);
 	
 	generalGUI->addLabelButton("COMPOSE", false);
-	generalGUI->addLabelButton("PLAY", false);
+	generalGUI->setGlobalButtonDimension(32);
+	generalGUI->addImageButton("PLAY", "GUI/play.png", false);
+	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	pauseToggle = generalGUI->addImageToggle("PAUSE", "GUI/pause.png", false);
+	generalGUI->addImageButton("STOP", "GUI/stop.png", false);
+	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
 	generalGUI->addSlider("TEMPO", 1, 200, 60);
 	generalGUI->addSpacer(300, 10);
 	generalGUI->addLabel("RESULTS", OFX_UI_FONT_LARGE);

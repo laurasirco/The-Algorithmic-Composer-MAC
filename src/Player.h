@@ -20,10 +20,14 @@ public:
 	Player(int b = 60);
 	~Player();
 	void play(std::vector<Figure *> f);
+	void stop();
+	void pause(){ paused = true; }
+	void unpause(){ paused = false; }
 	void update();
 	void setTempo(int b){ BPM = b; }
 	bool isAllPlayed(){ return allPlayed; }
 	bool isPlaying(){ return playing; }
+	bool isPaused(){ return paused; }
 private:
 	int BPM;
 	int count;
@@ -32,6 +36,7 @@ private:
 	int i;
 	bool allPlayed;
 	bool playing;
+	bool paused;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Player__) */

@@ -53,6 +53,7 @@ Figure::Figure(Type t){
 			break;
 		case NotAFigure:
 			duration = 0.0;
+			break;
 		default:
 			break;
 	}
@@ -218,6 +219,8 @@ Type Figure::MIDIDurationToType(int ppq, int duration){
 			t = ThirtySecond;
 		else if (abs(division - 0.0625) < 0.005)
 			t = SixtyFourth;
+		else
+			t = NotAFigure;
 		
 	}
 	
