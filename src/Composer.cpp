@@ -14,6 +14,17 @@ Composer::Composer(){
 	meter = 2;
 	pattern = 4;
 	wantSilences = true;
+	
+	if (pattern == 1)
+		patternType = Whole;
+	else if (pattern == 2)
+		patternType = Half;
+	else if (pattern == 4)
+		patternType = Quarter;
+	else if(pattern == 8)
+		patternType = Eighth;
+	else if (pattern == 16)
+		patternType = Sixteenth;
 }
 
 Composer::~Composer(){

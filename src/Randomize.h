@@ -20,6 +20,7 @@ public:
 	static bool getRandomFigure();
 	static Type getRandomDuration();
 	static int getRandomPitch();
+	static bool getRandomDirection();
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Randomize__) */

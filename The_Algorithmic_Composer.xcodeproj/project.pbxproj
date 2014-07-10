@@ -97,6 +97,7 @@
 		AB4B48EC196AB2F400183901 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4B48EB196AB2F400183901 /* RtMidi.cpp */; };
 		AB4B4963196AB3D800183901 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4962196AB3D800183901 /* CoreMIDI.framework */; };
 		AB4EC7981949A6BB00A24325 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EC7961949A6BB00A24325 /* Player.cpp */; };
+		AB5AF6D4196EE9B800BAE743 /* RandomWalkComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5AF6D2196EE9B800BAE743 /* RandomWalkComposer.cpp */; };
 		AB62EA7A195184B400130C7B /* BetaDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA78195184B400130C7B /* BetaDistribution.cpp */; };
 		AB62EA7D195191BE00130C7B /* WeibullDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */; };
 		AB62EA801951944E00130C7B /* PoissonDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */; };
@@ -387,6 +388,8 @@
 		AB4B4962196AB3D800183901 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreMIDI.framework; sourceTree = DEVELOPER_DIR; };
 		AB4EC7961949A6BB00A24325 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		AB4EC7971949A6BB00A24325 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		AB5AF6D2196EE9B800BAE743 /* RandomWalkComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomWalkComposer.cpp; sourceTree = "<group>"; };
+		AB5AF6D3196EE9B800BAE743 /* RandomWalkComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomWalkComposer.h; sourceTree = "<group>"; };
 		AB62EA78195184B400130C7B /* BetaDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BetaDistribution.cpp; sourceTree = "<group>"; };
 		AB62EA79195184B400130C7B /* BetaDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetaDistribution.h; sourceTree = "<group>"; };
 		AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WeibullDistribution.cpp; sourceTree = "<group>"; };
@@ -796,6 +799,8 @@
 		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
 			isa = PBXGroup;
 			children = (
+				AB5AF6D2196EE9B800BAE743 /* RandomWalkComposer.cpp */,
+				AB5AF6D3196EE9B800BAE743 /* RandomWalkComposer.h */,
 				AB10903E1940E0A300F65E20 /* Composer.cpp */,
 				AB10903F1940E0A300F65E20 /* Composer.h */,
 				AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */,
@@ -1149,6 +1154,7 @@
 				5A36FAE1D326B860C566CF19 /* ADSR.cpp in Sources */,
 				F1F05D9F5D469436BAA65BAD /* Arithmetic.cpp in Sources */,
 				AB1090491940E33300F65E20 /* Figure.cpp in Sources */,
+				AB5AF6D4196EE9B800BAE743 /* RandomWalkComposer.cpp in Sources */,
 				AB8CAB481946008B00B40AF3 /* TriangularDistribution.cpp in Sources */,
 				7DA0198398A4FBF57B9110B4 /* BasicDelay.cpp in Sources */,
 				73586DEE84FAF0E24C85C18C /* BufferFiller.cpp in Sources */,

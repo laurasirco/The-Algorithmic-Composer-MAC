@@ -1,6 +1,7 @@
 #include "App.h"
 #include "IndependentStochasticComposer.h"
 #include "MarkovChainsComposer.h"
+#include "RandomWalkComposer.h"
 #include "Figure.h"
 #include "Scales.h"
 #include "Midi.h"
@@ -9,6 +10,9 @@
 #include <vector>
 #include <string>
 #include <sstream>
+
+#define WIDTH 1024
+#define HEIGHT 768
 
 using namespace std;
 
@@ -58,13 +62,10 @@ void App::setup(){
 	
 	//player->play(result);
 	
-	/*MarkovChainsComposer * mc = new MarkovChainsComposer();
-	 mc->addMidiToChain("../../../data/mozart_eine_kleine.mid");
-	 mc->setStems(10);
-	 vector<Figure *> notes = mc->compose();
-	 player->play(notes);*/
-	
-	player->play(Midi::readMidiFile("../../../data/mozart_eine_kleine.mid"));
+	RandomWalkComposer * rw = new RandomWalkComposer();
+	rw->setStems(10);
+	composition = rw->compose();
+	player->play(composition);
 	
 }
 
@@ -83,7 +84,7 @@ void App::draw(){
 	backgroundColor = ofColor(red, green, blue);
     ofBackground(backgroundColor);
 	
-	musicNotesFont.drawString("`ACDGF", 400, 600);
+	//musicNotesFont.drawString("`ACDGF", 400, 600);
 }
 
 //--------------------------------------------------------------
@@ -573,20 +574,19 @@ void App::initGUI(){
 	
 	methodGUI = new ofxUICanvas();
 	methodGUI->setFont("GUI/Lekton-Regular.ttf");
+	methodGUI->setPosition(0, 0);
+	methodGUI->setWidth(200);
+	methodGUI->setHeight(HEIGHT - 200);
 	methodGUI->addLabel("METHOD", OFX_UI_FONT_LARGE);
 	methodGUI->addSpacer();
-	methodGUI->setPosition(0, 0);
 	
 	vector<string> methods;
 	methods.push_back("Independent Stochastic");
 	methods.push_back("Markov Chains");
 	methods.push_back("Random Walk");
 	
-	ofxUIRadio * m = methodGUI->addRadio("Method", methods, OFX_UI_ORIENTATION_HORIZONTAL);
+	ofxUIRadio * m = methodGUI->addRadio("Method", methods);
 	m->getToggles()[0]->setValue(true);
-	methodGUI->addSpacer();
-	methodGUI->autoSizeToFitWidgets();
-	methodGUI->setWidth(421);
 	ofAddListener(methodGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(methodGUI);
 	
@@ -613,27 +613,58 @@ void App::initGUI(){
 	generalGUI = new ofxUICanvas();
 	generalGUI->setFont("GUI/Lekton-Regular.ttf");
 	
-	generalGUI->setPosition(724, 0);
+	generalGUI->setPosition(WIDTH - 300, HEIGHT - 200);
 	generalGUI->setWidth(300);
-	generalGUI->setHeight(120);
+	generalGUI->setHeight(200);
 	
-	generalGUI->addLabelButton("COMPOSE", false);
-	generalGUI->setGlobalButtonDimension(32);
-	generalGUI->addImageButton("PLAY", "GUI/play.png", false);
+	generalGUI->setGlobalSliderHeight(24);
+	generalGUI->setGlobalButtonDimension(50);
+	generalGUI->addLabelButton("COMPOSE", false, 120, 0, 724, 10);
 	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	generalGUI->addImageButton("PLAY", "GUI/play.png", false);
 	pauseToggle = generalGUI->addImageToggle("PAUSE", "GUI/pause.png", false);
 	generalGUI->addImageButton("STOP", "GUI/stop.png", false);
 	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
 	generalGUI->addSlider("TEMPO", 1, 200, 60);
 	generalGUI->addSpacer(300, 10);
-	generalGUI->addLabel("RESULTS", OFX_UI_FONT_LARGE);
-	generalGUI->addSpacer();
+	generalGUI->addLabelButton("SAVE", false, 120, 0, 724, 10);
+	generalGUI->addLabelButton("DELETE", false);
 	ofAddListener(generalGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(generalGUI);
 	
+	////////////
+	
+	resultsGui = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
+	resultsGui->setFont("GUI/Lekton-Regular.ttf");
+	resultsGui->setScrollAreaToScreen();
+    resultsGui->setScrollableDirections(false, true);
+	
+	resultsGui->setPosition(0, HEIGHT - 200);
+	resultsGui->setHeight(200);
+	resultsGui->setWidth(WIDTH - 300);
+	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
+	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
+	guis.push_back(resultsGui);
+
 	
 	/////////////
 	
+	optionsGUI = new ofxUICanvas();
+	optionsGUI->setPosition(200, 0);
+	optionsGUI->setWidth(WIDTH - 200);
+	optionsGUI->setHeight(HEIGHT - 200);
+	optionsGUI->setFont("GUI/Lekton-Regular.ttf");
+	optionsGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
+	optionsGUI->addSpacer();
+	ofAddListener(optionsGUI->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(optionsGUI);
+	
+	
+	
+	
+	/* INDEPENDENT STOCHASTIC GUIs */
+	
+	////////////
 	
 	vector<float> distribution;
 	for (int i = 0; i < 10; i++) {
@@ -641,7 +672,7 @@ void App::initGUI(){
 	}
 	distributionGUI = new ofxUICanvas();
 	distributionGUI->setFont("GUI/Lekton-Regular.ttf");
-	distributionGUI->setPosition(210, 58);
+	distributionGUI->setPosition(220, 60);
 	distributionGUI->addLabel("DISTRIBUTION", OFX_UI_FONT_LARGE);
 	distributionGUI->addLabel("Based on 1000 samples", OFX_UI_FONT_SMALL);
 	mg = distributionGUI->addMovingGraph("distribution", distribution, 10, 0.0, 25.0, 50);
@@ -655,31 +686,8 @@ void App::initGUI(){
 	isGUI1 = new ofxUICanvas();
 	isGUI1->setFont("GUI/Lekton-Regular.ttf");
 	isGUI1->setHeight(360);
-	isGUI1->setPosition(0, 58);
-	
-	
-	isGUI1->addLabel("PURE STOCHASTIC", OFX_UI_FONT_LARGE);
-	isGUI1->addSpacer();
-	
-	
-	isGUI1->addLabel("DISTRIBUTION");
-	
-	vector<string> distributions;
-	distributions.push_back("Uniform");
-	distributions.push_back("Linear");
-	distributions.push_back("Triangular");
-	distributions.push_back("Exponential");
-	distributions.push_back("Gaussian");
-	distributions.push_back("Cauchy");
-	distributions.push_back("Beta");
-	distributions.push_back("Weibull");
-	distributions.push_back("Poisson");
-	
-	ofxUIRadio * dis = isGUI1->addRadio("Distribution", distributions);
-	dis->getToggles()[0]->setValue(true);
-	setValuesForGraph(uniform);
-	
-	isGUI1->addSpacer();
+	isGUI1->setWidth(200);
+	isGUI1->setPosition(210, 40);
 	
 	isGUI1->addLabel("MUSICAL PARAMETERS");
 	isGUI1->addRangeSlider("Octaves", 0, 10, 2, 4);
@@ -709,8 +717,25 @@ void App::initGUI(){
 	
 	isGUI1->addSpacer(210, 3);
 	isGUI1->addLabel("Scale", OFX_UI_FONT_SMALL);
-	isGUI1->autoSizeToFitWidgets();
-	isGUI1->setWidth(210);
+	
+	
+	isGUI1->addLabel("DISTRIBUTION");
+	
+	vector<string> distributions;
+	distributions.push_back("Uniform");
+	distributions.push_back("Linear");
+	distributions.push_back("Triangular");
+	distributions.push_back("Exponential");
+	distributions.push_back("Gaussian");
+	distributions.push_back("Cauchy");
+	distributions.push_back("Beta");
+	distributions.push_back("Weibull");
+	distributions.push_back("Poisson");
+	
+	ofxUIRadio * dis = isGUI1->addRadio("Distribution", distributions);
+	dis->getToggles()[0]->setValue(true);
+	setValuesForGraph(uniform);
+	
 	
 	ofAddListener(isGUI1->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(isGUI1);
@@ -739,24 +764,6 @@ void App::initGUI(){
 	
 	
 	///////////////
-	
-	
-	string textString = "1. Select distribution \n\n3. Select Scale \n\n2. Press COMPOSE \n\n3. Press PLAY";
-	
-	resultsGui = new ofxUIScrollableCanvas(0,0,ofGetWidth(),ofGetHeight());
-	resultsGui->setFont("GUI/Lekton-Regular.ttf");
-	resultsGui->setScrollAreaToScreen();
-    resultsGui->setScrollableDirections(false, true);
-	
-	resultsGui->setPosition(724, 120);
-	resultsGui->setHeight(648);
-	resultsGui->setWidth(300);
-	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
-	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
-	guis.push_back(resultsGui);
-	
-	
-	/////////////
 	
 	
 	linearDistGUI = new ofxUICanvas();
@@ -887,7 +894,7 @@ void App::initGUI(){
 	vector<string> start;
 	start.push_back("C"); start.push_back("C#"); start.push_back("D"); start.push_back("D#"); start.push_back("E"); start.push_back("F"); start.push_back("F#");
 	start.push_back("G"); start.push_back("G#"); start.push_back("A"); start.push_back("A#"); start.push_back("B");
-	ofxUIRadio * sR = mcGUI1->addRadio("Starting Note", start, OFX_UI_ORIENTATION_HORIZONTAL);
+	ofxUIRadio * sR = mcGUI1->addRadio("Starting Note", start);
 	
 	mcGUI1->autoSizeToFitWidgets();
 	guis.push_back(mcGUI1);

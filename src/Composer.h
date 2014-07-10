@@ -14,7 +14,7 @@
 #include <vector>
 
 enum CType {
-	IndependentStochastic, MarkovChains
+	IndependentStochastic, MarkovChains, RandomWalk
 };
 
 class Composer{
@@ -34,6 +34,7 @@ protected:
 	int pattern;
 	bool wantSilences;
 	CType type;
+	Type patternType;
 	
 	float calculeTimePerStem();
 };

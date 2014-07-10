@@ -17,6 +17,14 @@ bool Randomize::getRandomFigure(){
 		return true;
 }
 
+bool Randomize::getRandomDirection(){
+	int value = rand() % 2;
+	if(value == 0)
+		return false;
+	else if(value == 1)
+		return true;
+}
+
 Type Randomize::getRandomDuration(){
 	
 	//Type value = (Type)rand() % 7;

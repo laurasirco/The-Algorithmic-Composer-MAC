@@ -87,6 +87,7 @@ private:
 	static ofxUITextArea *currentFigureLabel;
 	ofxUIRadio *scaleRadioButtons;
 	ofxUIImageToggle * pauseToggle;
+	ofxUICanvas * optionsGUI;
 	
 	
 	/* INDEPENDENT STOCHASTIC GUI */
