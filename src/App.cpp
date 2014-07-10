@@ -63,7 +63,8 @@ void App::setup(){
 	//player->play(result);
 	
 	RandomWalkComposer * rw = new RandomWalkComposer();
-	rw->setStems(10);
+	rw->setPattern(8);
+	rw->setStems(20);
 	composition = rw->compose();
 	player->play(composition);
 	

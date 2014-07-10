@@ -24,7 +24,16 @@ public:
 	virtual std::vector<Figure *> compose(bool infinite = false) = 0;
 	void setStems(int s){ stems = s; }
 	void setMeter(int m){ meter = m; }
-	void setPattern(int p){ pattern = p; }
+	void setPattern(int p){ pattern = p; if (pattern == 1)
+		patternType = Whole;
+	else if (pattern == 2)
+		patternType = Half;
+	else if (pattern == 4)
+		patternType = Quarter;
+	else if(pattern == 8)
+		patternType = Eighth;
+	else if (pattern == 16)
+		patternType = Sixteenth; }
 	void setWantSilences(bool s){ wantSilences = s; }
 	
 	CType getType(){ return type; }

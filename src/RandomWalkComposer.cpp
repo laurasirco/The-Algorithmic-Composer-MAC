@@ -15,10 +15,10 @@ RandomWalkComposer::RandomWalkComposer(){
 
     type = RandomWalk;
     boundary = Reflecting;
-	startingPitch = 64;
+	startingPitch = 50;
 	minPitch = 0;
 	maxPitch = 127;
-	scale = 0;
+	scale = 2;
 	
 }
 
@@ -40,26 +40,70 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 	
 	int prevPitch;
 	int currentPitch = startingPitch;
+	
+	int prevRelativePitch;
+	int currentRelativePitch = startingPitch % 11;
+	int octave = (startingPitch / 11) - 2;
+	
+	int scaleLimit = 8;
+	if (scale == 0) {
+		scaleLimit = 12;
+	}
+	else if (scale == 1){
+		scaleLimit = 5;
+	}
     
 	for(int i = 0; i < stems; i++){
 		
 		while(counter < total){
 			
+			prevRelativePitch = currentRelativePitch;
 			prevPitch = currentPitch;
 			direction = Randomize::getRandomDirection();
 			
 			if (direction) {
+				cout << "arriba" << endl;
 				currentPitch = prevPitch + 1;
 				
+				currentRelativePitch++;
+				
+				cout<<currentRelativePitch<<endl;
+				
+				if (currentRelativePitch >= scaleLimit) {
+					cout<<"aumento"<<endl;
+					currentRelativePitch = 0;
+					octave++;
+					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
+					
+				}
+				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
+				cout << currentPitch << endl;
+				
 				if (currentPitch == maxPitch) {
-					currentPitch = currentPitch - 2;
+					currentRelativePitch--;
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
 				}
 			}
 			else if (!direction){
+				cout << "abajo" << endl;
 				currentPitch = prevPitch - 1;
 				
+				currentRelativePitch--;
+				
+				cout<<currentRelativePitch<<endl;
+				
+				if (currentRelativePitch <= -1) {
+					cout<<"disminuyo"<<endl;
+					currentRelativePitch = scaleLimit;
+					octave--;
+					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
+				}
+				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
+				cout << currentPitch << endl;
+				
 				if (currentPitch == minPitch) {
-					currentPitch = currentPitch + 2;
+					currentRelativePitch++;
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
 				}
 			}
 			
@@ -68,6 +112,7 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 			
 			Note * note = new Note(t, currentPitch, 50);
 			fragment.push_back(note);
+			cout << "---" << endl;
 			
 		}
 		

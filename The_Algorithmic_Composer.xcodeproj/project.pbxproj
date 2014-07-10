@@ -799,6 +799,7 @@
 		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
 			isa = PBXGroup;
 			children = (
+				AB8CAB3C1945C80D00B40AF3 /* Distributions */,
 				AB5AF6D2196EE9B800BAE743 /* RandomWalkComposer.cpp */,
 				AB5AF6D3196EE9B800BAE743 /* RandomWalkComposer.h */,
 				AB10903E1940E0A300F65E20 /* Composer.cpp */,
@@ -1018,7 +1019,6 @@
 			isa = PBXGroup;
 			children = (
 				AB26AE5219485BF400B9A675 /* Utils */,
-				AB8CAB3C1945C80D00B40AF3 /* Distributions */,
 				AB8CAB3B1945BE6000B40AF3 /* Composers */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* App.cpp */,
