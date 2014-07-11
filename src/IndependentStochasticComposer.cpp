@@ -77,7 +77,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 				int tone = mapValue(distribution->getValue(), 0, 7);
 				int octave = mapValue(distribution->getValue(), minOct, maxOct);
 				
-				int pitch = 10*(octave + 2) + ListOfScales[scale][tone];
+				int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 				//pitch = mapValue(distribution->getValue(), 0, 127);
 				
 				

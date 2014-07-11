@@ -90,7 +90,7 @@
 		AB1090461940E2DA00F65E20 /* Silence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090441940E2DA00F65E20 /* Silence.cpp */; };
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
 		AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26AE5319485C1800B9A675 /* Randomize.cpp */; };
-		AB3317FE196415CC00A0960B /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3317FD196415CC00A0960B /* Utils.cpp */; };
+		AB3317FE196415CC00A0960B /* Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = AB3317FD196415CC00A0960B /* Utils.h */; };
 		AB3A7D53196AE70D000E7EE2 /* MIDIFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D51196AE70D000E7EE2 /* MIDIFileReader.cpp */; };
 		AB3A7D56196AE789000E7EE2 /* MarkovChainsComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D54196AE789000E7EE2 /* MarkovChainsComposer.cpp */; };
 		AB3A7D59196AF34C000E7EE2 /* Midi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D57196AF34C000E7EE2 /* Midi.cpp */; };
@@ -375,7 +375,7 @@
 		AB26AE5419485C1800B9A675 /* Randomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Randomize.h; sourceTree = "<group>"; };
 		AB282357F09D053C1185FDFF /* TonicCore.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TonicCore.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/TonicCore.h; sourceTree = SOURCE_ROOT; };
 		AB2A0DF88B639BF544327A6D /* Filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Filters.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Filters.cpp; sourceTree = SOURCE_ROOT; };
-		AB3317FD196415CC00A0960B /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		AB3317FD196415CC00A0960B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AB3A7D4F196AE70D000E7EE2 /* MIDIComposition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIComposition.h; path = ../of_v0.8.0_osx_release/addons/midiFileReader/MIDIComposition.h; sourceTree = "<group>"; };
 		AB3A7D50196AE70D000E7EE2 /* MIDIEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIEvent.h; path = ../of_v0.8.0_osx_release/addons/midiFileReader/MIDIEvent.h; sourceTree = "<group>"; };
 		AB3A7D51196AE70D000E7EE2 /* MIDIFileReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MIDIFileReader.cpp; path = ../of_v0.8.0_osx_release/addons/midiFileReader/MIDIFileReader.cpp; sourceTree = "<group>"; };
@@ -778,7 +778,7 @@
 				AB26AE5319485C1800B9A675 /* Randomize.cpp */,
 				AB26AE5419485C1800B9A675 /* Randomize.h */,
 				ABABA614194F58FE00357936 /* Scales.h */,
-				AB3317FD196415CC00A0960B /* Utils.cpp */,
+				AB3317FD196415CC00A0960B /* Utils.h */,
 				AB3A7D57196AF34C000E7EE2 /* Midi.cpp */,
 				AB3A7D58196AF34C000E7EE2 /* Midi.h */,
 			);
@@ -1145,7 +1145,7 @@
 				AB62EA7D195191BE00130C7B /* WeibullDistribution.cpp in Sources */,
 				B132BF62D1838C2CF9B3FC37 /* ofxXmlSettings.cpp in Sources */,
 				00F42BC7A0409A7175F47122 /* tinyxml.cpp in Sources */,
-				AB3317FE196415CC00A0960B /* Utils.cpp in Sources */,
+				AB3317FE196415CC00A0960B /* Utils.h in Sources */,
 				54AE55EA89DD26BBD6A2AEBC /* tinyxmlerror.cpp in Sources */,
 				B5A1358CFDA6A2AA9804C3EB /* tinyxmlparser.cpp in Sources */,
 				9EE7130EC5B118FEF1ABFBE6 /* ofxMidiIn.cpp in Sources */,

@@ -21,6 +21,7 @@ public:
 	static Type getRandomDuration();
 	static int getRandomPitch();
 	static bool getRandomDirection();
+	static float getRandomValue();
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Randomize__) */

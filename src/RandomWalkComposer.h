@@ -31,16 +31,18 @@ public:
     void setBoundary(Boundary b){ boundary = b; }
     void setMaxPitch(int m){ maxPitch = m; }
     void setMinPitch(int m){ minPitch = m; }
-    void setStartingPitch(int s){ startingPitch = s; }
+    void setStartingGrade(int s){ startingGrade = s; }
 	void setScale(int s){ scale = s; }
-    
+    void setTypeOfFigure(Type t){ figureType = t; }
+	
 private:
     Boundary boundary;
     int minPitch;
     int maxPitch;
-    int startingPitch;
+    int startingGrade;
 	bool direction;
     int scale;
+	Type figureType;
 	
     // Random durations Vs. User defined durations (very simple) Vs. Durations templates
     

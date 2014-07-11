@@ -62,11 +62,6 @@ void App::setup(){
 	
 	//player->play(result);
 	
-	RandomWalkComposer * rw = new RandomWalkComposer();
-	rw->setPattern(8);
-	rw->setStems(20);
-	composition = rw->compose();
-	player->play(composition);
 	
 }
 
@@ -906,6 +901,13 @@ void App::initGUI(){
 	
 	setGUITheme(3);
 	
+	
+	/*RandomWalkComposer * rw = new RandomWalkComposer();
+	rw->setPattern(16);
+	rw->setStems(50);
+	rw->setScale(1);
+	composition = rw->compose();
+	player->play(composition);*/
 }
 
 

@@ -36,3 +36,9 @@ int Randomize::getRandomPitch(){
 	int value = 21 + (rand() % 108);
 	return value;
 }
+
+float Randomize::getRandomValue(){
+	
+	float value = rand() % 100;
+	return value/100;
+}

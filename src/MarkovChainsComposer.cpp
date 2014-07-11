@@ -139,7 +139,7 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			int octave = 4;
 			
-			int pitch = 10*(octave + 2) + ListOfScales[scale][tone];
+			int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 			//pitch = mapValue(distribution->getValue(), 0, 127);
 			
 			
@@ -176,7 +176,8 @@ void MarkovChainsComposer::addMidiToChain(string filename){
 			Note * n = (Note *) input[i];
 			
 			prevPitch = rPitch;
-			rPitch = n->getPitch() % 11;
+			int octave = (n->getPitch() / 12) - 2;
+			rPitch = n->getPitch() - 10*(octave + 2) - 2*octave - 4;
 			
 			if(prevPitch != -1)
 				pitchesMatrix[prevPitch][rPitch]++;

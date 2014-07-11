@@ -10,15 +10,17 @@
 #include "Randomize.h"
 #include "Scales.h"
 #include "Note.h"
+#include "Utils.h"
 
 RandomWalkComposer::RandomWalkComposer(){
 
     type = RandomWalk;
     boundary = Reflecting;
-	startingPitch = 50;
+	startingGrade = 0;
 	minPitch = 0;
 	maxPitch = 127;
 	scale = 2;
+	figureType = patternType;
 	
 }
 
@@ -35,82 +37,93 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 	float counter = 0.0;
 	float total = calculeTimePerStem();
 	bool f;
-	Type t;
 	float duration;
 	
-	int prevPitch;
-	int currentPitch = startingPitch;
+	int currentPitch;
 	
 	int prevRelativePitch;
-	int currentRelativePitch = startingPitch % 11;
-	int octave = (startingPitch / 11) - 2;
+	int octave = 4;
+	int octaveChangeDown = OctaveDown[scale];
+	int octaveChangeUp = OctaveUp[scale];
 	
-	int scaleLimit = 8;
+	
+	int scaleLimit = 7;
 	if (scale == 0) {
 		scaleLimit = 12;
 	}
 	else if (scale == 1){
 		scaleLimit = 5;
 	}
-    
+	
+	//int currentRelativePitch = Utils::map(Randomize::getRandomValue(), 0, 1, 0, scaleLimit);
+	int currentRelativePitch = startingGrade;
+	
 	for(int i = 0; i < stems; i++){
 		
 		while(counter < total){
 			
 			prevRelativePitch = currentRelativePitch;
-			prevPitch = currentPitch;
 			direction = Randomize::getRandomDirection();
 			
 			if (direction) {
 				cout << "arriba" << endl;
-				currentPitch = prevPitch + 1;
 				
 				currentRelativePitch++;
 				
 				cout<<currentRelativePitch<<endl;
 				
-				if (currentRelativePitch >= scaleLimit) {
-					cout<<"aumento"<<endl;
+				if (currentRelativePitch == scaleLimit){
+					cout<<"vuelta +"<<endl;
 					currentRelativePitch = 0;
+					cout<<currentRelativePitch<<endl;
+				}
+				if (currentRelativePitch == octaveChangeUp) {
+					cout<<"cambio octava"<<endl;
 					octave++;
 					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
 					
 				}
-				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
-				cout << currentPitch << endl;
+				
+				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
 				if (currentPitch == maxPitch) {
 					currentRelativePitch--;
-					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				}
+				
+				cout << currentPitch << endl;
 			}
 			else if (!direction){
 				cout << "abajo" << endl;
-				currentPitch = prevPitch - 1;
 				
 				currentRelativePitch--;
 				
-				cout<<currentRelativePitch<<endl;
+				cout << currentRelativePitch << endl;
 				
-				if (currentRelativePitch <= -1) {
-					cout<<"disminuyo"<<endl;
-					currentRelativePitch = scaleLimit;
+				if (currentRelativePitch == -1) {
+					cout<<"vuelta -"<<endl;
+					currentRelativePitch = scaleLimit - 1;
+					cout<<currentRelativePitch<<endl;
+				}
+				if (currentRelativePitch == octaveChangeDown) {
+					cout<<"cambio octava"<<endl;
 					octave--;
 					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
 				}
-				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
-				cout << currentPitch << endl;
+				
+				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
 				if (currentPitch == minPitch) {
 					currentRelativePitch++;
-					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch];
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				}
+				
+				cout << currentPitch << endl;
 			}
 			
-			t = patternType;
-			counter += Figure::typeToDuration(t);
+			counter += Figure::typeToDuration(figureType);
 			
-			Note * note = new Note(t, currentPitch, 50);
+			Note * note = new Note(figureType, currentPitch, 50);
 			fragment.push_back(note);
 			cout << "---" << endl;
 			
