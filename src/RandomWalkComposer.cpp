@@ -8,20 +8,36 @@
 
 #include "RandomWalkComposer.h"
 #include "Randomize.h"
-#include "Scales.h"
 #include "Note.h"
 #include "Utils.h"
+#include "Scales.h"
+
 
 RandomWalkComposer::RandomWalkComposer(){
 
     type = RandomWalk;
     boundary = Reflecting;
 	startingGrade = 0;
-	minPitch = 0;
-	maxPitch = 127;
+	
+	maxOctave = 4;
+	minOctave = 2;
+	
 	scale = 2;
 	figureType = patternType;
 	
+	minPitch = 10*(minOctave + 2) + ListOfScales[scale][0] + (2*minOctave + 4);
+	maxPitch = 10*(maxOctave + 2) + ListOfScales[scale][0] + (2*maxOctave + 4);
+	
+}
+
+void RandomWalkComposer::setMaxOctave(int m){
+	maxOctave = m;
+	maxPitch = 10*(maxOctave + 2) + ListOfScales[scale][0] + (2*maxOctave + 4);
+}
+
+void RandomWalkComposer::setMinOctave(int m){
+	maxOctave = m;
+	maxPitch = 10*(minOctave + 2) + ListOfScales[scale][0] + (2*minOctave + 4);
 }
 
 RandomWalkComposer::~RandomWalkComposer(){
@@ -42,10 +58,12 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 	int currentPitch;
 	
 	int prevRelativePitch;
-	int octave = 4;
+	int octave = Utils::map(Randomize::getRandomValue(), 0, 1, minOctave, maxOctave);
 	int octaveChangeDown = OctaveDown[scale];
 	int octaveChangeUp = OctaveUp[scale];
 	
+	if(Figure::typeToDuration(figureType) > Figure::typeToDuration(patternType))
+		figureType = patternType;
 	
 	int scaleLimit = 7;
 	if (scale == 0) {
@@ -86,9 +104,8 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 				
 				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
-				if (currentPitch == maxPitch) {
-					currentRelativePitch--;
-					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+				if (currentPitch > maxPitch) {
+					currentPitch = maxPitch;
 				}
 				
 				cout << currentPitch << endl;
@@ -113,9 +130,8 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 				
 				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
-				if (currentPitch == minPitch) {
-					currentRelativePitch++;
-					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+				if (currentPitch < minPitch) {
+					currentPitch = minPitch;
 				}
 				
 				cout << currentPitch << endl;

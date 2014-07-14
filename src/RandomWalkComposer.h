@@ -29,16 +29,20 @@ public:
     std::vector<Figure *> compose(bool infinite = false);
     
     void setBoundary(Boundary b){ boundary = b; }
-    void setMaxPitch(int m){ maxPitch = m; }
-    void setMinPitch(int m){ minPitch = m; }
+	void setMinOctave(int m);
+	void setMaxOctave(int m);
     void setStartingGrade(int s){ startingGrade = s; }
-	void setScale(int s){ scale = s; }
+	void setScale(int s){
+		scale = s;
+	}
     void setTypeOfFigure(Type t){ figureType = t; }
 	
 private:
     Boundary boundary;
     int minPitch;
     int maxPitch;
+	int minOctave;
+	int maxOctave;
     int startingGrade;
 	bool direction;
     int scale;

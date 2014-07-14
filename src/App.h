@@ -59,7 +59,9 @@ private:
 	void setValuesForGraph(Distribution * d);
 	void showIndependentStochasticGUI(bool show);
 	void showMarkovChainsGUI(bool show);
+	void showRandomWalkGUI(bool show);
 	void setGUITheme(int i);
+	void toggleDistribution();
 	
 	std::vector<Figure *> composition;
 	
@@ -94,9 +96,12 @@ private:
 	
 	ofxUICanvas *isGUI1;
 	ofxUIScrollableCanvas *isGUI2;
-	ofxUICanvas *distributionGUI;
-	ofxUIMovingGraph * mg;
+	ofxUICanvas *isGUI3;
 	
+	ofxUICanvas *distributionListGUI;
+	
+	ofxUIMovingGraph * mg;
+	ofxUICanvas * distributionGUI;
 	ofxUICanvas * linearDistGUI;
 	ofxUICanvas * triangularDistGUI;
 	ofxUICanvas * exponentialDistGUI;
@@ -106,10 +111,38 @@ private:
 	ofxUICanvas * weibullDistGUI;
 	ofxUICanvas * poissonDistGUI;
 	
+	ofxUIMovingGraph * mg2;
+	ofxUICanvas * distributionGUI2;
+	ofxUICanvas * linearDistGUI2;
+	ofxUICanvas * triangularDistGUI2;
+	ofxUICanvas * exponentialDistGUI2;
+	ofxUICanvas * gaussDistGUI2;
+	ofxUICanvas * cauchyDistGUI2;
+	ofxUICanvas * betaDistGUI2;
+	ofxUICanvas * weibullDistGUI2;
+	ofxUICanvas * poissonDistGUI2;
+	
+	ofxUIMovingGraph * mg3;
+	ofxUICanvas * distributionGUI3;
+	ofxUICanvas * linearDistGUI3;
+	ofxUICanvas * triangularDistGUI3;
+	ofxUICanvas * exponentialDistGUI3;
+	ofxUICanvas * gaussDistGUI3;
+	ofxUICanvas * cauchyDistGUI3;
+	ofxUICanvas * betaDistGUI3;
+	ofxUICanvas * weibullDistGUI3;
+	ofxUICanvas * poissonDistGUI3;
+	
+	int selectedDistribution;
 	
 	/* MARKOV CHAINS GUI */
 	
 	ofxUICanvas *mcGUI1;
 	ofxUILabel *fileLabel;
+	
+	
+	/* RANDOM WALK GUI */
+	
+	ofxUICanvas *rwGUI;
 	
 };

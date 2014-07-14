@@ -41,7 +41,8 @@ void Player::play(std::vector<Figure*> f){
 	playing = true;
 	paused = false;
 	
-	float framesQuarter = (60/BPM)/(1/FPS);
+	float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
+	cout << "frames per quarter: " << framesQuarter << endl;
 	
 	Type type = fragment[i]->getType();
 	
@@ -113,7 +114,8 @@ void Player::update(){
 		count = 0;
 		
 		float FPS = App::getFramerate();
-		float framesQuarter = (60/BPM)/(1/FPS);
+		float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
+		cout << "frames per quarter: " << framesQuarter << endl;
 		
 		Type type = fragment[i]->getType();
 		

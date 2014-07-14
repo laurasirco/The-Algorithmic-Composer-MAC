@@ -16,7 +16,9 @@ using namespace std;
 
 IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	
-	distribution = d;
+	pitchesDistribution = d;
+	durationsDistribution = d;
+	notesAndSilencesDistribution = d;
 	scale = 0;
 	minOct = 2;
 	maxOct = 4;
@@ -38,12 +40,14 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 		
 		while(counter < total){
 			
-			if(wantSilences)
-				f = Randomize::getRandomFigure();
-			else
-				f = true;
+			float fig = notesAndSilencesDistribution->getValue();
 			
-			t = (Type)mapValue(distribution->getValue(), 0, 12);
+			if(fig <= 0.5)
+				f = true;
+			else
+				f = false;
+			
+			t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
 			
 			duration = Figure::typeToDuration(t);
 			//cout<<"duration: "<<duration<<endl;
@@ -57,7 +61,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 					t = Figure::durationToType(difference);
 				}
 				else
-					t = (Type)mapValue(distribution->getValue(), 0, 12);
+					t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
 				
 				duration = Figure::typeToDuration(t);
 				//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
@@ -74,14 +78,14 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 				else if (scale == 1)
 					max = 5;
 				
-				int tone = mapValue(distribution->getValue(), 0, 7);
-				int octave = mapValue(distribution->getValue(), minOct, maxOct);
+				int tone = mapValue(pitchesDistribution->getValue(), 0, 7);
+				int octave = mapValue(pitchesDistribution->getValue(), minOct, maxOct);
 				
 				int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 				//pitch = mapValue(distribution->getValue(), 0, 127);
 				
 				
-				int velocity = mapValue(distribution->getValue(), 0, 100);
+				int velocity = mapValue(pitchesDistribution->getValue(), 0, 100);
 				Note * note = new Note(t, pitch, velocity);
 				fragment.push_back(note);
 			}
