@@ -94,6 +94,12 @@
 		AB3A7D53196AE70D000E7EE2 /* MIDIFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D51196AE70D000E7EE2 /* MIDIFileReader.cpp */; };
 		AB3A7D56196AE789000E7EE2 /* MarkovChainsComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D54196AE789000E7EE2 /* MarkovChainsComposer.cpp */; };
 		AB3A7D59196AF34C000E7EE2 /* Midi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D57196AF34C000E7EE2 /* Midi.cpp */; };
+		AB444F8B19752A1200E0EB43 /* src_colors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8219752A1200E0EB43 /* src_colors.cpp */; };
+		AB444F8C19752A1200E0EB43 /* svgtiny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8319752A1200E0EB43 /* svgtiny.cpp */; };
+		AB444F8D19752A1200E0EB43 /* svgtiny_gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8519752A1200E0EB43 /* svgtiny_gradient.cpp */; };
+		AB444F8E19752A1200E0EB43 /* svgtiny_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8719752A1200E0EB43 /* svgtiny_list.cpp */; };
+		AB444F8F19752A1200E0EB43 /* ofxSvg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8919752A1200E0EB43 /* ofxSvg.cpp */; };
+		AB444F921975719600E0EB43 /* MusicVisualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F901975719600E0EB43 /* MusicVisualizer.cpp */; };
 		AB4B48EC196AB2F400183901 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4B48EB196AB2F400183901 /* RtMidi.cpp */; };
 		AB4B4963196AB3D800183901 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4962196AB3D800183901 /* CoreMIDI.framework */; };
 		AB4EC7981949A6BB00A24325 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EC7961949A6BB00A24325 /* Player.cpp */; };
@@ -384,6 +390,16 @@
 		AB3A7D55196AE789000E7EE2 /* MarkovChainsComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkovChainsComposer.h; sourceTree = "<group>"; };
 		AB3A7D57196AF34C000E7EE2 /* Midi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Midi.cpp; sourceTree = "<group>"; };
 		AB3A7D58196AF34C000E7EE2 /* Midi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Midi.h; sourceTree = "<group>"; };
+		AB444F8219752A1200E0EB43 /* src_colors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = src_colors.cpp; sourceTree = "<group>"; };
+		AB444F8319752A1200E0EB43 /* svgtiny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = svgtiny.cpp; sourceTree = "<group>"; };
+		AB444F8419752A1200E0EB43 /* svgtiny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svgtiny.h; sourceTree = "<group>"; };
+		AB444F8519752A1200E0EB43 /* svgtiny_gradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = svgtiny_gradient.cpp; sourceTree = "<group>"; };
+		AB444F8619752A1200E0EB43 /* svgtiny_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svgtiny_internal.h; sourceTree = "<group>"; };
+		AB444F8719752A1200E0EB43 /* svgtiny_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = svgtiny_list.cpp; sourceTree = "<group>"; };
+		AB444F8919752A1200E0EB43 /* ofxSvg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSvg.cpp; sourceTree = "<group>"; };
+		AB444F8A19752A1200E0EB43 /* ofxSvg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSvg.h; sourceTree = "<group>"; };
+		AB444F901975719600E0EB43 /* MusicVisualizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MusicVisualizer.cpp; sourceTree = "<group>"; };
+		AB444F911975719600E0EB43 /* MusicVisualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicVisualizer.h; sourceTree = "<group>"; };
 		AB4B48EB196AB2F400183901 /* RtMidi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RtMidi.cpp; path = ../of_v0.8.0_osx_release/addons/ofxMidi/libs/RtMidi.cpp; sourceTree = "<group>"; };
 		AB4B4962196AB3D800183901 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreMIDI.framework; sourceTree = DEVELOPER_DIR; };
 		AB4EC7961949A6BB00A24325 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -467,7 +483,7 @@
 		E4921AD45C3E796C80B8BC48 /* ControlConditioner.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ControlConditioner.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/ControlConditioner.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* The_Algorithmic_ComposerDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = The_Algorithmic_ComposerDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1E0A3A1BDC003C02F2 /* App.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = App.cpp; path = src/App.cpp; sourceTree = SOURCE_ROOT; };
+		E4B69E1E0A3A1BDC003C02F2 /* App.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = App.cpp; path = src/App.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* App.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4C2424410CC5A17004149E2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -796,6 +812,55 @@
 			name = midiFileReader;
 			sourceTree = "<group>";
 		};
+		AB444F7E197529F700E0EB43 /* ofxSVG */ = {
+			isa = PBXGroup;
+			children = (
+				AB444F7F19752A1200E0EB43 /* libs */,
+				AB444F8819752A1200E0EB43 /* src */,
+			);
+			name = ofxSVG;
+			sourceTree = "<group>";
+		};
+		AB444F7F19752A1200E0EB43 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				AB444F8019752A1200E0EB43 /* svgTiny */,
+			);
+			name = libs;
+			path = ../of_v0.8.0_osx_release/addons/ofxSvg/libs;
+			sourceTree = "<group>";
+		};
+		AB444F8019752A1200E0EB43 /* svgTiny */ = {
+			isa = PBXGroup;
+			children = (
+				AB444F8119752A1200E0EB43 /* src */,
+			);
+			path = svgTiny;
+			sourceTree = "<group>";
+		};
+		AB444F8119752A1200E0EB43 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AB444F8219752A1200E0EB43 /* src_colors.cpp */,
+				AB444F8319752A1200E0EB43 /* svgtiny.cpp */,
+				AB444F8419752A1200E0EB43 /* svgtiny.h */,
+				AB444F8519752A1200E0EB43 /* svgtiny_gradient.cpp */,
+				AB444F8619752A1200E0EB43 /* svgtiny_internal.h */,
+				AB444F8719752A1200E0EB43 /* svgtiny_list.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		AB444F8819752A1200E0EB43 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AB444F8919752A1200E0EB43 /* ofxSvg.cpp */,
+				AB444F8A19752A1200E0EB43 /* ofxSvg.h */,
+			);
+			name = src;
+			path = ../of_v0.8.0_osx_release/addons/ofxSvg/src;
+			sourceTree = "<group>";
+		};
 		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
 			isa = PBXGroup;
 			children = (
@@ -842,6 +907,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				AB444F7E197529F700E0EB43 /* ofxSVG */,
 				AB3A7D4E196AE6F6000E7EE2 /* midiFileReader */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
@@ -1031,6 +1097,8 @@
 				AB1090481940E33300F65E20 /* Figure.h */,
 				AB4EC7961949A6BB00A24325 /* Player.cpp */,
 				AB4EC7971949A6BB00A24325 /* Player.h */,
+				AB444F901975719600E0EB43 /* MusicVisualizer.cpp */,
+				AB444F911975719600E0EB43 /* MusicVisualizer.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1135,6 +1203,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* App.cpp in Sources */,
 				45A7A0C28F0C7EB9930A976B /* ofxBaseGui.cpp in Sources */,
+				AB444F8B19752A1200E0EB43 /* src_colors.cpp in Sources */,
 				2C33D2F9EFF35686A9293059 /* ofxButton.cpp in Sources */,
 				41755AF571148A0BDF569999 /* ofxGuiGroup.cpp in Sources */,
 				238AAB4C7200F345C464ECC1 /* ofxLabel.cpp in Sources */,
@@ -1169,7 +1238,10 @@
 				739EE1F47566F4C95D644C71 /* ControlConditioner.cpp in Sources */,
 				249996E885B712C661D20CBE /* ControlCounter.cpp in Sources */,
 				F05535F24D6543F5C470B2FC /* ControlDbToLinear.cpp in Sources */,
+				AB444F921975719600E0EB43 /* MusicVisualizer.cpp in Sources */,
 				4C92C59DAEC5FC404AFF26BF /* ControlDelay.cpp in Sources */,
+				AB444F8E19752A1200E0EB43 /* svgtiny_list.cpp in Sources */,
+				AB444F8C19752A1200E0EB43 /* svgtiny.cpp in Sources */,
 				C39C70A9FC0E5E15A5C8DC2F /* ControlFloor.cpp in Sources */,
 				0E4E8E2FB15F8909C616E90A /* ControlGenerator.cpp in Sources */,
 				0A80BF2F100A6C1A16E3AAF6 /* ControlMetro.cpp in Sources */,
@@ -1215,6 +1287,7 @@
 				814E7271B10C767C140B1F4B /* TonicFrames.cpp in Sources */,
 				A7DB064ADF14314B59B99651 /* ofxUI2DGraph.cpp in Sources */,
 				4E7DCEE05A94D231A91DFC05 /* ofxUI2DPad.cpp in Sources */,
+				AB444F8F19752A1200E0EB43 /* ofxSvg.cpp in Sources */,
 				AB1090431940E1C300F65E20 /* Note.cpp in Sources */,
 				1678E23ED160B9692CE57DA5 /* ofxUIBaseDraws.cpp in Sources */,
 				744A5E5E1D541E21F0780066 /* ofxUIBiLabelSlider.cpp in Sources */,
@@ -1255,6 +1328,7 @@
 				AB8CAB451945FC6000B40AF3 /* LinearDistribution.cpp in Sources */,
 				33EA8DBD6FEDF4CCDE64E0B6 /* ofxUISuperCanvas.cpp in Sources */,
 				5C944C49C92B70D77A06CA1D /* ofxUITabBar.cpp in Sources */,
+				AB444F8D19752A1200E0EB43 /* svgtiny_gradient.cpp in Sources */,
 				D821C392E80F53B648373AD0 /* ofxUITextArea.cpp in Sources */,
 				FD121EB38B5F5578D41545A4 /* ofxUITextInput.cpp in Sources */,
 				3C9916FE72A86450B3952F84 /* ofxUIToggle.cpp in Sources */,

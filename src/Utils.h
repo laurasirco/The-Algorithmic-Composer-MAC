@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <cmath>
-
+#pragma once
 
 namespace Utils {
 	

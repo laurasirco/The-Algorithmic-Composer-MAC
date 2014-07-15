@@ -28,6 +28,7 @@ public:
 	bool isAllPlayed(){ return allPlayed; }
 	bool isPlaying(){ return playing; }
 	bool isPaused(){ return paused; }
+	int getTempo(){ return BPM; }
 private:
 	int BPM;
 	int count;

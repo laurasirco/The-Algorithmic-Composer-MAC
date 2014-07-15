@@ -22,7 +22,7 @@ RandomWalkComposer::RandomWalkComposer(){
 	maxOctave = 4;
 	minOctave = 2;
 	
-	scale = 2;
+	scale = 0;
 	figureType = patternType;
 	
 	minPitch = 10*(minOctave + 2) + ListOfScales[scale][0] + (2*minOctave + 4);
@@ -36,8 +36,8 @@ void RandomWalkComposer::setMaxOctave(int m){
 }
 
 void RandomWalkComposer::setMinOctave(int m){
-	maxOctave = m;
-	maxPitch = 10*(minOctave + 2) + ListOfScales[scale][0] + (2*minOctave + 4);
+	minOctave = m;
+	minPitch = 10*(minOctave + 2) + ListOfScales[scale][0] + (2*minOctave + 4);
 }
 
 RandomWalkComposer::~RandomWalkComposer(){
@@ -105,7 +105,23 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
 				if (currentPitch > maxPitch) {
-					currentPitch = maxPitch;
+					cout << "Se pasa por arriba" << endl;
+					
+					currentRelativePitch -= 2;
+					cout << currentRelativePitch << endl;
+					
+					if (currentRelativePitch == -1) {
+						cout<<"vuelta -"<<endl;
+						currentRelativePitch = scaleLimit - 1;
+						cout<<currentRelativePitch<<endl;
+					}
+					if (currentRelativePitch == octaveChangeDown) {
+						cout<<"cambio octava"<<endl;
+						octave--;
+						cout<<currentRelativePitch<<", octava: "<<octave<<endl;
+					}
+					
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				}
 				
 				cout << currentPitch << endl;
@@ -131,7 +147,24 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				
 				if (currentPitch < minPitch) {
-					currentPitch = minPitch;
+					cout << "se pasa por abajo" << endl;
+					
+					currentRelativePitch += 2;
+					cout << currentRelativePitch << endl;
+					
+					if (currentRelativePitch == scaleLimit){
+						cout<<"vuelta +"<<endl;
+						currentRelativePitch = 0;
+						cout<<currentRelativePitch<<endl;
+					}
+					if (currentRelativePitch == octaveChangeUp) {
+						cout<<"cambio octava"<<endl;
+						octave++;
+						cout<<currentRelativePitch<<", octava: "<<octave<<endl;
+						
+					}
+					
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
 				}
 				
 				cout << currentPitch << endl;

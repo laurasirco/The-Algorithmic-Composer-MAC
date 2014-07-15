@@ -14,10 +14,12 @@
 #include "BetaDistribution.h"
 #include "WeibullDistribution.h"
 #include "PoissonDistribution.h"
+#include "MusicVisualizer.h"
 
 #include <iostream>
 using namespace std;
 #include "ofxTonic.h"
+
 
 using namespace Tonic;
 
@@ -48,10 +50,15 @@ public:
 	static void setIsSilence(bool t);
 	static void setVolume(float volume);
 	static void setCurrentFigure(Figure * f);
+	
+	static int getTempo(){ return player->getTempo(); }
+	static ofColor getUIColor();
+	
 private:
-    
+
 	Composer * composer;
-	Player * player;
+	static Player * player;
+	MusicVisualizer * mv;
 	static ofxTonicSynth synth;
 	
 	void initSynth();

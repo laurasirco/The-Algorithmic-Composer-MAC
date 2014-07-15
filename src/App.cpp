@@ -3,9 +3,9 @@
 #include "MarkovChainsComposer.h"
 #include "RandomWalkComposer.h"
 #include "Figure.h"
+#include "Silence.h"
 #include "Scales.h"
 #include "Midi.h"
-
 
 #include <vector>
 #include <string>
@@ -20,9 +20,12 @@ using namespace std;
 ofxTonicSynth App::synth = ofxTonicSynth();
 ofxUITextArea * App::currentFigureLabel = NULL;
 ofxUIScrollableCanvas * App::resultsGui = NULL;
+Player * App::player = new Player();
 
 void App::setup(){
     
+	mv = new MusicVisualizer();
+	
 	uniform = new UniformDistribution();
 	
 	linear = new LinearDistribution();
@@ -55,15 +58,10 @@ void App::setup(){
 	composer = new IndependentStochasticComposer(uniform);
 	//std::vector<Figure *> result = composer->compose(false, 2, 4, 10);
 	
-	player = new Player(120);
-	
 	initGUI();
 	initSynth();
 	selectedDistribution = 1;
-	
-	//player->play(result);
-	
-	
+
 }
 
 //--------------------------------------------------------------
@@ -73,15 +71,32 @@ void App::update(){
 		player->update();
 	else
 		synth.setParameter("volume", 0);
+	
+	mv->update();
 }
 
 //--------------------------------------------------------------
 void App::draw(){
 	
+	ofxUIColor c = generalGUI->getColorFill();
+
 	backgroundColor = ofColor(red, green, blue);
     ofBackground(backgroundColor);
+
+	ofEnableAlphaBlending();
+	ofSetColor(c.r, c.g, c.b);
 	
-	//musicNotesFont.drawString("`ACDGF", 400, 600);
+	mv->draw();
+	
+	ofDisableAlphaBlending();
+	
+}
+
+ofColor App::getUIColor(){
+	
+	ofxUIColor c = resultsGui->getColorFill();
+	ofColor color(c.r, c.g, c.b, 255);
+	return color;
 }
 
 //--------------------------------------------------------------
@@ -753,6 +768,21 @@ void App::guiEvent(ofxUIEventArgs &e){
 			player->unpause();
 			pauseToggle->setValue(false);
 		}
+		
+		
+		vector<Figure *> fs;
+		Silence * s = new Silence(Whole);
+		Silence * s1 = new Silence(Half);
+		Silence * s2 = new Silence(SixtyFourth);
+		fs.push_back(s);
+		fs.push_back(s1);
+		fs.push_back(s2);
+		fs.push_back(s);
+		fs.push_back(s1);
+		fs.push_back(s2);
+		
+		
+		mv->drawFigures(fs);
 	}
 	else if (name == "PAUSE"){
 		if(e.getToggle()->getValue() == true)
@@ -1007,9 +1037,9 @@ void App::initSynth(){
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
 	// create a new oscillator which we'll use for the actual audio signal
-	SineWave tone = SineWave();
+	SawtoothWave tone = SawtoothWave();
 	// create a sine wave we'll use for some vibrato
-	SineWave vibratoOsc = SineWave();
+	SawtoothWave vibratoOsc = SawtoothWave();
 	vibratoOsc.freq(10);
 	
 	// you can use the regular arithmatic operators on Generators and their subclasses (SineWave extends Generator)
@@ -1019,8 +1049,8 @@ void App::initSynth(){
 	tone.freq(noteFreq);
 	
 	// Partials
-	SineWave firstPartial = SineWave().freq(noteFreq * 2);
-	SineWave secondPartial = SineWave().freq(noteFreq * 3);
+	SawtoothWave firstPartial = SawtoothWave().freq(noteFreq * 2);
+	SawtoothWave secondPartial = SawtoothWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
 	synth.setOutputGen( (tone + firstPartial + secondPartial) * volume * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(trigger).legato(1));
@@ -1126,7 +1156,7 @@ void App::initGUI(){
 	optionsGUI = new ofxUICanvas();
 	optionsGUI->setPosition(200, 0);
 	optionsGUI->setWidth(WIDTH - 200);
-	optionsGUI->setHeight(HEIGHT - 200);
+	optionsGUI->setHeight(40);
 	optionsGUI->setFont("GUI/Lekton-Regular.ttf");
 	optionsGUI->addLabel("OPTIONS", OFX_UI_FONT_LARGE);
 	optionsGUI->addSpacer();
