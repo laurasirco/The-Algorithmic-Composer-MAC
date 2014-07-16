@@ -762,27 +762,15 @@ void App::guiEvent(ofxUIEventArgs &e){
 	}
 	else if(name == "PLAY" && composition.size() > 0 && !player->isPlaying()  && e.getButton()->getValue() == true){
 		
-		if(!player->isPaused())
+		if(!player->isPaused()){
 			player->play(composition);
+			mv->drawFigures(composition);
+		}
 		else{
 			player->unpause();
 			pauseToggle->setValue(false);
 		}
-		
-		
-		vector<Figure *> fs;
-		Silence * s = new Silence(Whole);
-		Silence * s1 = new Silence(Half);
-		Silence * s2 = new Silence(SixtyFourth);
-		fs.push_back(s);
-		fs.push_back(s1);
-		fs.push_back(s2);
-		fs.push_back(s);
-		fs.push_back(s1);
-		fs.push_back(s2);
-		
-		
-		mv->drawFigures(fs);
+				
 	}
 	else if (name == "PAUSE"){
 		if(e.getToggle()->getValue() == true)
