@@ -37,6 +37,11 @@ public:
 	void setWantSilences(bool s){ wantSilences = s; }
 	
 	CType getType(){ return type; }
+	
+	int getMeter(){ return meter; }
+	int getPattern(){ return pattern; }
+	float calculeTimePerStem();
+	
 protected:
 	int stems;
 	int meter;
@@ -45,7 +50,6 @@ protected:
 	CType type;
 	Type patternType;
 	
-	float calculeTimePerStem();
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Composer__) */

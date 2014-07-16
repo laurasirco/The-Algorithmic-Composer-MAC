@@ -53,10 +53,12 @@ public:
 	
 	static int getTempo(){ return player->getTempo(); }
 	static ofColor getUIColor();
+	static Composer * getComposer(){ return composer; }
+	
 	
 private:
 
-	Composer * composer;
+	static Composer * composer;
 	static Player * player;
 	MusicVisualizer * mv;
 	static ofxTonicSynth synth;

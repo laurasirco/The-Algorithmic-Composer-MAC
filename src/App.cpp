@@ -21,6 +21,7 @@ ofxTonicSynth App::synth = ofxTonicSynth();
 ofxUITextArea * App::currentFigureLabel = NULL;
 ofxUIScrollableCanvas * App::resultsGui = NULL;
 Player * App::player = new Player();
+Composer * App::composer = new RandomWalkComposer();
 
 void App::setup(){
     
@@ -768,18 +769,24 @@ void App::guiEvent(ofxUIEventArgs &e){
 		}
 		else{
 			player->unpause();
+			mv->unpause();
 			pauseToggle->setValue(false);
 		}
 				
 	}
 	else if (name == "PAUSE"){
-		if(e.getToggle()->getValue() == true)
+		if(e.getToggle()->getValue() == true){
 			player->pause();
-		else
+			mv->pause();
+		}
+		else{
+			mv->unpause();
 			player->unpause();
+		}
 	}
 	else if (name == "STOP" && e.getButton()->getValue() == true){
 		player->stop();
+		mv->stop();
 		resultsGui->removeWidgets();
 	}
 	
@@ -1165,7 +1172,7 @@ void App::initGUI(){
 	isGUI1->setPosition(210, 40);
 	
 	isGUI1->addLabel("MUSICAL PARAMETERS");
-	isGUI1->addRangeSlider("Octaves", 0, 10, 2, 4);
+	isGUI1->addRangeSlider("Octaves", 1, 6, 2, 4);
 	isGUI1->addSlider("Stems", 1, 20, 1);
 	isGUI1->addSpacer(210, 3);
 	
@@ -1647,7 +1654,7 @@ void App::initGUI(){
 	rwGUI->setPosition(210, 40);
 	rwGUI->addLabel("MUSICAL PARAMETERS", OFX_UI_FONT_MEDIUM);
 	
-	rwGUI->addRangeSlider("Octaves", 0, 10, 2, 4);
+	rwGUI->addRangeSlider("Octaves", 1, 6, 2, 4);
 	
 	rwGUI->addSlider("Stems", 1, 20, 1);
 	

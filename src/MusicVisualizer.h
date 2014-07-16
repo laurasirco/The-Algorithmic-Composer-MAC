@@ -22,7 +22,7 @@ enum IMetric{
 };
 
 enum INote{
-	INDWhole, INWhole, INDDHalf, INUDHalf, INDHalf, INUHalf, INDDQuarter, INUDQuarter, INDQuarter, INUQuarter, INDDEighth, INUDEighth, INDEighth, INUEighth, INDDSixteenth, INUDSixteenth, INDSixteenth, INUSixteenth, INDDThirtySecond, INUDThirtySecond, INDThirtySecond, INUThirtySecond, INDSixtyFourth, INUSixtyFourth, ISDWhole, ISWhole, ISDHalf, ISHalf, ISDQuarter, ISQuarter, ISDEighth, ISEighth, ISDSixteenth, ISSixteenth, ISDThirtySecond, ISThirtySecond, ISSixtyFourth
+	INDWhole, INWhole, INDDHalf, INUDHalf, INDHalf, INUHalf, INDDQuarter, INUDQuarter, INDQuarter, INUQuarter, INDDEighth, INUDEighth, INDEighth, INUEighth, INDDSixteenth, INUDSixteenth, INDSixteenth, INUSixteenth, INDDThirtySecond, INUDThirtySecond, INDThirtySecond, INUThirtySecond, INDSixtyFourth, INUSixtyFourth, ISDWhole, ISWhole, ISDHalf, ISHalf, ISDQuarter, ISQuarter, ISDEighth, ISEighth, ISDSixteenth, ISSixteenth, ISDThirtySecond, ISThirtySecond, ISSixtyFourth, StemDelimiter
 };
 
 class MusicVisualizer {
@@ -33,25 +33,30 @@ public:
 	void draw();
 	void drawFigures(vector<Figure *> f);
 	void update();
-	void pause(){ paused = true; }
-	void unpause(){ paused = false; }
+	void pause(){ paused = true; pausedVelocity = velocity; velocity = 0; }
+	void unpause(){ paused = false; velocity = pausedVelocity; }
 	void stop();
 	
 private:
 	
 	ofImage claveSol;
 	ofImage claveFa;
+	ofImage sharp;
 	
 	vector<ofImage> metricImages;
 	vector<ofImage> figureImages;
 	
 	float velocity;
+	float pausedVelocity;
 	int currentFigure;
+	float stemTime;
+	float stemCounter;
 	
 	vector<Figure *> figures;
 	vector<int> positions;
 	vector<bool> appeared;
 	vector<INote> images;
+	IMetric metric;
 	
 	float map(float x, float in_min, float in_max, float out_min, float out_max);
 	float getFactorOfType(Type t);
@@ -60,6 +65,10 @@ private:
 	bool paused;
 	bool playing;
 	bool allPlayed;
+	
+	static const int heights[];
+	static const int silenceHeights[];
+	vector<int> sharpedPitches;
 	
 };
 
