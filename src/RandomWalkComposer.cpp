@@ -14,7 +14,7 @@
 
 
 RandomWalkComposer::RandomWalkComposer(){
-
+	
     type = RandomWalk;
     boundary = Reflecting;
 	startingGrade = 0;
@@ -31,7 +31,7 @@ RandomWalkComposer::RandomWalkComposer(){
 }
 
 void RandomWalkComposer::setMaxOctave(int m){
-	maxOctave = m;
+	maxOctave = m + 1;
 	maxPitch = 10*(maxOctave + 2) + ListOfScales[scale][0] + (2*maxOctave + 4);
 }
 
@@ -48,12 +48,15 @@ RandomWalkComposer::~RandomWalkComposer(){
 vector<Figure *> RandomWalkComposer::compose(bool infinite){
     
     cout<<"Compose "<<stems<<", "<<meter<<"/"<<pattern<<endl;
+	cout << "min octave: " << minOctave << " min pitch: " << minPitch << endl;
+	cout << "max octave: " << maxOctave << " max pitch: " << maxPitch << endl;
 	
 	std::vector<Figure *> fragment;
 	float counter = 0.0;
 	float total = calculeTimePerStem();
 	bool f;
 	float duration;
+	bool firstDone = false;
 	
 	int currentPitch;
 	
@@ -76,81 +79,22 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 	//int currentRelativePitch = Utils::map(Randomize::getRandomValue(), 0, 1, 0, scaleLimit);
 	int currentRelativePitch = startingGrade;
 	
+	cout << "empieza en " << currentRelativePitch <<", octava " << octave << endl;
+	
 	for(int i = 0; i < stems; i++){
 		
 		while(counter < total){
 			
-			prevRelativePitch = currentRelativePitch;
-			direction = Randomize::getRandomDirection();
-			
-			if (direction) {
-				cout << "arriba" << endl;
+			if(firstDone){
+				prevRelativePitch = currentRelativePitch;
+				direction = Randomize::getRandomDirection();
 				
-				currentRelativePitch++;
-				
-				cout<<currentRelativePitch<<endl;
-				
-				if (currentRelativePitch == scaleLimit){
-					cout<<"vuelta +"<<endl;
-					currentRelativePitch = 0;
+				if (direction) {
+					cout << "arriba" << endl;
+					
+					currentRelativePitch++;
+					
 					cout<<currentRelativePitch<<endl;
-				}
-				if (currentRelativePitch == octaveChangeUp) {
-					cout<<"cambio octava"<<endl;
-					octave++;
-					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
-					
-				}
-				
-				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
-				
-				if (currentPitch > maxPitch) {
-					cout << "Se pasa por arriba" << endl;
-					
-					currentRelativePitch -= 2;
-					cout << currentRelativePitch << endl;
-					
-					if (currentRelativePitch == -1) {
-						cout<<"vuelta -"<<endl;
-						currentRelativePitch = scaleLimit - 1;
-						cout<<currentRelativePitch<<endl;
-					}
-					if (currentRelativePitch == octaveChangeDown) {
-						cout<<"cambio octava"<<endl;
-						octave--;
-						cout<<currentRelativePitch<<", octava: "<<octave<<endl;
-					}
-					
-					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
-				}
-				
-				cout << currentPitch << endl;
-			}
-			else if (!direction){
-				cout << "abajo" << endl;
-				
-				currentRelativePitch--;
-				
-				cout << currentRelativePitch << endl;
-				
-				if (currentRelativePitch == -1) {
-					cout<<"vuelta -"<<endl;
-					currentRelativePitch = scaleLimit - 1;
-					cout<<currentRelativePitch<<endl;
-				}
-				if (currentRelativePitch == octaveChangeDown) {
-					cout<<"cambio octava"<<endl;
-					octave--;
-					cout<<currentRelativePitch<<", octava: "<<octave<<endl;
-				}
-				
-				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
-				
-				if (currentPitch < minPitch) {
-					cout << "se pasa por abajo" << endl;
-					
-					currentRelativePitch += 2;
-					cout << currentRelativePitch << endl;
 					
 					if (currentRelativePitch == scaleLimit){
 						cout<<"vuelta +"<<endl;
@@ -165,16 +109,67 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 					}
 					
 					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+					cout << currentPitch << endl;
+
+					
+					if (currentPitch > maxPitch) {
+						cout << "Se pasa por arriba" << endl;
+						currentRelativePitch = scaleLimit - 1;
+						octave = maxOctave - 1;
+						currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+					}
+					
+					cout << currentPitch << endl;
+				}
+				else if (!direction){
+					cout << "abajo" << endl;
+					
+					currentRelativePitch--;
+					
+					cout << currentRelativePitch << endl;
+					
+					if (currentRelativePitch == -1) {
+						cout<<"vuelta -"<<endl;
+						currentRelativePitch = scaleLimit - 1;
+						cout<<currentRelativePitch<<endl;
+					}
+					if (currentRelativePitch == octaveChangeDown) {
+						cout<<"cambio octava"<<endl;
+						octave--;
+						cout<<currentRelativePitch<<", octava: "<<octave<<endl;
+					}
+					
+					currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+					cout << currentPitch << endl;
+					
+					if (currentPitch < minPitch) {
+						cout << "se pasa por abajo" << endl;
+						currentRelativePitch = 1;
+						octave = minOctave;
+						currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+					}
+					
+					cout << currentPitch << endl;
 				}
 				
-				cout << currentPitch << endl;
+				counter += Figure::typeToDuration(figureType);
+				
+				Note * note = new Note(figureType, currentPitch, 50);
+				fragment.push_back(note);
+				cout << "octava " << octave << ", relative pitch " << currentRelativePitch << " pitch " << currentPitch << endl;
+				cout << "---" << endl;
 			}
-			
-			counter += Figure::typeToDuration(figureType);
-			
-			Note * note = new Note(figureType, currentPitch, 50);
-			fragment.push_back(note);
-			cout << "---" << endl;
+			else{
+				currentPitch = 10*(octave + 2) + ListOfScales[scale][currentRelativePitch] + (2*octave + 4);
+				firstDone = true;
+				
+				counter += Figure::typeToDuration(figureType);
+				
+				Note * note = new Note(figureType, currentPitch, 50);
+				fragment.push_back(note);
+				cout << "octava " << octave << ", relative pitch " << currentRelativePitch << " pitch " << currentPitch << endl;
+				cout << "---" << endl;
+			}
 			
 		}
 		
