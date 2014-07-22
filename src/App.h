@@ -72,6 +72,7 @@ private:
 	void showMotivicDevelopmentGUI(bool show);
 	void setGUITheme(int i);
 	void toggleDistribution();
+	void drawGrid(float x, float y);
 	
 	std::vector<Figure *> composition;
 	
@@ -162,6 +163,7 @@ private:
 	ofxUICanvas *mdGUI1;
 	ofxUICanvas *mdGUI2;
 	ofxUICanvas *mdGUI3;
+	ofxUISortableList *sortableList;
 	
 	
 	

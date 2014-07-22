@@ -84,6 +84,8 @@ void App::draw(){
 
 	backgroundColor = ofColor(red, green, blue);
     ofBackground(backgroundColor);
+	ofSetColor(0, 0, 0, 10);
+	drawGrid(8,8);
 
 	ofEnableAlphaBlending();
 	ofSetColor(c.r, c.g, c.b);
@@ -1762,6 +1764,17 @@ void App::initGUI(){
 	mdGUI3->setPosition(840, 40);
 	mdGUI3->addLabel("DEVELOPMENT SEQUENCE");
 	
+	vector<string> seq;
+	seq.push_back("INVERT");
+	seq.push_back("INVERT");
+	seq.push_back("INVERT");
+	sortableList = mdGUI3->addSortableList("Sequence", seq);
+	for (int i = 0; i < sortableList->getListItems().size(); i++) {
+		sortableList->getListItems()[i]->setValue(false);
+		sortableList->getListItems()[i]->setState(OFX_UI_STATE_OVER);
+	}
+	sortableList->addItem("Added");
+	
 	
 	mdGUI3->autoSizeToFitWidgets();
 	mdGUI3->setVisible(false);
@@ -1912,4 +1925,21 @@ void App::toggleDistribution(){
 	betaDistGUI3->setVisible(false);
 	weibullDistGUI3->setVisible(false);
 	poissonDistGUI3->setVisible(false);
+}
+
+
+void App::drawGrid(float x, float y)
+{
+    float w = ofGetWidth();
+    float h = ofGetHeight();
+    
+    for(int i = 0; i < h; i+=y)
+    {
+        ofLine(0,i,w,i);
+    }
+    
+    for(int j = 0; j < w; j+=x)
+    {
+        ofLine(j,0,j,h);
+    }
 }
