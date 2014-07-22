@@ -69,6 +69,7 @@ private:
 	void showIndependentStochasticGUI(bool show);
 	void showMarkovChainsGUI(bool show);
 	void showRandomWalkGUI(bool show);
+	void showMotivicDevelopmentGUI(bool show);
 	void setGUITheme(int i);
 	void toggleDistribution();
 	
@@ -153,5 +154,15 @@ private:
 	/* RANDOM WALK GUI */
 	
 	ofxUICanvas *rwGUI;
+	
+	
+	/* MOTIVIC DEVELOPTMENT GUI */
+	
+	ofxUICanvas *mdGUI0;
+	ofxUICanvas *mdGUI1;
+	ofxUICanvas *mdGUI2;
+	ofxUICanvas *mdGUI3;
+	
+	
 	
 };

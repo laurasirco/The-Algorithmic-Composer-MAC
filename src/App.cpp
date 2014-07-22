@@ -2,6 +2,7 @@
 #include "IndependentStochasticComposer.h"
 #include "MarkovChainsComposer.h"
 #include "RandomWalkComposer.h"
+#include "MotivicDevelopmentComposer.h"
 #include "Figure.h"
 #include "Silence.h"
 #include "Scales.h"
@@ -831,6 +832,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showMarkovChainsGUI(false);
 		showRandomWalkGUI(false);
 		showIndependentStochasticGUI(true);
+		showMotivicDevelopmentGUI(false);
 
 		composer = new IndependentStochasticComposer(uniform);
 	}
@@ -838,6 +840,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showIndependentStochasticGUI(false);
 		showRandomWalkGUI(false);
 		showMarkovChainsGUI(true);
+		showMotivicDevelopmentGUI(false);
 		
 		composer = new MarkovChainsComposer();
 		
@@ -850,8 +853,17 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showMarkovChainsGUI(false);
 		showIndependentStochasticGUI(false);
 		showRandomWalkGUI(true);
+		showMotivicDevelopmentGUI(false);
 		
 		composer = new RandomWalkComposer();
+	}
+	else if(name == "Motivic Development"){
+		showMarkovChainsGUI(false);
+		showIndependentStochasticGUI(false);
+		showRandomWalkGUI(false);
+		showMotivicDevelopmentGUI(true);
+		
+		composer = new MotivicDevelopmentComposer();
 	}
 	
 	else if(name == "Select .mid file" && e.getButton()->getValue() == true){
@@ -1082,6 +1094,7 @@ void App::initGUI(){
 	methods.push_back("Independent Stochastic");
 	methods.push_back("Markov Chains");
 	methods.push_back("Random Walk");
+	methods.push_back("Motivic Development");
 	
 	ofxUIRadio * m = methodGUI->addRadio("Method", methods);
 	m->getToggles()[0]->setValue(true);
@@ -1690,15 +1703,77 @@ void App::initGUI(){
 	guis.push_back(rwGUI);
 	ofAddListener(rwGUI->newGUIEvent, this, &App::guiEvent);
 	
-	setGUITheme(3);
+	
+	/* MOTIVIC DEVELOPMENT */
+	
+	mdGUI0 = new ofxUICanvas();
+	mdGUI0->setFont("GUI/Lekton-Regular.ttf");
+	mdGUI0->setPosition(210, 40);
+	mdGUI0->addLabel("SET MOTIVE");
+	
+	mdGUI0->addSlider("Figures", 0, 10, 5);
+	mdGUI0->addRangeSlider("Octaves", 1, 6, 3, 4);
+	mdGUI0->addLabelButton("Generate", false);
+	
+	mdGUI0->autoSizeToFitWidgets();
+	mdGUI0->setVisible(false);
+	guis.push_back(mdGUI0);
+	ofAddListener(mdGUI0->newGUIEvent, this, &App::guiEvent);
 	
 	
-	/*RandomWalkComposer * rw = new RandomWalkComposer();
-	rw->setPattern(16);
-	rw->setStems(50);
-	rw->setScale(1);
-	composition = rw->compose();
-	player->play(composition);*/
+	mdGUI1 = new ofxUICanvas();
+	mdGUI1->setFont("GUI/Lekton-Regular.ttf");
+	mdGUI1->setPosition(420, 40);
+	mdGUI1->addLabel("PITCH TRANSFORMATIONS");
+	
+	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
+	mdGUI1->addSlider("Transpose steps (st)", 0.0, 10.0, 0.0);
+	mdGUI1->addLabelButton("Add transpose", false);
+	
+	mdGUI1->addLabel("EXPAND", OFX_UI_FONT_SMALL);
+	mdGUI1->addSlider("Expand steps (st)", 0.0, 10.0, 0.0);
+	mdGUI1->addLabelButton("Add expand", false);
+	
+	mdGUI1->addLabel("INVERT", OFX_UI_FONT_SMALL);
+	mdGUI1->addLabelButton("Add invert", false);
+	
+	mdGUI1->addLabel("RETROGRADE", OFX_UI_FONT_SMALL);
+	mdGUI1->addLabelButton("Add retrograde", false);
+	
+	
+	mdGUI1->autoSizeToFitWidgets();
+	mdGUI1->setVisible(false);
+	guis.push_back(mdGUI1);
+	ofAddListener(mdGUI1->newGUIEvent, this, &App::guiEvent);
+	
+	mdGUI2 = new ofxUICanvas();
+	mdGUI2->setFont("GUI/Lekton-Regular.ttf");
+	mdGUI2->setPosition(630, 40);
+	mdGUI2->addLabel("RHYTHM TRANSFORMATIONS");
+	
+	
+	mdGUI2->autoSizeToFitWidgets();
+	mdGUI2->setVisible(false);
+	guis.push_back(mdGUI2);
+	ofAddListener(mdGUI2->newGUIEvent, this, &App::guiEvent);
+	
+	mdGUI3 = new ofxUICanvas();
+	mdGUI3->setFont("GUI/Lekton-Regular.ttf");
+	mdGUI3->setPosition(840, 40);
+	mdGUI3->addLabel("DEVELOPMENT SEQUENCE");
+	
+	
+	mdGUI3->autoSizeToFitWidgets();
+	mdGUI3->setVisible(false);
+	guis.push_back(mdGUI3);
+	ofAddListener(mdGUI3->newGUIEvent, this, &App::guiEvent);
+	
+	
+	
+	
+	setGUITheme(7);
+	
+	
 }
 
 
@@ -1774,6 +1849,14 @@ void App::showMarkovChainsGUI(bool show){
 void App::showRandomWalkGUI(bool show){
 	rwGUI->setVisible(show);
 	isGUI2->setVisible(show);
+}
+
+void App::showMotivicDevelopmentGUI(bool show){
+	
+	mdGUI0->setVisible(show);
+	mdGUI1->setVisible(show);
+	mdGUI2->setVisible(show);
+	mdGUI3->setVisible(show);
 }
 
 void App::setGUITheme(int i){

@@ -90,6 +90,7 @@
 		AB1090461940E2DA00F65E20 /* Silence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090441940E2DA00F65E20 /* Silence.cpp */; };
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
 		AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26AE5319485C1800B9A675 /* Randomize.cpp */; };
+		AB2FC78F197D799600B7E122 /* MotivicDevelopmentComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2FC78D197D799600B7E122 /* MotivicDevelopmentComposer.cpp */; };
 		AB3317FE196415CC00A0960B /* Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = AB3317FD196415CC00A0960B /* Utils.h */; };
 		AB3A7D53196AE70D000E7EE2 /* MIDIFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D51196AE70D000E7EE2 /* MIDIFileReader.cpp */; };
 		AB3A7D56196AE789000E7EE2 /* MarkovChainsComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7D54196AE789000E7EE2 /* MarkovChainsComposer.cpp */; };
@@ -381,6 +382,8 @@
 		AB26AE5419485C1800B9A675 /* Randomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Randomize.h; sourceTree = "<group>"; };
 		AB282357F09D053C1185FDFF /* TonicCore.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TonicCore.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/TonicCore.h; sourceTree = SOURCE_ROOT; };
 		AB2A0DF88B639BF544327A6D /* Filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Filters.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/Filters.cpp; sourceTree = SOURCE_ROOT; };
+		AB2FC78D197D799600B7E122 /* MotivicDevelopmentComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotivicDevelopmentComposer.cpp; sourceTree = "<group>"; };
+		AB2FC78E197D799600B7E122 /* MotivicDevelopmentComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotivicDevelopmentComposer.h; sourceTree = "<group>"; };
 		AB3317FD196415CC00A0960B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AB3A7D4F196AE70D000E7EE2 /* MIDIComposition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIComposition.h; path = ../of_v0.8.0_osx_release/addons/midiFileReader/MIDIComposition.h; sourceTree = "<group>"; };
 		AB3A7D50196AE70D000E7EE2 /* MIDIEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIEvent.h; path = ../of_v0.8.0_osx_release/addons/midiFileReader/MIDIEvent.h; sourceTree = "<group>"; };
@@ -873,6 +876,8 @@
 				AB8CAB391945BE2F00B40AF3 /* IndependentStochasticComposer.h */,
 				AB3A7D54196AE789000E7EE2 /* MarkovChainsComposer.cpp */,
 				AB3A7D55196AE789000E7EE2 /* MarkovChainsComposer.h */,
+				AB2FC78D197D799600B7E122 /* MotivicDevelopmentComposer.cpp */,
+				AB2FC78E197D799600B7E122 /* MotivicDevelopmentComposer.h */,
 			);
 			name = Composers;
 			sourceTree = "<group>";
@@ -1301,6 +1306,7 @@
 				C358A7841E9173A60567F1C5 /* ofxUIEventArgs.cpp in Sources */,
 				AB3A7D53196AE70D000E7EE2 /* MIDIFileReader.cpp in Sources */,
 				42B3FBE6E3E8BE8B75FCB4C3 /* ofxUIFPS.cpp in Sources */,
+				AB2FC78F197D799600B7E122 /* MotivicDevelopmentComposer.cpp in Sources */,
 				5464D4429B25FD9A73CCBFAA /* ofxUIFPSSlider.cpp in Sources */,
 				8F2DB99501B15C67491B21A2 /* ofxUIImage.cpp in Sources */,
 				D747C34DCD05DAFBE2B954A6 /* ofxUIImageButton.cpp in Sources */,
