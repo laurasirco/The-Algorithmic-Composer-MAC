@@ -8,6 +8,7 @@
 
 #include "MotivicDevelopmentMethods.h"
 #include "Note.h"
+#include "Silence.h"
 #include <cmath>
 
 #define MAX_PITCH 107
@@ -228,7 +229,7 @@ vector<Figure *> ExpandMethod::performTransformation(vector<Figure *> motive){
 				if (interval < 1) {
 					interval = 1;
 				}
-				if (pitch > prevInPitch) {
+				if (pitch >= prevInPitch) {
 					pitch = prevOutPitch + interval;
 				}
 				else{
@@ -250,6 +251,9 @@ vector<Figure *> ExpandMethod::performTransformation(vector<Figure *> motive){
 	return expanded;
 }
 
+
+/* REPETITION */
+
 RepetitionMethod::RepetitionMethod(){
 	
 }
@@ -264,3 +268,64 @@ vector<Figure *> RepetitionMethod::performTransformation(vector<Figure *> motive
 	cout << "REPETITION. ";
 	return motive;
 }
+
+
+/* RHYTHM EXPAND */
+
+RhythmExpand::RhythmExpand(int f){
+	
+	factor = f;
+}
+
+RhythmExpand::~RhythmExpand(){
+	
+	
+}
+
+
+vector<Figure *> RhythmExpand::performTransformation(vector<Figure *> motive){
+	
+	cout << "RHYTHM EXPAND " << factor << " factor. ";
+	vector<Figure *> expanded;
+	
+	for (int i = 0; i < motive.size(); i++) {
+		float duration = motive[i]->getDuration();
+		
+		if(factor > 0)
+			duration *= factor;
+		else if(factor < 0)
+			duration /= factor;
+		
+		Type t = Figure::durationToType(duration);
+		
+		if(motive[i]->getKind() == KNote){
+			
+			Note * n = dynamic_cast<Note *>(motive[i]);
+			Note * n2 = new Note(n->getType(), n->getPitch(), n->getVelocity());
+			
+			if(t != NotAFigure){
+				n2->setType(t);
+			}
+			
+			expanded.push_back(n2);
+		}
+		else{
+			
+			Silence * s = dynamic_cast<Silence *>(motive[i]);
+			Silence * s2 = new Silence(s->getType());
+			
+			if (t != NotAFigure) {
+				s2->setType(t);
+			}
+			
+			expanded.push_back(s2);
+		}
+		
+		
+	}
+	
+	return expanded;
+	
+	
+}
+

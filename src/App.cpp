@@ -815,6 +815,9 @@ void App::guiEvent(ofxUIEventArgs &e){
 			rw->setMinOctave((int)slider->getValueLow());
 			rw->setMaxOctave((int)slider->getValueHigh());
 		}
+		else{
+			
+		}
 	}
 	
 	else if(name == "Stems"){
@@ -873,12 +876,19 @@ void App::guiEvent(ofxUIEventArgs &e){
 		RepetitionMethod * rm = new RepetitionMethod();
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(rm);
+		stringstream sst;
+		sst << labels.size() + 1 << " REPETITION ";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
 	}
 	else if(name == "Add transpose" && e.getButton()->getValue() == true){
 		ofxUISlider *t = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("Transpose steps (st)"));
 		TransposeMethod * tm = new TransposeMethod((int) t->getValue());
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(tm);
+		
+		stringstream sst;
+		sst << labels.size() + 1 << " TRANSPOSE " << (int)t->getValue() << " steps";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
 	}
 	
 	else if(name == "Add expand" && e.getButton()->getValue() == true){
@@ -886,6 +896,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 		ExpandMethod * em = new ExpandMethod((int) e->getValue());
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(em);
+		
+		stringstream sst;
+		sst << labels.size() + 1 << " EXPAND " << (int)e->getValue() << " steps";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
 	}
     
 	else if (name == "Add invert" && e.getButton()->getValue() == true){
@@ -899,6 +913,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 		InvertMethod * im = new InvertMethod();
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(im);
+		
+		stringstream sst;
+		sst << labels.size() + 1 << " INVERT ";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
     }
 	
 	else if(name == "Add retrograde" && e.getButton()->getValue() == true){
@@ -906,6 +924,9 @@ void App::guiEvent(ofxUIEventArgs &e){
 		RetrogradeMethod * rm = new RetrogradeMethod();
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(rm);
+		stringstream sst;
+		sst << labels.size() + 1 << " RETROGRADE ";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
 	}
 	
 	else if(name == "Add register displacement" && e.getButton()->getValue() == true){
@@ -935,6 +956,53 @@ void App::guiEvent(ofxUIEventArgs &e){
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->addMethodToSequence(rdm);
 		
+		stringstream sst;
+		sst << labels.size() + 1 << " REGISTER DISPLACEMENT ";
+		labels.push_back(mdGUI3->addLabel(sst.str()));
+	}
+	
+	
+	else if(name == "Add rhythm expand" && e.getButton()->getValue() == true){
+		
+		ofxUISlider *e1 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("Factor"));
+		RhythmExpand * re = new RhythmExpand((int)e1->getValue());
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(re);
+		
+		stringstream sst;
+		sst << labels.size() + 1 << " RHYTHM EXPAND factor " << (int)e1->getValue();
+		labels.push_back(mdGUI3->addLabel(sst.str()));
+	}
+	
+	else if(name == "Generate" && e.getButton()->getValue() == true){
+	
+		ofxUISlider * e1 = dynamic_cast<ofxUISlider *>(mdGUI0->getWidget("Figures"));
+		ofxUIRangeSlider * e2 = dynamic_cast<ofxUIRangeSlider *>(mdGUI0->getWidget("Octaves"));
+		int figures = (int)e1->getValue();
+		int minOctave = (int)e2->getValueLow();
+		int maxOctave = (int)e2->getValueHigh();
+		
+		IndependentStochasticComposer * ic = new IndependentStochasticComposer(new UniformDistribution());
+		ic->setOctaves(minOctave, maxOctave);
+		ic->setNumberOfFigures(figures);
+		
+		vector<Figure *> motive = ic->compose();
+	
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->setMotive(motive);
+		delete(ic);
+		ic = NULL;
+		
+	}
+	else if (name == "Reset" && e.getButton()->getValue() == true){
+		
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->resetSequence();
+		
+		for (int i = 0; i < labels.size(); i++) {
+			mdGUI3->removeWidget(labels[i]);
+		}
+		labels.clear();
 		
 	}
 	
@@ -948,10 +1016,20 @@ void App::guiEvent(ofxUIEventArgs &e){
 			std::size_t found = openFileResult.getName().find(".mid");
 			if (found!=std::string::npos){
 				ofLogVerbose("User selected a file");
-				MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
-				mc->addMidiToChain(openFileResult.getPath());
-				fileLabel->setLabel(openFileResult.getName());
-				composition = Midi::readMidiFile(openFileResult.getPath());
+				
+				if(composer->getType() == MarkovChains){
+					MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
+					mc->addMidiToChain(openFileResult.getPath());
+					fileLabel->setLabel(openFileResult.getName());
+					composition = Midi::readMidiFile(openFileResult.getPath());
+				}
+				else if(composer->getType() == MotivicDevelopment){
+					MotivicDevelopmentComposer * md = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+					vector<Figure *> motive = Midi::readMidiFile(openFileResult.getPath());
+					motive.erase(motive.begin() + 9, motive.end());
+					md->setMotive(motive);
+					
+				}
 			}
 			
 			
@@ -959,6 +1037,8 @@ void App::guiEvent(ofxUIEventArgs &e){
 			ofLogVerbose("User hit cancel");
 		}
 	}
+
+	
 	else if(name == "PITCHES" && e.getButton()->getValue() == true){
 		selectedDistribution = 1;
 		setValuesForGraph(c->getPitchesDistribution());
@@ -1119,9 +1199,9 @@ void App::initSynth(){
 	ControlGenerator noteFreq =  ControlMidiToFreq().input(midiNote);
 	
 	// create a new oscillator which we'll use for the actual audio signal
-	SawtoothWave tone = SawtoothWave();
+	SineWave tone = SineWave();
 	// create a sine wave we'll use for some vibrato
-	SawtoothWave vibratoOsc = SawtoothWave();
+	SineWave vibratoOsc = SineWave();
 	vibratoOsc.freq(10);
 	
 	// you can use the regular arithmatic operators on Generators and their subclasses (SineWave extends Generator)
@@ -1131,8 +1211,8 @@ void App::initSynth(){
 	tone.freq(noteFreq);
 	
 	// Partials
-	SawtoothWave firstPartial = SawtoothWave().freq(noteFreq * 2);
-	SawtoothWave secondPartial = SawtoothWave().freq(noteFreq * 3);
+	SineWave firstPartial = SineWave().freq(noteFreq * 2);
+	SineWave secondPartial = SineWave().freq(noteFreq * 3);
 	
 	// set the synth's final output generator
 	synth.setOutputGen( (tone + firstPartial + secondPartial) * volume * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(trigger).legato(1));
@@ -1787,9 +1867,16 @@ void App::initGUI(){
 	mdGUI0->addLabel("SET MOTIVE");
 	mdGUI0->addSpacer();
 	
+	mdGUI0->addLabel("GENERATE RANDOM MOTIVE", OFX_UI_FONT_SMALL);
 	mdGUI0->addSlider("Figures", 0, 10, 5);
 	mdGUI0->addRangeSlider("Octaves", 1, 6, 3, 4);
 	mdGUI0->addLabelButton("Generate", false);
+	
+	ofxUISpacer * s = mdGUI0->addSpacer(200, 5);
+	s->setDrawFill(false);
+	
+	mdGUI0->addLabel("PICK MOTIVE FROM FILE", OFX_UI_FONT_SMALL);
+	mdGUI0->addLabelButton("Select .mid file", false);
 	
 	mdGUI0->autoSizeToFitWidgets();
 	mdGUI0->setVisible(false);
@@ -1800,71 +1887,76 @@ void App::initGUI(){
 	mdGUI1 = new ofxUICanvas();
 	mdGUI1->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI1->setPosition(411, 40);
-	mdGUI1->addLabel("PITCH TRANSFORMATIONS");
+	mdGUI1->addLabel("TRANSFORMATIONS");
 	mdGUI1->addSpacer();
 	
 	mdGUI1->addLabel("REPETITION", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add repetition", false);
 	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
+	
 	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Transpose steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add transpose", false);
 	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
 	
 	mdGUI1->addLabel("EXPAND", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Expand steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add expand", false);
 	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
+	
 	mdGUI1->addLabel("INVERT", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add invert", false);
+	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
 	
 	mdGUI1->addLabel("RETROGRADE", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add retrograde", false);
 	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
+	
 	mdGUI1->addLabel("REGISTER DISPLACEMENT", OFX_UI_FONT_SMALL);
-	mdGUI1->addSlider("1", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("1", -3.0, +3.0, 0.0, 17, 90);
 	mdGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
-	mdGUI1->addSlider("2", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("3", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("4", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("5", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("6", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("7", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("8", -3.0, +3.0, 0.0, 17, 160);
-	mdGUI1->addSlider("9", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("2", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("3", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("4", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("5", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("6", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("7", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("8", -3.0, +3.0, 0.0, 17, 90);
+	mdGUI1->addSlider("9", -3.0, +3.0, 0.0, 17, 90);
 	mdGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
 	
 	mdGUI1->addLabelButton("Add register displacement", false);
 	
+	s = mdGUI1->addSpacer(200, 2);
+	s->setDrawFill(false);
+	
+	mdGUI1->addLabel("RHYTHM EXPAND", OFX_UI_FONT_SMALL);
+	mdGUI1->addSlider("Factor", -4.0, 4.0, 0.0);
+	mdGUI1->addLabelButton("Add rhythm expand", false);
 	
 	mdGUI1->autoSizeToFitWidgets();
 	mdGUI1->setVisible(false);
 	guis.push_back(mdGUI1);
 	ofAddListener(mdGUI1->newGUIEvent, this, &App::guiEvent);
 	
-	mdGUI2 = new ofxUICanvas();
-	mdGUI2->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI2->setPosition(621, 40);
-	mdGUI2->addLabel("RHYTHM TRANSFORMATIONS");
-	mdGUI2->addSpacer();
-	
-	mdGUI2->autoSizeToFitWidgets();
-	mdGUI2->setVisible(false);
-	guis.push_back(mdGUI2);
-	ofAddListener(mdGUI2->newGUIEvent, this, &App::guiEvent);
 	
 	mdGUI3 = new ofxUICanvas();
 	mdGUI3->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI3->setPosition(820, 40);
+	mdGUI3->setPosition(622, 40);
 	mdGUI3->addLabel("DEVELOPMENT SEQUENCE");
 	mdGUI3->addSpacer();
 	
-	vector<string> seq;
-	seq.push_back("INVERT");
-	seq.push_back("INVERT");
-	seq.push_back("INVERT");
-	mdGUI3->addSortableList("Sequence", seq);
-	
+	mdGUI3->addLabelButton("Reset", false);
 	
 	mdGUI3->autoSizeToFitWidgets();
     mdGUI3->setHeight(400);
@@ -1959,7 +2051,7 @@ void App::showMotivicDevelopmentGUI(bool show){
 	
 	mdGUI0->setVisible(show);
 	mdGUI1->setVisible(show);
-	mdGUI2->setVisible(show);
+	//mdGUI2->setVisible(show);
 	mdGUI3->setVisible(show);
 }
 

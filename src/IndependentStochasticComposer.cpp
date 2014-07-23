@@ -23,6 +23,9 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	minOct = 2;
 	maxOct = 4;
 	type = IndependentStochastic;
+	
+	uniqueDuration = NotAFigure;
+	nFigures = 0;
 }
 
 std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
@@ -35,11 +38,86 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 	Type t;
 	float duration;
 	
-	
-	for(int i = 0; i < stems; i++){
+	if (nFigures == 0) {
 		
-		while(counter < total){
+		for(int i = 0; i < stems; i++){
 			
+			while(counter < total){
+				
+				float fig = notesAndSilencesDistribution->getValue();
+				
+				if(fig <= 0.5)
+					f = true;
+				else
+					f = false;
+				
+				if(uniqueDuration == NotAFigure){
+					
+					t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
+					
+					duration = Figure::typeToDuration(t);
+					//cout<<"duration: "<<duration<<endl;
+					int tests = 0;
+					
+					while(counter + duration > total){
+						
+						float difference = total - counter;
+						
+						if(tests == 20){
+							t = Figure::durationToType(difference);
+						}
+						else
+							t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
+						
+						duration = Figure::typeToDuration(t);
+						//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+						
+						tests++;
+					}
+					
+				}
+				else{
+					
+					if (uniqueDuration > patternType)
+						duration = Figure::typeToDuration(patternType);
+					
+					else
+						duration = Figure::typeToDuration(uniqueDuration);
+				}
+				
+				counter += duration;
+				
+				if(f){ //Note
+					
+					int max = 7;
+					if (scale == 0)
+						max = 12;
+					else if (scale == 1)
+						max = 5;
+					
+					int tone = mapValue(pitchesDistribution->getValue(), 0, 7);
+					int octave = mapValue(pitchesDistribution->getValue(), minOct, maxOct);
+					
+					int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
+					//pitch = mapValue(distribution->getValue(), 0, 127);
+					
+					
+					int velocity = mapValue(pitchesDistribution->getValue(), 0, 100);
+					Note * note = new Note(t, pitch, velocity);
+					fragment.push_back(note);
+				}
+				else{ //Silence
+					Silence * silence = new Silence(t);
+					fragment.push_back(silence);
+				}
+			}
+			counter = 0.0;
+		}
+	}
+	
+	else{
+	
+		for (int i = 0; i < nFigures; i++) {
 			float fig = notesAndSilencesDistribution->getValue();
 			
 			if(fig <= 0.5)
@@ -47,29 +125,39 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 			else
 				f = false;
 			
-			t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
-			
-			duration = Figure::typeToDuration(t);
-			//cout<<"duration: "<<duration<<endl;
-			int tests = 0;
-			
-			while(counter + duration > total){
+			if(uniqueDuration == NotAFigure){
 				
-				float difference = total - counter;
-				
-				if(tests == 20){
-					t = Figure::durationToType(difference);
-				}
-				else
-					t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
+				t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
 				
 				duration = Figure::typeToDuration(t);
-				//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+				//cout<<"duration: "<<duration<<endl;
+				int tests = 0;
 				
-				tests++;
+				while(counter + duration > total){
+					
+					float difference = total - counter;
+					
+					if(tests == 20){
+						t = Figure::durationToType(difference);
+					}
+					else
+						t = (Type)mapValue(durationsDistribution->getValue(), 0, 12);
+					
+					duration = Figure::typeToDuration(t);
+					//cout<<"duration: "<<duration<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+					
+					tests++;
+				}
+				
 			}
-			counter += duration;
-			
+			else{
+				
+				if (uniqueDuration > patternType)
+					duration = Figure::typeToDuration(patternType);
+				
+				else
+					duration = Figure::typeToDuration(uniqueDuration);
+			}
 			if(f){ //Note
 				
 				int max = 7;
@@ -93,8 +181,9 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 				Silence * silence = new Silence(t);
 				fragment.push_back(silence);
 			}
+			
+			
 		}
-		counter = 0.0;
 	}
 	
 	return fragment;

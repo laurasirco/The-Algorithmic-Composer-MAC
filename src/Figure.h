@@ -33,6 +33,7 @@ public:
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }
 	Type getType(){ return type; }
+	void setType(Type t){ type = t; }
 	virtual string getDescription() = 0;
 protected:
     float duration;

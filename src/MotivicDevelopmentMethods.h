@@ -81,4 +81,15 @@ public:
 	vector<Figure *> performTransformation(vector<Figure *> motive);
 };
 
+
+class RhythmExpand : public Method {
+	
+public:
+	RhythmExpand(int f);
+	~RhythmExpand();
+	vector<Figure *> performTransformation(vector<Figure *> motive);
+private:
+	int factor;
+};
+
 #endif /* defined(__the_algorithmic_composer__MotivicDevelopmentMethods__) */

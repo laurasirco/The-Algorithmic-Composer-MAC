@@ -24,6 +24,8 @@ public:
 	void setNotesAndSilencesDistribution(Distribution * d){ notesAndSilencesDistribution = d; }
 	void setScale(int s){ scale = s; }
 	void setOctaves(int min, int max){ minOct = min; maxOct = max; }
+	void setUniqueDuration(Type t){ uniqueDuration = t; }
+	void setNumberOfFigures(int n){ nFigures = n; }
 	
 	Distribution * getPitchesDistribution(){ return pitchesDistribution; }
 	Distribution * getDurationsDistribution(){ return durationsDistribution; }
@@ -37,6 +39,8 @@ private:
 	int scale;
 	int minOct;
 	int maxOct;
+	Type uniqueDuration;
+	int nFigures;
 };
 
 

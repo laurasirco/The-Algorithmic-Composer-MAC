@@ -24,6 +24,8 @@ MotivicDevelopmentComposer::MotivicDevelopmentComposer(){
     motive.push_back(n3);
     motive.push_back(n4);
 	motive.push_back(n5);
+	
+	type = MotivicDevelopment;
 }
 
 MotivicDevelopmentComposer::~MotivicDevelopmentComposer(){
@@ -32,7 +34,7 @@ MotivicDevelopmentComposer::~MotivicDevelopmentComposer(){
 
 vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
 	
-    cout << "Compose with " << sequence.size() << "methods: "<< endl;
+    cout << "Compose with " << sequence.size() << " methods: "<< endl;
     std::vector<Figure *> fragment;
     fragment.insert(fragment.end(), motive.begin(), motive.end());
     
@@ -43,6 +45,7 @@ vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
 		cout << endl;
     }
     
+	sequence.clear();
     return fragment;
 }
 

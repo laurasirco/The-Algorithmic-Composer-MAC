@@ -164,6 +164,7 @@ private:
 	ofxUICanvas *mdGUI2;
 	ofxUICanvas *mdGUI3;
 	ofxUISortableList *sortableList;
+	vector<ofxUILabel *> labels;
 	
 	
 	
