@@ -30,7 +30,9 @@ public:
 	~MotivicDevelopmentComposer();
 	vector<Figure *> compose(bool infinite = false);
 	void setMotive(vector<Figure *> m){ motive = m; }
+	void addMethodToSequence(Method * m){ sequence.push_back(m); }
 	void setSequence(vector<Method *> s){ sequence = s; }
+	
 private:
 	vector<Method *> sequence;
 	vector<Figure *> motive;

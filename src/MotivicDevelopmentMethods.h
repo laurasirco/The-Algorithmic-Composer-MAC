@@ -72,4 +72,13 @@ private:
     int steps;
 };
 
+
+class RepetitionMethod : public Method {
+	
+public:
+	RepetitionMethod();
+	~RepetitionMethod();
+	vector<Figure *> performTransformation(vector<Figure *> motive);
+};
+
 #endif /* defined(__the_algorithmic_composer__MotivicDevelopmentMethods__) */

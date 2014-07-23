@@ -3,6 +3,7 @@
 #include "MarkovChainsComposer.h"
 #include "RandomWalkComposer.h"
 #include "MotivicDevelopmentComposer.h"
+#include "MotivicDevelopmentMethods.h"
 #include "Figure.h"
 #include "Silence.h"
 #include "Scales.h"
@@ -867,14 +868,75 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		composer = new MotivicDevelopmentComposer();
 	}
-    else if (name == "Add invert" && e.getButton()->getValue() == true){
+	else if(name == "Add repetition" && e.getButton()->getValue() == true){
+		
+		RepetitionMethod * rm = new RepetitionMethod();
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(rm);
+	}
+	else if(name == "Add transpose" && e.getButton()->getValue() == true){
+		ofxUISlider *t = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("Transpose steps (st)"));
+		TransposeMethod * tm = new TransposeMethod((int) t->getValue());
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(tm);
+	}
+	
+	else if(name == "Add expand" && e.getButton()->getValue() == true){
+		ofxUISlider *e = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("Expand steps (st)"));
+		ExpandMethod * em = new ExpandMethod((int) e->getValue());
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(em);
+	}
+    
+	else if (name == "Add invert" && e.getButton()->getValue() == true){
         
-        ofxUISortableList * list = dynamic_cast<ofxUISortableList *>(mdGUI3->getWidget("Sequence"));
+        /*ofxUISortableList * list = dynamic_cast<ofxUISortableList *>(mdGUI3->getWidget("Sequence"));
         
         cout << "before: " << list->getListItems().size() << endl;
         list->addItem("Invert");
-        cout << "after: " << list->getListItems().size() << endl;
+        cout << "after: " << list->getListItems().size() << endl;*/
+		
+		InvertMethod * im = new InvertMethod();
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(im);
     }
+	
+	else if(name == "Add retrograde" && e.getButton()->getValue() == true){
+		
+		RetrogradeMethod * rm = new RetrogradeMethod();
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(rm);
+	}
+	
+	else if(name == "Add register displacement" && e.getButton()->getValue() == true){
+		
+		vector<int> regDisp;
+
+		ofxUISlider *e1 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("1"));
+		regDisp.push_back((int) e1->getValue());
+		ofxUISlider *e2 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("2"));
+		regDisp.push_back((int) e2->getValue());
+		ofxUISlider *e3 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("3"));
+		regDisp.push_back((int) e3->getValue());
+		ofxUISlider *e4 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("4"));
+		regDisp.push_back((int) e4->getValue());
+		ofxUISlider *e5 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("5"));
+		regDisp.push_back((int) e5->getValue());
+		ofxUISlider *e6 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("6"));
+		regDisp.push_back((int) e6->getValue());
+		ofxUISlider *e7 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("7"));
+		regDisp.push_back((int) e7->getValue());
+		ofxUISlider *e8 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("8"));
+		regDisp.push_back((int) e8->getValue());
+		ofxUISlider *e9 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("9"));
+		regDisp.push_back((int) e9->getValue());
+		
+		RegisterDisplacement * rdm = new RegisterDisplacement(regDisp);
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->addMethodToSequence(rdm);
+		
+		
+	}
 	
 	else if(name == "Select .mid file" && e.getButton()->getValue() == true){
 		ofFileDialogResult openFileResult= ofSystemLoadDialog("Select a .mid file");
@@ -1723,6 +1785,7 @@ void App::initGUI(){
 	mdGUI0->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI0->setPosition(200, 40);
 	mdGUI0->addLabel("SET MOTIVE");
+	mdGUI0->addSpacer();
 	
 	mdGUI0->addSlider("Figures", 0, 10, 5);
 	mdGUI0->addRangeSlider("Octaves", 1, 6, 3, 4);
@@ -1738,13 +1801,18 @@ void App::initGUI(){
 	mdGUI1->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI1->setPosition(411, 40);
 	mdGUI1->addLabel("PITCH TRANSFORMATIONS");
+	mdGUI1->addSpacer();
+	
+	mdGUI1->addLabel("REPETITION", OFX_UI_FONT_SMALL);
+	mdGUI1->addLabelButton("Add repetition", false);
 	
 	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
-	mdGUI1->addSlider("Transpose steps (st)", 0.0, 10.0, 0.0);
+	mdGUI1->addSlider("Transpose steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add transpose", false);
 	
+	
 	mdGUI1->addLabel("EXPAND", OFX_UI_FONT_SMALL);
-	mdGUI1->addSlider("Expand steps (st)", 0.0, 10.0, 0.0);
+	mdGUI1->addSlider("Expand steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add expand", false);
 	
 	mdGUI1->addLabel("INVERT", OFX_UI_FONT_SMALL);
@@ -1752,6 +1820,21 @@ void App::initGUI(){
 	
 	mdGUI1->addLabel("RETROGRADE", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add retrograde", false);
+	
+	mdGUI1->addLabel("REGISTER DISPLACEMENT", OFX_UI_FONT_SMALL);
+	mdGUI1->addSlider("1", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	mdGUI1->addSlider("2", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("3", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("4", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("5", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("6", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("7", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("8", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->addSlider("9", -3.0, +3.0, 0.0, 17, 160);
+	mdGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	
+	mdGUI1->addLabelButton("Add register displacement", false);
 	
 	
 	mdGUI1->autoSizeToFitWidgets();
@@ -1763,7 +1846,7 @@ void App::initGUI(){
 	mdGUI2->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI2->setPosition(621, 40);
 	mdGUI2->addLabel("RHYTHM TRANSFORMATIONS");
-	
+	mdGUI2->addSpacer();
 	
 	mdGUI2->autoSizeToFitWidgets();
 	mdGUI2->setVisible(false);
@@ -1774,6 +1857,7 @@ void App::initGUI(){
 	mdGUI3->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI3->setPosition(820, 40);
 	mdGUI3->addLabel("DEVELOPMENT SEQUENCE");
+	mdGUI3->addSpacer();
 	
 	vector<string> seq;
 	seq.push_back("INVERT");

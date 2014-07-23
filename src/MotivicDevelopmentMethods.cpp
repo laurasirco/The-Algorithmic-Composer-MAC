@@ -56,6 +56,7 @@ TransposeMethod::~TransposeMethod(){
 vector<Figure *> TransposeMethod::performTransformation(vector<Figure *> motive){
     
     vector<Figure *> transposed;
+	cout << "TRANSPOSITION, " << steps << " steps. ";
 	
 	for (int i = 0; i < motive.size(); i++) {
 		if (motive[i]->getKind() == KNote) {
@@ -94,11 +95,12 @@ vector<Figure *> RegisterDisplacement::performTransformation(vector<Figure *> mo
     
     int counter = 0;
 	vector<Figure *> regDisplaced;
+	cout << "REGISTER DISPLACEMENT, ";
 	
 	for (int i = 0; i < motive.size(); i++) {
 		if (motive[i]->getKind() == KNote) {
 			Note * n = dynamic_cast<Note *>(motive[i]);
-			
+			cout << regSteps[counter] << " ";
 			int pitch = n->getPitch();
 			pitch += 12 * regSteps[counter];
 			counter++;
@@ -116,6 +118,7 @@ vector<Figure *> RegisterDisplacement::performTransformation(vector<Figure *> mo
 			regDisplaced.push_back(motive[i]);
 		}
 	}
+	cout << " steps. ";
 	
 	return regDisplaced;
 }
@@ -133,6 +136,7 @@ InvertMethod::~InvertMethod(){
 vector<Figure *> InvertMethod::performTransformation(vector<Figure *> motive){
     
     vector<Figure *> inverted;
+	cout << "INVERT. ";
 	inverted.push_back(motive[0]);
 	
 	for (int i = 1; i < motive.size(); i++) {
@@ -180,6 +184,7 @@ RetrogradeMethod::~RetrogradeMethod(){
 vector<Figure *> RetrogradeMethod::performTransformation(vector<Figure *> motive){
     
     int j;
+	cout << "RETROGRADE. ";
 	vector<Figure *> retrograded;
 	
 	for(int i = 0; i < motive.size(); i++){
@@ -205,7 +210,7 @@ ExpandMethod::~ExpandMethod(){
 vector<Figure *> ExpandMethod::performTransformation(vector<Figure *> motive){
     
     vector<Figure *> expanded;
-	
+	cout << "EXPAND " << steps << " steps. ";
 	expanded.push_back(motive[0]);
 	
 	for (int i = 1; i < motive.size(); i++) {
@@ -214,19 +219,20 @@ vector<Figure *> ExpandMethod::performTransformation(vector<Figure *> motive){
 			Note * n = dynamic_cast<Note *>(motive[i]);
 			int pitch = n->getPitch();
 			
-			int prevPitch = findPreviousPitchFrom(i, motive);
+			int prevInPitch = findPreviousPitchFrom(i, motive);
+			int prevOutPitch = findPreviousPitchFrom(i, expanded);
 			
-			if (prevPitch != -1) {
-				int interval = abs(n->getPitch() - prevPitch) + steps;
+			if (prevInPitch != -1 && prevOutPitch != -1) {
+				int interval = abs(n->getPitch() - prevInPitch) + steps;
 				
 				if (interval < 1) {
 					interval = 1;
 				}
-				if (n->getPitch() > prevPitch) {
-					pitch = prevPitch + interval;
+				if (pitch > prevInPitch) {
+					pitch = prevOutPitch + interval;
 				}
 				else{
-					pitch = prevPitch - interval;
+					pitch = prevOutPitch - interval;
 				}
 			}
 			
@@ -242,4 +248,19 @@ vector<Figure *> ExpandMethod::performTransformation(vector<Figure *> motive){
 	}
 	
 	return expanded;
+}
+
+RepetitionMethod::RepetitionMethod(){
+	
+}
+
+RepetitionMethod::~RepetitionMethod(){
+	
+	
+}
+
+vector<Figure *> RepetitionMethod::performTransformation(vector<Figure *> motive){
+	
+	cout << "REPETITION. ";
+	return motive;
 }

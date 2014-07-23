@@ -99,6 +99,7 @@ void Player::play(std::vector<Figure*> f){
 		Note * n = (Note *)fragment[i];
 		App::setIsSilence(false);
 		App::setMidiNote(n->getPitch());
+		App::setVolume((float)n->getVelocity());
 		
 	}
 	else
@@ -170,7 +171,6 @@ void Player::update(){
 		if(fragment[i]->getKind() == KNote){
 			Note * n = (Note *)fragment[i];
 			App::setIsSilence(false);
-			App::setVolume(n->getVelocity());
 			App::setMidiNote(n->getPitch());
 			App::setVolume((float)n->getVelocity());
 		}
