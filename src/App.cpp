@@ -867,6 +867,14 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		composer = new MotivicDevelopmentComposer();
 	}
+    else if (name == "Add invert" && e.getButton()->getValue() == true){
+        
+        ofxUISortableList * list = dynamic_cast<ofxUISortableList *>(mdGUI3->getWidget("Sequence"));
+        
+        cout << "before: " << list->getListItems().size() << endl;
+        list->addItem("Invert");
+        cout << "after: " << list->getListItems().size() << endl;
+    }
 	
 	else if(name == "Select .mid file" && e.getButton()->getValue() == true){
 		ofFileDialogResult openFileResult= ofSystemLoadDialog("Select a .mid file");
@@ -904,6 +912,9 @@ void App::guiEvent(ofxUIEventArgs &e){
 		setValuesForGraph(c->getNotesAndSilencesDistribution());
 		toggleDistribution();
 	}
+    
+    
+    
 	
 	else if(kind == OFX_UI_WIDGET_TOGGLE)
     {
@@ -1710,7 +1721,7 @@ void App::initGUI(){
 	
 	mdGUI0 = new ofxUICanvas();
 	mdGUI0->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI0->setPosition(210, 40);
+	mdGUI0->setPosition(200, 40);
 	mdGUI0->addLabel("SET MOTIVE");
 	
 	mdGUI0->addSlider("Figures", 0, 10, 5);
@@ -1725,7 +1736,7 @@ void App::initGUI(){
 	
 	mdGUI1 = new ofxUICanvas();
 	mdGUI1->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI1->setPosition(420, 40);
+	mdGUI1->setPosition(411, 40);
 	mdGUI1->addLabel("PITCH TRANSFORMATIONS");
 	
 	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
@@ -1750,7 +1761,7 @@ void App::initGUI(){
 	
 	mdGUI2 = new ofxUICanvas();
 	mdGUI2->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI2->setPosition(630, 40);
+	mdGUI2->setPosition(621, 40);
 	mdGUI2->addLabel("RHYTHM TRANSFORMATIONS");
 	
 	
@@ -1761,22 +1772,18 @@ void App::initGUI(){
 	
 	mdGUI3 = new ofxUICanvas();
 	mdGUI3->setFont("GUI/Lekton-Regular.ttf");
-	mdGUI3->setPosition(840, 40);
+	mdGUI3->setPosition(820, 40);
 	mdGUI3->addLabel("DEVELOPMENT SEQUENCE");
 	
 	vector<string> seq;
 	seq.push_back("INVERT");
 	seq.push_back("INVERT");
 	seq.push_back("INVERT");
-	sortableList = mdGUI3->addSortableList("Sequence", seq);
-	for (int i = 0; i < sortableList->getListItems().size(); i++) {
-		sortableList->getListItems()[i]->setValue(false);
-		sortableList->getListItems()[i]->setState(OFX_UI_STATE_OVER);
-	}
-	sortableList->addItem("Added");
+	mdGUI3->addSortableList("Sequence", seq);
 	
 	
 	mdGUI3->autoSizeToFitWidgets();
+    mdGUI3->setHeight(400);
 	mdGUI3->setVisible(false);
 	guis.push_back(mdGUI3);
 	ofAddListener(mdGUI3->newGUIEvent, this, &App::guiEvent);

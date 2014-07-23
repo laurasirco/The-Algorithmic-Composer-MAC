@@ -13,6 +13,7 @@
 #include "Composer.h"
 #include "Figure.h"
 #include "Midi.h"
+#include "MotivicDevelopmentMethods.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -29,23 +30,10 @@ public:
 	~MotivicDevelopmentComposer();
 	vector<Figure *> compose(bool infinite = false);
 	void setMotive(vector<Figure *> m){ motive = m; }
-	void setSequence(vector<Operation> s){ sequence = s; }
+	void setSequence(vector<Method *> s){ sequence = s; }
 private:
-	vector<Operation> sequence;
+	vector<Method *> sequence;
 	vector<Figure *> motive;
-	
-	
-	//PITCH RELATED TRANSFORMATIONS
-	vector<Figure *> transpose(int steps);
-	vector<Figure *> regDisplacement(vector<int> reg);
-	vector<Figure *> invert();
-	vector<Figure *> retrograde();
-	vector<Figure *> expand(int steps);
-	
-	int findPreviousPitchFrom(int position, vector<Figure *> v);
-	
-	
-	//RHYTHM RELATED TRANSFORMATIONS
 	
 };
 
