@@ -26,6 +26,8 @@ public:
 	int getPitch(){ return pitch; }
 	int getVelocity(){ return velocity; }
 	
+	void setPitch(int p){ pitch = p; }
+	
 	string getDescription();
 private:
     int pitch;

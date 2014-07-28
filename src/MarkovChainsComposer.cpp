@@ -35,6 +35,7 @@ MarkovChainsComposer::MarkovChainsComposer(){
 	
 	type = MarkovChains;
 	startingNote = 0;
+	octave = 3;
 	
 }
 
@@ -136,8 +137,6 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			prevPitch = tone;
 			
-			
-			int octave = 4;
 			
 			int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 			//pitch = mapValue(distribution->getValue(), 0, 127);

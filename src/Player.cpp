@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "App.h"
 #include "Note.h"
+#include <sstream>
 
 Player::Player(int b){
 	count = 0;
@@ -16,6 +17,8 @@ Player::Player(int b){
 	i = 0;
 	allPlayed = true;
 	playing = false;
+	prevPitch = -1;
+	
 }
 
 Player::~Player(){
@@ -28,6 +31,7 @@ void Player::stop(){
 	allPlayed = true;
 	i = fragment.size() - 1;
 	fragment.clear();
+	prevPitch = -1;
 	App::setIsSilence(true);
 }
 
@@ -40,6 +44,7 @@ void Player::play(std::vector<Figure*> f){
 	allPlayed = false;
 	playing = true;
 	paused = false;
+	prevPitch = -1;
 	
 	float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
 	cout << "frames per quarter: " << framesQuarter << endl;
@@ -96,14 +101,23 @@ void Player::play(std::vector<Figure*> f){
 	
 	App::setCurrentFigure(fragment[i]);
 	if(fragment[i]->getKind() == KNote){
+		if(prevPitch != -1)
+			piano[prevPitch].stop();
 		Note * n = (Note *)fragment[i];
 		App::setIsSilence(false);
-		App::setMidiNote(n->getPitch());
-		App::setVolume((float)n->getVelocity());
+		//App::setMidiNote(n->getPitch());
+		//App::setVolume((float)n->getVelocity());
+		piano[n->getPitch() - 36].play();
+		prevPitch = n->getPitch() - 36;
 		
 	}
-	else
+	else{
+		if(prevPitch != -1)
+			piano[prevPitch].stop();
+		prevPitch = -1;
 		App::setIsSilence(true);
+	}
+	
 	
 }
 
@@ -169,26 +183,41 @@ void Player::update(){
 		
 		App::setCurrentFigure(fragment[i]);
 		if(fragment[i]->getKind() == KNote){
+			if(prevPitch != -1)
+				piano[prevPitch].stop();
 			Note * n = (Note *)fragment[i];
 			App::setIsSilence(false);
-			App::setMidiNote(n->getPitch());
-			App::setVolume((float)n->getVelocity());
+			//App::setMidiNote(n->getPitch());
+			//App::setVolume((float)n->getVelocity());
+			piano[n->getPitch() - 36].play();
+			prevPitch = n->getPitch() - 36;
+			
 		}
-		else
+		else{
+			if(prevPitch != -1)
+				piano[prevPitch].stop();
+			prevPitch = -1;
 			App::setIsSilence(true);
+		}
 		
 	}
 	
 	if (i == fragment.size() - 1 && (count == x)) {
 		allPlayed = true;
 		playing = false;
+		if(prevPitch != -1)
+			piano[prevPitch].stop();
+		prevPitch = -1;
 	}
 	else{
 		//cout<<"Count "<<count<<" to x "<<x<<endl;
 		if(!paused)
 			count++;
-		else
+		else{
+			if(prevPitch != -1)
+				piano[prevPitch].stop();
 			App::setIsSilence(true);
+		}
 	}
 	
 }

@@ -4,6 +4,7 @@
 #include "RandomWalkComposer.h"
 #include "MotivicDevelopmentComposer.h"
 #include "MotivicDevelopmentMethods.h"
+#include "SerialistComposer.h"
 #include "Figure.h"
 #include "Silence.h"
 #include "Scales.h"
@@ -27,6 +28,20 @@ Composer * App::composer = new RandomWalkComposer();
 
 void App::setup(){
     
+	
+	cout << "load" << endl;
+	
+	for(int i = 0; i < 72; i++){
+		
+		ofSoundPlayer p;
+		stringstream sst;
+		sst << "Samples/Piano/" << i + 24 << ".wav";
+		p.loadSound(sst.str());
+		p.setMultiPlay(true);
+		player->pushPianoSound(p);
+		
+	}
+	
 	mv = new MusicVisualizer();
 	
 	uniform = new UniformDistribution();
@@ -792,6 +807,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		player->stop();
 		mv->stop();
 		resultsGui->removeWidgets();
+		
 	}
 	
 	else if(name == "TEMPO"){
@@ -819,6 +835,14 @@ void App::guiEvent(ofxUIEventArgs &e){
 			
 		}
 	}
+	else if (name == "Octave"){
+		ofxUISlider *slider = (ofxUISlider *) e.widget;
+		if (composer->getType() == MarkovChains) {
+			MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
+			c->setOctave((int)slider->getValue());
+		}
+		
+	}
 	
 	else if(name == "Stems"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
@@ -839,6 +863,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showRandomWalkGUI(false);
 		showIndependentStochasticGUI(true);
 		showMotivicDevelopmentGUI(false);
+		showSerialGUI(false);
 
 		composer = new IndependentStochasticComposer(uniform);
 	}
@@ -847,7 +872,8 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showRandomWalkGUI(false);
 		showMarkovChainsGUI(true);
 		showMotivicDevelopmentGUI(false);
-		
+		showSerialGUI(false);
+
 		composer = new MarkovChainsComposer();
 		
 		MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
@@ -860,7 +886,8 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showIndependentStochasticGUI(false);
 		showRandomWalkGUI(true);
 		showMotivicDevelopmentGUI(false);
-		
+		showSerialGUI(false);
+
 		composer = new RandomWalkComposer();
 	}
 	else if(name == "Motivic Development"){
@@ -868,9 +895,21 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showIndependentStochasticGUI(false);
 		showRandomWalkGUI(false);
 		showMotivicDevelopmentGUI(true);
+		showSerialGUI(false);
 		
 		composer = new MotivicDevelopmentComposer();
 	}
+	else if(name == "Serialism"){
+		showMarkovChainsGUI(false);
+		showIndependentStochasticGUI(false);
+		showRandomWalkGUI(false);
+		showMotivicDevelopmentGUI(false);
+		showSerialGUI(true);
+		
+		composer = new SerialistComposer();
+	}
+	
+	
 	else if(name == "Add repetition" && e.getButton()->getValue() == true){
 		
 		RepetitionMethod * rm = new RepetitionMethod();
@@ -970,7 +1009,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		c->addMethodToSequence(re);
 		
 		stringstream sst;
-		sst << labels.size() + 1 << " RHYTHM EXPAND factor " << (int)e1->getValue();
+		sst << labels.size() + 1 << " RHYTHM EXPAND f " << (int)e1->getValue();
 		labels.push_back(mdGUI3->addLabel(sst.str()));
 	}
 	
@@ -1250,6 +1289,7 @@ void App::initGUI(){
 	methods.push_back("Markov Chains");
 	methods.push_back("Random Walk");
 	methods.push_back("Motivic Development");
+	methods.push_back("Serialism");
 	
 	ofxUIRadio * m = methodGUI->addRadio("Method", methods);
 	m->getToggles()[0]->setValue(true);
@@ -1800,6 +1840,8 @@ void App::initGUI(){
 	pR = mcGUI1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
 	pR->getToggles()[2]->setValue(true);
 	
+	mcGUI1->addSlider("Octave", 1, 6, 3);
+	
 	mcGUI1->addLabel("Starting Note", OFX_UI_FONT_SMALL);
 	vector<string> start;
 	start.push_back("C"); start.push_back("C#"); start.push_back("D"); start.push_back("D#"); start.push_back("E"); start.push_back("F"); start.push_back("F#");
@@ -1965,6 +2007,47 @@ void App::initGUI(){
 	ofAddListener(mdGUI3->newGUIEvent, this, &App::guiEvent);
 	
 	
+	/* SERIAL COMPOSER */
+	
+	sGUI0 = new ofxUICanvas();
+	sGUI0->setFont("GUI/Lekton-Regular.ttf");
+	sGUI0->setPosition(200, 40);
+	sGUI0->addLabel("SERIES");
+	sGUI0->addSpacer();
+	
+	sGUI0->addLabel("Melodic Classes", OFX_UI_FONT_SMALL);
+	
+	sGUI0->addLabelButton("C", false, 16, 0);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI0->addLabelButton("C#", false, 16, 0);
+	sGUI0->addLabelButton("D", false, 16, 0);
+	sGUI0->addLabelButton("D#", false, 16, 0);
+	sGUI0->addLabelButton("E", false, 16, 0);
+	sGUI0->addLabelButton("F", false, 16, 0);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	sGUI0->addLabelButton("F#", false, 16, 0);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI0->addLabelButton("G", false, 16, 0);
+	sGUI0->addLabelButton("G#", false, 16, 0);
+	sGUI0->addLabelButton("A", false, 16, 0);
+	sGUI0->addLabelButton("A#", false, 16, 0);
+	sGUI0->addLabelButton("B", false, 16, 0);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	
+	melodicListLabel = sGUI0->addLabel("Classes: ", OFX_UI_FONT_SMALL);
+	
+	sGUI0->addLabel("Rhythmic Classes", OFX_UI_FONT_SMALL);
+	
+	sGUI0->addToggleMatrix("MATRIX2", 1, 12);
+	
+	rhythmicListLabel = sGUI0->addLabel("Classes: ", OFX_UI_FONT_SMALL);
+	
+	
+	sGUI0->setVisible(false);
+	guis.push_back(sGUI0);
+	ofAddListener(sGUI0->newGUIEvent, this, &App::guiEvent);
+	
+	
 	
 	
 	setGUITheme(7);
@@ -2055,10 +2138,16 @@ void App::showMotivicDevelopmentGUI(bool show){
 	mdGUI3->setVisible(show);
 }
 
+void App::showSerialGUI(bool show){
+	
+	sGUI0->setVisible(show);
+}
+
 void App::setGUITheme(int i){
 	
 	for (int j = 0; j < guis.size(); j++) {
 		guis[j]->setTheme(i);
+		guis[j]->setDrawBack(false);
 	}
 }
 

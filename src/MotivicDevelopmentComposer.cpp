@@ -45,7 +45,7 @@ vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
 		cout << endl;
     }
     
-	sequence.clear();
+	//sequence.clear();
     return fragment;
 }
 

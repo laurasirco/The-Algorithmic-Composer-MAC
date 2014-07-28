@@ -66,10 +66,13 @@ private:
 	void initSynth();
 	void initGUI();
 	void setValuesForGraph(Distribution * d);
+	
 	void showIndependentStochasticGUI(bool show);
 	void showMarkovChainsGUI(bool show);
 	void showRandomWalkGUI(bool show);
 	void showMotivicDevelopmentGUI(bool show);
+	void showSerialGUI(bool show);
+	
 	void setGUITheme(int i);
 	void toggleDistribution();
 	void drawGrid(float x, float y);
@@ -157,7 +160,7 @@ private:
 	ofxUICanvas *rwGUI;
 	
 	
-	/* MOTIVIC DEVELOPTMENT GUI */
+	/* MOTIVIC DEVELOPMENT GUI */
 	
 	ofxUICanvas *mdGUI0;
 	ofxUICanvas *mdGUI1;
@@ -165,6 +168,14 @@ private:
 	ofxUICanvas *mdGUI3;
 	ofxUISortableList *sortableList;
 	vector<ofxUILabel *> labels;
+	
+	
+	/* SERIAL GUI */
+	
+	ofxUICanvas *sGUI0;
+	ofxUILabel * melodicListLabel;
+	ofxUILabel * rhythmicListLabel;
+	ofxUILabel * seriesListLabel;
 	
 	
 	

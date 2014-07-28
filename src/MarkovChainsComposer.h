@@ -28,11 +28,13 @@ public:
 	void addMidiToChain(string filename);
 	void cleanMatrices();
 	void setStartingNote(int i){ startingNote = i; }
+	void setOctave(int o){ octave = o; }
 	
 private:
 	float ** pitchesMatrix;
 	float ** durationsMatrix;
 	int startingNote;
+	int octave;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__MarkovChainsComposer__) */

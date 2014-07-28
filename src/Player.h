@@ -12,6 +12,8 @@
 #include <iostream>
 #include <vector>
 #include "Figure.h"
+#include "ofMain.h"
+
 using namespace std;
 
 class Player {
@@ -29,6 +31,8 @@ public:
 	bool isPlaying(){ return playing; }
 	bool isPaused(){ return paused; }
 	int getTempo(){ return BPM; }
+	void pushPianoSound(ofSoundPlayer s){ piano.push_back(s); }
+	
 private:
 	int BPM;
 	int count;
@@ -38,6 +42,9 @@ private:
 	bool allPlayed;
 	bool playing;
 	bool paused;
+	int prevPitch;
+	
+	vector<ofSoundPlayer> piano;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__Player__) */
