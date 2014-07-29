@@ -13,6 +13,9 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include <ctime>
+#include <cstdlib>
 
 #define WIDTH 1024
 #define HEIGHT 768
@@ -79,7 +82,7 @@ void App::setup(){
 	initGUI();
 	initSynth();
 	selectedDistribution = 1;
-
+	
 }
 
 //--------------------------------------------------------------
@@ -97,12 +100,12 @@ void App::update(){
 void App::draw(){
 	
 	ofxUIColor c = generalGUI->getColorFill();
-
+	
 	backgroundColor = ofColor(red, green, blue);
     ofBackground(backgroundColor);
 	ofSetColor(0, 0, 0, 10);
 	drawGrid(8,8);
-
+	
 	ofEnableAlphaBlending();
 	ofSetColor(c.r, c.g, c.b);
 	
@@ -229,7 +232,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
 		}
-
+		
 	}
 	
 	
@@ -407,7 +410,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	}
 	else if (name == "Lambda"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
-
+		
 		if (selectedDistribution == 1) {
 			ExponentialDistribution * d = dynamic_cast<ExponentialDistribution *>(c->getPitchesDistribution());
 			d->setLambda(slider->getValue());
@@ -791,7 +794,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			mv->unpause();
 			pauseToggle->setValue(false);
 		}
-				
+		
 	}
 	else if (name == "PAUSE"){
 		if(e.getToggle()->getValue() == true){
@@ -841,6 +844,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
 			c->setOctave((int)slider->getValue());
 		}
+		else if (composer->getType() == Serialist){
+			SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+			c->setOctave((int)slider->getValue());
+		}
 		
 	}
 	
@@ -864,7 +871,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showIndependentStochasticGUI(true);
 		showMotivicDevelopmentGUI(false);
 		showSerialGUI(false);
-
+		
 		composer = new IndependentStochasticComposer(uniform);
 	}
 	else if (name == "Markov Chains"){
@@ -873,7 +880,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showMarkovChainsGUI(true);
 		showMotivicDevelopmentGUI(false);
 		showSerialGUI(false);
-
+		
 		composer = new MarkovChainsComposer();
 		
 		MarkovChainsComposer * mc = dynamic_cast<MarkovChainsComposer *>(composer);
@@ -887,7 +894,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		showRandomWalkGUI(true);
 		showMotivicDevelopmentGUI(false);
 		showSerialGUI(false);
-
+		
 		composer = new RandomWalkComposer();
 	}
 	else if(name == "Motivic Development"){
@@ -917,7 +924,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		c->addMethodToSequence(rm);
 		stringstream sst;
 		sst << labels.size() + 1 << " REPETITION ";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
 	else if(name == "Add transpose" && e.getButton()->getValue() == true){
 		ofxUISlider *t = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("Transpose steps (st)"));
@@ -927,7 +934,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		stringstream sst;
 		sst << labels.size() + 1 << " TRANSPOSE " << (int)t->getValue() << " steps";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
 	
 	else if(name == "Add expand" && e.getButton()->getValue() == true){
@@ -938,16 +945,16 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		stringstream sst;
 		sst << labels.size() + 1 << " EXPAND " << (int)e->getValue() << " steps";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
     
 	else if (name == "Add invert" && e.getButton()->getValue() == true){
         
         /*ofxUISortableList * list = dynamic_cast<ofxUISortableList *>(mdGUI3->getWidget("Sequence"));
-        
-        cout << "before: " << list->getListItems().size() << endl;
-        list->addItem("Invert");
-        cout << "after: " << list->getListItems().size() << endl;*/
+		 
+		 cout << "before: " << list->getListItems().size() << endl;
+		 list->addItem("Invert");
+		 cout << "after: " << list->getListItems().size() << endl;*/
 		
 		InvertMethod * im = new InvertMethod();
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
@@ -955,7 +962,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		stringstream sst;
 		sst << labels.size() + 1 << " INVERT ";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
     }
 	
 	else if(name == "Add retrograde" && e.getButton()->getValue() == true){
@@ -965,13 +972,13 @@ void App::guiEvent(ofxUIEventArgs &e){
 		c->addMethodToSequence(rm);
 		stringstream sst;
 		sst << labels.size() + 1 << " RETROGRADE ";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
 	
 	else if(name == "Add register displacement" && e.getButton()->getValue() == true){
 		
 		vector<int> regDisp;
-
+		
 		ofxUISlider *e1 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("1"));
 		regDisp.push_back((int) e1->getValue());
 		ofxUISlider *e2 = dynamic_cast<ofxUISlider *>(mdGUI1->getWidget("2"));
@@ -997,7 +1004,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		stringstream sst;
 		sst << labels.size() + 1 << " REGISTER DISPLACEMENT ";
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
 	
 	
@@ -1010,11 +1017,11 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		stringstream sst;
 		sst << labels.size() + 1 << " RHYTHM EXPAND f " << (int)e1->getValue();
-		labels.push_back(mdGUI3->addLabel(sst.str()));
+		labels.push_back(mdGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL));
 	}
 	
 	else if(name == "Generate" && e.getButton()->getValue() == true){
-	
+		
 		ofxUISlider * e1 = dynamic_cast<ofxUISlider *>(mdGUI0->getWidget("Figures"));
 		ofxUIRangeSlider * e2 = dynamic_cast<ofxUIRangeSlider *>(mdGUI0->getWidget("Octaves"));
 		int figures = (int)e1->getValue();
@@ -1026,7 +1033,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		ic->setNumberOfFigures(figures);
 		
 		vector<Figure *> motive = ic->compose();
-	
+		
 		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
 		c->setMotive(motive);
 		delete(ic);
@@ -1035,13 +1042,25 @@ void App::guiEvent(ofxUIEventArgs &e){
 	}
 	else if (name == "Reset" && e.getButton()->getValue() == true){
 		
-		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
-		c->resetSequence();
-		
-		for (int i = 0; i < labels.size(); i++) {
-			mdGUI3->removeWidget(labels[i]);
+		if(composer->getType() == MotivicDevelopment){
+			MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+			c->resetSequence();
+			
+			for (int i = 0; i < labels.size(); i++) {
+				mdGUI3->removeWidget(labels[i]);
+			}
+			labels.clear();
 		}
-		labels.clear();
+		
+		else if (composer->getType() == Serialist){
+			SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+			c->resetSequence();
+			
+			for (int i = 0; i < sequenceListLabels.size(); i++) {
+				sGUI3->removeWidget(sequenceListLabels[i]);
+			}
+			sequenceListLabels.clear();
+		}
 		
 	}
 	
@@ -1076,7 +1095,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			ofLogVerbose("User hit cancel");
 		}
 	}
-
+	
 	
 	else if(name == "PITCHES" && e.getButton()->getValue() == true){
 		selectedDistribution = 1;
@@ -1094,8 +1113,259 @@ void App::guiEvent(ofxUIEventArgs &e){
 		toggleDistribution();
 	}
     
-    
-    
+	else if(name == "Reset Melodic Classes" && e.getButton()->getValue() == true){
+		melodicList.clear();
+		melodicListLabel->setTextString("Classes: ");
+	}
+	else if(name == "Set Melodic Classes" && e.getButton()->getValue() == true){
+		
+		if (melodicList.size() == 12) {
+			vector<int> mC;
+			SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+			int octave = c->getOctave();
+			
+			for (int i = 0; i < 12; i++) {
+				int pitch;
+				if (melodicList[i] == "C") {
+					pitch = 10*(octave + 2) + 0 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "C#") {
+					pitch = 10*(octave + 2) + 1 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "D") {
+					pitch = 10*(octave + 2) + 2 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "D#") {
+					pitch = 10*(octave + 2) + 3 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "E") {
+					pitch = 10*(octave + 2) + 4 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "F") {
+					pitch = 10*(octave + 2) + 5 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "F#") {
+					pitch = 10*(octave + 2) + 6 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "G") {
+					pitch = 10*(octave + 2) + 7 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "G#") {
+					pitch = 10*(octave + 2) + 8 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "A") {
+					pitch = 10*(octave + 2) + 9 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "A#") {
+					pitch = 10*(octave + 2) + 10 + (2*octave + 4);
+				}
+				else if (melodicList[i] == "B") {
+					pitch = 10*(octave + 2) + 11 + (2*octave + 4);
+				}
+				
+				mC.push_back(pitch);
+			}
+			
+			c->setMelodicClasses(mC);
+		}
+	}
+	else if(name == "Reset Rhythmic Classes" && e.getButton()->getValue() == true){
+		rhythmicList.clear();
+		rhythmicListLabel->setTextString("Classes: ");
+	}
+	else if(name == "Set Rhythmic Classes" && e.getButton()->getValue() == true){
+		
+		if(rhythmicList.size() == 12){
+			vector<Type> rC;
+			SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+			
+			for (int i = 0; i < 12; i++) {
+				Type t;
+				if (rhythmicList[i] == "DWhole") {
+					t = DWhole;
+				}
+				else if (rhythmicList[i] == "Whole") {
+					t = Whole;
+				}
+				else if (rhythmicList[i] == "DHalf") {
+					t = DHalf;
+				}
+				else if (rhythmicList[i] == "Half") {
+					t = Half;
+				}
+				else if (rhythmicList[i] == "DQuarter") {
+					t = DQuarter;
+				}
+				else if (rhythmicList[i] == "Quarter") {
+					t = Quarter;
+				}
+				else if (rhythmicList[i] == "DEighth") {
+					t = DEighth;
+				}
+				else if (rhythmicList[i] == "Eighth") {
+					t = Eighth;
+				}
+				else if (rhythmicList[i] == "DSixteenth") {
+					t = DSixteenth;
+				}
+				else if (rhythmicList[i] == "Sixteenth") {
+					t = Sixteenth;
+				}
+				else if (rhythmicList[i] == "DThirtySecond") {
+					t = DThirtySecond;
+				}
+				else if (rhythmicList[i] == "ThirtySecond") {
+					t = ThirtySecond;
+				}
+				rC.push_back(t);
+			}
+			c->setRhythmicClasses(rC);
+		}
+	}
+	else if(name == "Reset Series" && e.getButton()->getValue() == true){
+		seriesList.clear();
+		seriesListLabel->setTextString("Classes: ");
+	}
+	else if (name == "Set Series" && e.getButton()->getValue() == true){
+		
+		if (seriesList.size() == 12) {
+			vector<int> sL;
+			SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+			
+			for (int i = 0; i < seriesList.size(); i++) {
+				sL.push_back(atoi(seriesList[i].c_str()));
+			}
+			
+			c->setOriginalSeries(sL);
+		}
+	}
+	else if (name == "Add Transpose" && e.getButton()->getValue() == true){
+		
+		ofxUISlider * s = (ofxUISlider *)sGUI2->getWidget("Steps");
+		ofxUIRadio * r = (ofxUIRadio *)sGUI2->getWidget("Transpose Affects");
+		bool pitch = r->getToggles()[0]->getValue();
+		bool dur = r->getToggles()[1]->getValue();
+		
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		if((int)s->getValue() > 0){
+			TransposeSMethod * sm;
+			if (pitch && !dur) {
+				sm = new TransposeSMethod(TPitch, (int)s->getValue());
+				c->addMethodToSequence(sm);
+				stringstream sst;
+				sst << "[T(" << (int)s->getValue() << ")], to pitch";
+				ofxUILabel * l = sGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL);
+				sequenceListLabels.push_back(l);
+			}
+			else if (!pitch && dur) {
+				sm = new TransposeSMethod(TRhythm, (int)s->getValue());
+				c->addMethodToSequence(sm);
+				stringstream sst;
+				sst << "[T(" << (int)s->getValue() << ")], to rhythm";
+				ofxUILabel * l = sGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL);
+				sequenceListLabels.push_back(l);
+			}
+			if (pitch && dur) {
+				sm = new TransposeSMethod(TPitchAndRhythm, (int)s->getValue());
+				c->addMethodToSequence(sm);
+				stringstream sst;
+				sst << "[T(" << (int)s->getValue() << ")], to pitch and rhythm:";
+				ofxUILabel * l = sGUI3->addLabel(sst.str(), OFX_UI_FONT_SMALL);
+				sequenceListLabels.push_back(l);
+			}
+		}
+	}
+	else if (name == "Add Inversion" && e.getButton()->getValue() == true){
+		
+		ofxUIRadio * r = (ofxUIRadio *)sGUI2->getWidget("Inversion Affects");
+		bool pitch = r->getToggles()[0]->getValue();
+		bool dur = r->getToggles()[1]->getValue();
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		InvertSMethod * sm;
+		if (pitch && !dur) {
+			sm = new InvertSMethod(TPitch);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l =sGUI3->addLabel("[I], to pitch", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		else if (!pitch && dur) {
+			sm = new InvertSMethod(TRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l =sGUI3->addLabel("[I], to rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		if (pitch && dur) {
+			sm = new InvertSMethod(TPitchAndRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[I], to pitch and rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+	}
+	else if (name == "Add Retrograde" && e.getButton()->getValue() == true){
+		
+		ofxUIRadio * r = (ofxUIRadio *)sGUI2->getWidget("Retrograde Affects");
+		bool pitch = r->getToggles()[0]->getValue();
+		bool dur = r->getToggles()[1]->getValue();
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		RetrogradeSMethod * sm;
+		if (pitch && !dur) {
+			sm = new RetrogradeSMethod(TPitch);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[R], to pitch", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		else if (!pitch && dur) {
+			sm = new RetrogradeSMethod(TRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[R], to rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		if (pitch && dur) {
+			sm = new RetrogradeSMethod(TPitchAndRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[R], to pitch and rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+	}
+	else if (name == "Add Retrograde Inversion" && e.getButton()->getValue() == true){
+		
+		ofxUIRadio * r = (ofxUIRadio *)sGUI2->getWidget("Retrograde Inversion Affects");
+		bool pitch = r->getToggles()[0]->getValue();
+		bool dur = r->getToggles()[1]->getValue();
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		RetrogradeInversionSMethod * sm;
+		if (pitch && !dur) {
+			sm = new RetrogradeInversionSMethod(TPitch);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[RI], to pitch", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		else if (!pitch && dur) {
+			sm = new RetrogradeInversionSMethod(TRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[RI], to rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+		if (pitch && dur) {
+			sm = new RetrogradeInversionSMethod(TPitchAndRhythm);
+			c->addMethodToSequence(sm);
+			ofxUILabel * l = sGUI3->addLabel("[RI], to pitch and rhythm", OFX_UI_FONT_SMALL);
+			sequenceListLabels.push_back(l);
+		}
+	}
+	else if (name == "Set Fixed Pitches"){
+		
+		ofxUILabelToggle * toggle = (ofxUILabelToggle *)e.getToggle();
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		c->setFixedPitches(toggle->getValue());
+	}
+	else if (name == "Set Fixed Rhythm"){
+		
+		ofxUILabelToggle * toggle = (ofxUILabelToggle *)e.getToggle();
+		SerialistComposer * c = dynamic_cast<SerialistComposer *>(composer);
+		c->setFixedRhythm(toggle->getValue());
+	}
+	
 	
 	else if(kind == OFX_UI_WIDGET_TOGGLE)
     {
@@ -1188,8 +1458,391 @@ void App::guiEvent(ofxUIEventArgs &e){
 			else if (toggle->getName() == "SixtyFourth")
 				rw->setTypeOfFigure(SixtyFourth);
 		}
+		/*else if (toggle->getParent()->getName() == "Series"){
+		 
+		 if(toggle->getName() == "Manual"){
+		 seriesList.clear();
+		 seriesListLabel->setTextString("Series: ");
+		 }
+		 else if (toggle->getName() == "Random"){
+		 bool series[12] = {false};
+		 
+		 srand ( unsigned ( time(0) ) );
+		 vector<int> myvector;
+		 
+		 for (int i=1; i<12; ++i) myvector.push_back(i);
+		 
+		 std::random_shuffle ( myvector.begin(), myvector.end() );
+		 
+		 stringstream sst;
+		 sst << "Series: ";
+		 for (int i = 0; i < myvector.size(); i++) {
+		 sst << i << " ";
+		 }
+		 seriesListLabel->setTextString(sst.str());
+		 }
+		 }*/
 		
     }
+	
+	if (kind == OFX_UI_WIDGET_LABELTOGGLE) {
+		
+		ofxUILabelToggle * toggle = (ofxUILabelToggle *) e.widget;
+		
+		if (toggle->getName() == "C"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("C");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "C");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+		}
+		else if (toggle->getName() == "C#"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("C#");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "C#");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+		}
+		else if (toggle->getName() == "D"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("D");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "D");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "D#"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("D#");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "D#");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "E"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("E");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "E");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "F"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("F");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "F");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "F#"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("F#");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "F#");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "G"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("G");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "G");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "G#"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("G#");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "G#");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "A"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("A");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "A");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "A#"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("A#");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "A#");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "B"){
+			if (toggle->getValue() == true) {
+				melodicList.push_back("B");
+			}
+			else{
+				vector<string>::iterator result = find(melodicList.begin(), melodicList.end(), "B");
+				if (result != melodicList.end()) {
+					melodicList.erase(result);
+				}
+			}
+			
+		}
+		
+		else{
+			
+			for(int i = 0; i < 12; i ++){
+				
+				stringstream sst;
+				sst << i;
+				if (toggle->getName() == sst.str()) {
+					if (toggle->getValue() == true) {
+						seriesList.push_back(sst.str());
+						break;
+					}
+					else{
+						vector<string>::iterator result = find(seriesList.begin(), seriesList.end(), sst.str());
+						if (result != seriesList.end()) {
+							seriesList.erase(result);
+							break;
+						}
+					}
+				}
+			}
+			
+			if(composer->getType() == Serialist){
+				
+				stringstream sst;
+				sst << "Series: ";
+				for (int i = 0; i < seriesList.size(); i++) {
+					sst << seriesList[i] << " ";
+				}
+				
+				cout << sst.str() << endl;
+				seriesListLabel->setTextString(sst.str());
+			}
+		}
+		
+		if(composer->getType() == Serialist){
+			
+			stringstream sst;
+			sst << "Classes: ";
+			for (int i = 0; i < melodicList.size(); i++) {
+				sst << melodicList[i] << " ";
+			}
+			
+			cout << sst.str() << endl;
+			melodicListLabel->setTextString(sst.str());
+		}
+		
+	}
+	
+	
+	else if(kind == OFX_UI_WIDGET_IMAGETOGGLE){
+		
+		ofxUIImageToggle * toggle = (ofxUIImageToggle *)e.widget;
+		
+		if (toggle->getName() == "DWhole"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DWhole");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DWhole");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "Whole"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("Whole");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "Whole");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "DHalf"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DHalf");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DHalf");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "Half"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("Half");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "Half");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "DQuarter"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DQuarter");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DQuarter");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "Quarter"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("Quarter");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "Quarter");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "DEighth"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DEighth");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DEighth");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "Eighth"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("Eighth");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "Eighth");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "DSixteenth"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DSixteenth");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DSixteenth");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "Sixteenth"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("Sixteenth");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "Sixteenth");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "DThirtySecond"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("DThirtySecond");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "DThirtySecond");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		else if (toggle->getName() == "ThirtySecond"){
+			if (toggle->getValue() == true) {
+				rhythmicList.push_back("ThirtySecond");
+			}
+			else{
+				vector<string>::iterator result = find(rhythmicList.begin(), rhythmicList.end(), "ThirtySecond");
+				if (result != rhythmicList.end()) {
+					rhythmicList.erase(result);
+				}
+			}
+			
+		}
+		
+		if(composer->getType() == Serialist){
+			
+			stringstream sst;
+			sst << "Classes: ";
+			for (int i = 0; i < rhythmicList.size(); i++) {
+				sst << rhythmicList[i] << " ";
+			}
+			
+			cout << sst.str() << endl;
+			rhythmicListLabel->setTextString(sst.str());
+		}
+		
+	}
 	
 	
 }
@@ -1255,7 +1908,7 @@ void App::initSynth(){
 	
 	// set the synth's final output generator
 	synth.setOutputGen( (tone + firstPartial + secondPartial) * volume * ADSR(0.3f, 0.0f, 0.1f, 0.6f).trigger(trigger).legato(1));
-
+	
 }
 
 void App::initGUI(){
@@ -1344,7 +1997,7 @@ void App::initGUI(){
 	resultsGui->setFont("GUI/Lekton-Regular.ttf");
 	resultsGui->setScrollAreaToScreen();
     resultsGui->setScrollableDirections(false, true);
-	resultsGui->setSnapping(false);	
+	resultsGui->setSnapping(false);
 	
 	resultsGui->setPosition(0, HEIGHT - 200);
 	resultsGui->setHeight(200);
@@ -1352,7 +2005,7 @@ void App::initGUI(){
 	ofAddListener(resultsGui->newGUIEvent, this, &App::guiEvent);
 	//currentFigureLabel = resultsGui->addTextArea("textarea", textString, OFX_UI_FONT_MEDIUM);
 	guis.push_back(resultsGui);
-
+	
 	
 	/////////////
 	
@@ -1370,7 +2023,7 @@ void App::initGUI(){
 	
 	
 	/* INDEPENDENT STOCHASTIC GUIs */
-		
+	
 	///////////
 	
 	isGUI1 = new ofxUICanvas();
@@ -2013,42 +2666,164 @@ void App::initGUI(){
 	sGUI0->setFont("GUI/Lekton-Regular.ttf");
 	sGUI0->setPosition(200, 40);
 	sGUI0->addLabel("SERIES");
-	sGUI0->addSpacer();
+	sGUI0->addSpacer(420, 1);
 	
-	sGUI0->addLabel("Melodic Classes", OFX_UI_FONT_SMALL);
+	sGUI0->addLabel("MELODIC CLASSES", OFX_UI_FONT_SMALL);
 	
-	sGUI0->addLabelButton("C", false, 16, 0);
+	sGUI0->addLabelToggle("Set Fixed Pitches", false);
+	
+	sGUI0->addSlider("Octave", 1, 6, 3);
+	
+	sGUI0->addLabelToggle("C", false, 28, 28);
 	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
-	sGUI0->addLabelButton("C#", false, 16, 0);
-	sGUI0->addLabelButton("D", false, 16, 0);
-	sGUI0->addLabelButton("D#", false, 16, 0);
-	sGUI0->addLabelButton("E", false, 16, 0);
-	sGUI0->addLabelButton("F", false, 16, 0);
+	sGUI0->addLabelToggle("C#", false, 28, 28);
+	sGUI0->addLabelToggle("D", false, 28, 28);
+	sGUI0->addLabelToggle("D#", false, 28, 28);
+	sGUI0->addLabelToggle("E", false, 28, 28);
+	sGUI0->addLabelToggle("F", false, 28, 28);
 	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
-	sGUI0->addLabelButton("F#", false, 16, 0);
+	sGUI0->addLabelToggle("F#", false, 28, 28);
 	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
-	sGUI0->addLabelButton("G", false, 16, 0);
-	sGUI0->addLabelButton("G#", false, 16, 0);
-	sGUI0->addLabelButton("A", false, 16, 0);
-	sGUI0->addLabelButton("A#", false, 16, 0);
-	sGUI0->addLabelButton("B", false, 16, 0);
+	sGUI0->addLabelToggle("G", false, 28, 28);
+	sGUI0->addLabelToggle("G#", false, 28, 28);
+	sGUI0->addLabelToggle("A", false, 28, 28);
+	sGUI0->addLabelToggle("A#", false, 28, 28);
+	sGUI0->addLabelToggle("B", false, 28, 28);
 	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
 	
-	melodicListLabel = sGUI0->addLabel("Classes: ", OFX_UI_FONT_SMALL);
+	melodicListLabel = sGUI0->addTextArea("Classes: ", "Classes: ", OFX_UI_FONT_SMALL);
+	sGUI0->addSpacer(0, 10);
 	
-	sGUI0->addLabel("Rhythmic Classes", OFX_UI_FONT_SMALL);
+	sGUI0->addLabelButton("Reset Melodic Classes", false);
+	sGUI0->addLabelButton("Set Melodic Classes", false);
 	
-	sGUI0->addToggleMatrix("MATRIX2", 1, 12);
+	sGUI0->addSpacer(0, 10);
 	
-	rhythmicListLabel = sGUI0->addLabel("Classes: ", OFX_UI_FONT_SMALL);
+	sGUI0->addLabel("RHYTHMIC CLASSES", OFX_UI_FONT_SMALL);
+	
+	sGUI0->addLabelToggle("Set Fixed Rhythm", false);
+	
+	sGUI0->addImageToggle("DWhole", "GUI/Notes/dwhole.png", false, 24, 24);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI0->addImageToggle("Whole", "GUI/Notes/whole.png", false, 24, 24);
+	sGUI0->addImageToggle("DHalf", "GUI/Notes/udhalf.png", false, 24, 24);
+	sGUI0->addImageToggle("Half", "GUI/Notes/uhalf.png", false, 24, 24);
+	sGUI0->addImageToggle("DQuarter", "GUI/Notes/udquarter.png", false, 24, 24);
+	sGUI0->addImageToggle("Quarter", "GUI/Notes/uquarter.png", false, 24, 24);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	sGUI0->addImageToggle("DEighth", "GUI/Notes/udeighth.png", false, 24, 24);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI0->addImageToggle("Eighth", "GUI/Notes/ueighth.png", false, 24, 24);
+	sGUI0->addImageToggle("DSixteenth", "GUI/Notes/udsixteenth.png", false, 24, 24);
+	sGUI0->addImageToggle("Sixteenth", "GUI/Notes/usixteenth.png", false, 24, 24);
+	sGUI0->addImageToggle("DThirtySecond", "GUI/Notes/udthirtysecond.png", false, 24, 24);
+	sGUI0->addImageToggle("ThirtySecond", "GUI/Notes/uthirtysecond.png", false, 24, 24);
+	sGUI0->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	
+	rhythmicListLabel = sGUI0->addTextArea("Classes: ", "Classes: ", OFX_UI_FONT_SMALL);
+	sGUI0->addSpacer(0, 40);
+	
+	sGUI0->addLabelButton("Reset Rhythmic Classes", false);
+	sGUI0->addLabelButton("Set Rhythmic Classes", false);
 	
 	
+	sGUI1 = new ofxUICanvas();
+	sGUI1->setFont("GUI/Lekton-Regular.ttf");
+	sGUI1->setPosition(415, 65);
+	sGUI1->addLabel("SERIES", OFX_UI_FONT_SMALL);
+	
+	/*vector<string> options;
+	 options.push_back("Manual");
+	 options.push_back("Random");
+	 
+	 ofxUIRadio * r = sGUI1->addRadio("Series", options);
+	 r->getToggles()[0]->setValue(true);*/
+	
+	sGUI1->addLabelToggle("0", false, 28, 28);
+	sGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI1->addLabelToggle("1", false, 28, 28);
+	sGUI1->addLabelToggle("2", false, 28, 28);
+	sGUI1->addLabelToggle("3", false, 28, 28);
+	sGUI1->addLabelToggle("4", false, 28, 28);
+	sGUI1->addLabelToggle("5", false, 28, 28);
+	sGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	sGUI1->addLabelToggle("6", false, 28, 28);
+	sGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
+	sGUI1->addLabelToggle("7", false, 28, 28);
+	sGUI1->addLabelToggle("8", false, 28, 28);
+	sGUI1->addLabelToggle("9", false, 28, 28);
+	sGUI1->addLabelToggle("10", false, 28, 28);
+	sGUI1->addLabelToggle("11", false, 28, 28);
+	sGUI1->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	
+	seriesListLabel = sGUI1->addTextArea("Series: ", "Series: ", OFX_UI_FONT_SMALL);
+	sGUI1->addSpacer(0, 10);
+	
+	sGUI1->addLabelButton("Reset Series", false);
+	sGUI1->addLabelButton("Set Series", false);
+	
+	
+	sGUI0->autoSizeToFitWidgets();
 	sGUI0->setVisible(false);
 	guis.push_back(sGUI0);
 	ofAddListener(sGUI0->newGUIEvent, this, &App::guiEvent);
 	
+	sGUI1->autoSizeToFitWidgets();
+	sGUI1->setVisible(false);
+	guis.push_back(sGUI1);
+	ofAddListener(sGUI1->newGUIEvent, this, &App::guiEvent);
 	
 	
+	sGUI2 = new ofxUICanvas();
+	sGUI2->setFont("GUI/Lekton-Regular.ttf");
+	sGUI2->setPosition(624, 40);
+	sGUI2->addLabel("SEQUENCE");
+	sGUI2->addSpacer(379, 1);
+	
+	sGUI2->addLabel("TRANSPOSE [T(s)]", OFX_UI_FONT_SMALL);
+	sGUI2->addSlider("Steps", 0.0, 12.0, 0.0, 150, 20);
+	
+	vector<string> affects;
+	affects.push_back("Pitches");
+	affects.push_back("Rhythm");
+	
+	ofxUIRadio * r = sGUI2->addRadio("Transpose Affects", affects);
+	r->setAllowMultiple(true);
+	sGUI2->addLabelButton("Add Transpose", false, 150.0f);
+	
+	sGUI2->addSpacer(0, 4);
+	sGUI2->addLabel("INVERSION [I]", OFX_UI_FONT_SMALL);
+	r = sGUI2->addRadio("Inversion Affects", affects);
+	r->setAllowMultiple(true);
+	sGUI2->addLabelButton("Add Inversion", false, 150.0f);
+	
+	sGUI2->addSpacer(0, 4);
+	sGUI2->addLabel("RETROGRADE [R]", OFX_UI_FONT_SMALL);
+	r = sGUI2->addRadio("Retrograde Affects", affects);
+	r->setAllowMultiple(true);
+	sGUI2->addLabelButton("Add Retrograde", false, 150.0f);
+	
+	sGUI2->addSpacer(0, 4);
+	sGUI2->addLabel("RETROGRADE INVERSION [RI]", OFX_UI_FONT_SMALL);
+	r = sGUI2->addRadio("Retrograde Inversion Affects", affects);
+	r->setAllowMultiple(true);
+	sGUI2->addLabelButton("Add Retrograde Inversion", false, 150.0f);
+	
+	sGUI2->autoSizeToFitWidgets();
+	sGUI2->setVisible(false);
+	guis.push_back(sGUI2);
+	ofAddListener(sGUI2->newGUIEvent, this, &App::guiEvent);
+	
+	sGUI3 = new ofxUICanvas();
+	sGUI3->setFont("GUI/Lekton-Regular.ttf");
+	sGUI3->setPosition(800, 65);
+	sGUI3->addLabelButton("Reset", false);
+	
+	sGUI3->autoSizeToFitWidgets();
+	sGUI3->setHeight(400);
+	sGUI3->setVisible(false);
+	guis.push_back(sGUI3);
+	ofAddListener(sGUI3->newGUIEvent, this, &App::guiEvent);
 	
 	setGUITheme(7);
 	
@@ -2141,7 +2916,11 @@ void App::showMotivicDevelopmentGUI(bool show){
 void App::showSerialGUI(bool show){
 	
 	sGUI0->setVisible(show);
+	sGUI1->setVisible(show);
+	sGUI2->setVisible(show);
+	sGUI3->setVisible(show);
 }
+
 
 void App::setGUITheme(int i){
 	
@@ -2179,7 +2958,7 @@ void App::toggleDistribution(){
 	betaDistGUI->setVisible(false);
 	weibullDistGUI->setVisible(false);
 	poissonDistGUI->setVisible(false);
-
+	
 	triangularDistGUI2->setVisible(false);
 	linearDistGUI2->setVisible(false);
 	exponentialDistGUI2->setVisible(false);

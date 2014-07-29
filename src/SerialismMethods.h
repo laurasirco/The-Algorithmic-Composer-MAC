@@ -15,7 +15,7 @@
 using namespace std;
 
 enum SeriesType{
-	TPitch, TRhythm, TDynamic
+	TPitch, TRhythm, TDynamic, TPitchAndRhythm
 };
 
 class SMethod {

@@ -38,7 +38,36 @@ vector<Figure *> RetrogradeSMethod::performTransformation(vector<Figure *> motiv
 	
 	for (int i = 11; i >= 0; i--) {
 		
-		retrograded.push_back(motive[i]);
+		if (type == TPitch) {
+			
+			if (motive[i]->getKind() == KNote) {
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				Note * n2 = dynamic_cast<Note *>(motive[11 - i]);
+				
+				Note * n3 = new Note(n2->getType(), n->getPitch(), n2->getVelocity());
+				retrograded.push_back(n3);
+			}
+			
+		}
+		else if (type == TRhythm){
+			if (motive[i]->getKind() == KNote) {
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				Note * n2 = dynamic_cast<Note *>(motive[11 - i]);
+				
+				Note * n3 = new Note(n->getType(), n2->getPitch(), n2->getVelocity());
+				retrograded.push_back(n3);
+			}
+		}
+		else if (type == TPitchAndRhythm){
+			if (motive[i]->getKind() == KNote) {
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				Note * n2 = dynamic_cast<Note *>(motive[11 - i]);
+				
+				Note * n3 = new Note(n->getType(), n->getPitch(), n2->getVelocity());
+				retrograded.push_back(n3);
+			}
+		}
+		
 	}
 	
 	return retrograded;
@@ -80,6 +109,17 @@ vector<Figure *> InvertSMethod::performTransformation(vector<Figure *> motive){
 				Note * n2 = new Note(t, n->getPitch(), n->getVelocity());
 				inverted.push_back(n2);
 			}
+		}
+		else if (type == TPitchAndRhythm){
+			
+			Type t = (Type)((12 - motive[i]->getType())%12);
+			
+			if (motive[i]->getKind() == KNote) {
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				Note * n2 = new Note(t, (12 - n->getPitch())%12, n->getVelocity());
+				inverted.push_back(n2);
+			}
+			
 		}
 	}
 	
@@ -127,20 +167,18 @@ vector<Figure *> TransposeSMethod::performTransformation(vector<Figure *> motive
 		
 		if (type == TPitch) {
 			
-		
-		
-		if (motive[i]->getKind() == KNote) {
-			
-			Note * n = dynamic_cast<Note *>(motive[i]);
-			
-			int pitch = (n->getPitch() + steps) % 12;
-			
-			Note * n2 = new Note(n->getType(), pitch, n->getVelocity());
-			
-			transposed.push_back(n2);
-		}
-		else
-			transposed.push_back(motive[i]);
+			if (motive[i]->getKind() == KNote) {
+				
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				
+				int pitch = (n->getPitch() + steps) % 12;
+				
+				Note * n2 = new Note(n->getType(), pitch, n->getVelocity());
+				
+				transposed.push_back(n2);
+			}
+			else
+				transposed.push_back(motive[i]);
 		}
 		
 		else if (type == TRhythm){
@@ -153,6 +191,16 @@ vector<Figure *> TransposeSMethod::performTransformation(vector<Figure *> motive
 			}
 			
 		}
+		else if (type == TPitchAndRhythm){
+			
+			Type t = (Type)((motive[i]->getType() + steps) % 12);
+			if (motive[i]->getKind() == KNote) {
+				Note * n = dynamic_cast<Note *>(motive[i]);
+				int pitch = (n->getPitch() + steps) % 12;
+				Note * n2 = new Note(t, pitch, n->getVelocity());
+				transposed.push_back(n2);
+			}
+		}
 	}
 	
 	return transposed;
@@ -162,7 +210,7 @@ vector<Figure *> TransposeSMethod::performTransformation(vector<Figure *> motive
 
 
 RepetitionSMethod::RepetitionSMethod(SeriesType t) : SMethod(t){
-		
+	
 }
 
 

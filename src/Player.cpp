@@ -109,7 +109,6 @@ void Player::play(std::vector<Figure*> f){
 		//App::setVolume((float)n->getVelocity());
 		piano[n->getPitch() - 36].play();
 		prevPitch = n->getPitch() - 36;
-		
 	}
 	else{
 		if(prevPitch != -1)

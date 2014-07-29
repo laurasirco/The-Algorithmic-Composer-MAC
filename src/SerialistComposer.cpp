@@ -12,6 +12,8 @@
 
 SerialistComposer::SerialistComposer(){
 	
+	octave = 3;
+	type = Serialist;
 	RetrogradeSMethod *rgm = new RetrogradeSMethod(TPitch);
 	InvertSMethod *im = new InvertSMethod(TPitch);
 	RetrogradeInversionSMethod *rgim = new RetrogradeInversionSMethod(TPitch);
@@ -20,33 +22,23 @@ SerialistComposer::SerialistComposer(){
 		
 		melodicClasses.push_back(60 + i);
 		rhythmicClasses.push_back((Type) i);
-				
-		TransposeSMethod *tm = new TransposeSMethod(TRhythm, i);
-		
-		/*sequence.push_back(tm);
-		sequence.push_back(rgm);
-		sequence.push_back(im);
-		sequence.push_back(rgim);*/
 	}
 	
-	TransposeSMethod *tm = new TransposeSMethod(TRhythm, 0);
-	sequence.push_back(tm);
-	sequence.push_back(rgm);
-	sequence.push_back(im);
-	sequence.push_back(rgim);
-	
 	original.push_back(0);
-	original.push_back(11);
-	original.push_back(5);
-	original.push_back(2);
-	original.push_back(10);
 	original.push_back(1);
-	original.push_back(4);
-	original.push_back(7);
+	original.push_back(2);
 	original.push_back(3);
+	original.push_back(4);
+	original.push_back(5);
 	original.push_back(6);
-	original.push_back(9);
+	original.push_back(7);
 	original.push_back(8);
+	original.push_back(9);
+	original.push_back(10);
+	original.push_back(11);
+	
+	fixedPitch = false;
+	fixedRhythm = false;
 	
 }
 
@@ -61,9 +53,21 @@ vector<Figure *> SerialistComposer::compose(bool infinite){
 	std::vector<Figure *> fragment;
 	
 	for (int i = 0; i < 12; i++) {
-		Note * n = new Note((Type)original[i], 60, 50);
+		Note * n;
+		
+		if(fixedPitch)
+			n = new Note((Type)rhythmicClasses[original[i]], 0, 50);
+		else if (fixedRhythm)
+			n = new Note(Quarter, original[i], 50);
+		else
+			n = new Note((Type)rhythmicClasses[original[i]],original[i], 50);
+		
 		originalMotive.push_back(n);
 	}
+	
+	RepetitionSMethod * m = new RepetitionSMethod(TPitchAndRhythm);
+	vector<Figure *> originalM = m->performTransformation(originalMotive);
+	fragment.insert(fragment.end(), originalM.begin(), originalM.end());
 	
 	for (int i = 0; i < sequence.size(); i++) {
 		vector<Figure *> transformation = sequence[i]->performTransformation(originalMotive);

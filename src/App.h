@@ -173,10 +173,16 @@ private:
 	/* SERIAL GUI */
 	
 	ofxUICanvas *sGUI0;
-	ofxUILabel * melodicListLabel;
-	ofxUILabel * rhythmicListLabel;
-	ofxUILabel * seriesListLabel;
-	
+	ofxUICanvas *sGUI1;
+	ofxUICanvas *sGUI2;
+	ofxUICanvas *sGUI3;
+	ofxUITextArea * melodicListLabel;
+	ofxUITextArea * rhythmicListLabel;
+	ofxUITextArea * seriesListLabel;
+	vector<string> melodicList;
+	vector<string> rhythmicList;
+	vector<string> seriesList;
+	vector<ofxUILabel *> sequenceListLabels;
 	
 	
 };

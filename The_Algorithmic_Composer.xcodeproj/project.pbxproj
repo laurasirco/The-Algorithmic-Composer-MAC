@@ -102,6 +102,10 @@
 		AB444F8E19752A1200E0EB43 /* svgtiny_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8719752A1200E0EB43 /* svgtiny_list.cpp */; };
 		AB444F8F19752A1200E0EB43 /* ofxSvg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F8919752A1200E0EB43 /* ofxSvg.cpp */; };
 		AB444F921975719600E0EB43 /* MusicVisualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB444F901975719600E0EB43 /* MusicVisualizer.cpp */; };
+		AB447CA719816302009352B0 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB447CA619816302009352B0 /* XCTest.framework */; };
+		AB447CAD19816303009352B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB447CAB19816302009352B0 /* InfoPlist.strings */; };
+		AB447CAF19816303009352B0 /* The_Algorithmic_Composer_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB447CAE19816303009352B0 /* The_Algorithmic_Composer_Tests.m */; };
+		AB447CB719816317009352B0 /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = AB447CB619816317009352B0 /* Test.m */; };
 		AB4B48EC196AB2F400183901 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4B48EB196AB2F400183901 /* RtMidi.cpp */; };
 		AB4B4963196AB3D800183901 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4962196AB3D800183901 /* CoreMIDI.framework */; };
 		AB4EC7981949A6BB00A24325 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EC7961949A6BB00A24325 /* Player.cpp */; };
@@ -117,6 +121,8 @@
 		AB8CAB4B1946021800B40AF3 /* ExponentialDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB491946021800B40AF3 /* ExponentialDistribution.cpp */; };
 		AB8CAB4E19460A7C00B40AF3 /* GaussianDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4C19460A7C00B40AF3 /* GaussianDistribution.cpp */; };
 		AB8CAB5119460DE500B40AF3 /* CauchyDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */; };
+		AB98BF9B1984015E00BD1AF4 /* SerialistComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */; };
+		AB98BF9F19840F7500BD1AF4 /* SerialismMethods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB98BF9D19840F7500BD1AF4 /* SerialismMethods.cpp */; };
 		B132BF62D1838C2CF9B3FC37 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CDC0F918EA1EDBDE0DC0D0E /* ofxXmlSettings.cpp */; };
 		B5A1358CFDA6A2AA9804C3EB /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8044080087A08C0D58985E73 /* tinyxmlparser.cpp */; };
 		B8ACFA0466EA6980A6BAA5DE /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEF899383F2E6188D4B0D0F3 /* ofxSlider.cpp */; };
@@ -171,6 +177,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AB447CB119816303009352B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4B69B4C0A3A1720003C02F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4B69B5A0A3A1756003C02F2;
+			remoteInfo = The_Algorithmic_Composer;
+		};
 		E4328147138ABC890047C5CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
@@ -406,6 +419,13 @@
 		AB444F8A19752A1200E0EB43 /* ofxSvg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSvg.h; sourceTree = "<group>"; };
 		AB444F901975719600E0EB43 /* MusicVisualizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MusicVisualizer.cpp; sourceTree = "<group>"; };
 		AB444F911975719600E0EB43 /* MusicVisualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicVisualizer.h; sourceTree = "<group>"; };
+		AB447CA419816302009352B0 /* The_Algorithmic_Composer Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The_Algorithmic_Composer Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB447CA619816302009352B0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AB447CAA19816302009352B0 /* The_Algorithmic_Composer Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "The_Algorithmic_Composer Tests-Info.plist"; sourceTree = "<group>"; };
+		AB447CAC19816303009352B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AB447CAE19816303009352B0 /* The_Algorithmic_Composer_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = The_Algorithmic_Composer_Tests.m; sourceTree = "<group>"; };
+		AB447CB019816303009352B0 /* The_Algorithmic_Composer Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "The_Algorithmic_Composer Tests-Prefix.pch"; sourceTree = "<group>"; };
+		AB447CB619816317009352B0 /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
 		AB4B48EB196AB2F400183901 /* RtMidi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RtMidi.cpp; path = ../of_v0.8.0_osx_release/addons/ofxMidi/libs/RtMidi.cpp; sourceTree = "<group>"; };
 		AB4B4962196AB3D800183901 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreMIDI.framework; sourceTree = DEVELOPER_DIR; };
 		AB4EC7961949A6BB00A24325 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -434,6 +454,10 @@
 		AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianDistribution.h; sourceTree = "<group>"; };
 		AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CauchyDistribution.cpp; sourceTree = "<group>"; };
 		AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CauchyDistribution.h; sourceTree = "<group>"; };
+		AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialistComposer.cpp; sourceTree = "<group>"; };
+		AB98BF9A1984015E00BD1AF4 /* SerialistComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialistComposer.h; sourceTree = "<group>"; };
+		AB98BF9D19840F7500BD1AF4 /* SerialismMethods.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialismMethods.cpp; sourceTree = "<group>"; };
+		AB98BF9E19840F7500BD1AF4 /* SerialismMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialismMethods.h; sourceTree = "<group>"; };
 		ABABA614194F58FE00357936 /* Scales.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scales.h; sourceTree = "<group>"; };
 		AE5713E56160680770F2EB55 /* ofxUIRotarySlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIRotarySlider.h; path = ../of_v0.8.0_osx_release/addons/ofxUI/src/ofxUIRotarySlider.h; sourceTree = SOURCE_ROOT; };
 		AEB4F82D2AAD8378F3D030B6 /* ControlXYSpeed.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ControlXYSpeed.cpp; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/ControlXYSpeed.cpp; sourceTree = SOURCE_ROOT; };
@@ -525,6 +549,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AB447CA119816302009352B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB447CA719816302009352B0 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4B69B590A3A1756003C02F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -876,9 +908,37 @@
 			path = ../of_v0.8.0_osx_release/addons/ofxSvg/src;
 			sourceTree = "<group>";
 		};
+		AB447CA519816302009352B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB447CA619816302009352B0 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB447CA819816302009352B0 /* The_Algorithmic_Composer Tests */ = {
+			isa = PBXGroup;
+			children = (
+				AB447CAE19816303009352B0 /* The_Algorithmic_Composer_Tests.m */,
+				AB447CA919816302009352B0 /* Supporting Files */,
+			);
+			path = "The_Algorithmic_Composer Tests";
+			sourceTree = "<group>";
+		};
+		AB447CA919816302009352B0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AB447CAA19816302009352B0 /* The_Algorithmic_Composer Tests-Info.plist */,
+				AB447CAB19816302009352B0 /* InfoPlist.strings */,
+				AB447CB019816303009352B0 /* The_Algorithmic_Composer Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		AB8CAB3B1945BE6000B40AF3 /* Composers */ = {
 			isa = PBXGroup;
 			children = (
+				AB98BF9C19840F6200BD1AF4 /* Serialism Development Methods */,
 				88EB5AE4197EDAAB0071A0A6 /* Motivic Development Methods */,
 				AB8CAB3C1945C80D00B40AF3 /* Distributions */,
 				AB5AF6D2196EE9B800BAE743 /* RandomWalkComposer.cpp */,
@@ -891,6 +951,8 @@
 				AB3A7D55196AE789000E7EE2 /* MarkovChainsComposer.h */,
 				AB2FC78D197D799600B7E122 /* MotivicDevelopmentComposer.cpp */,
 				AB2FC78E197D799600B7E122 /* MotivicDevelopmentComposer.h */,
+				AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */,
+				AB98BF9A1984015E00BD1AF4 /* SerialistComposer.h */,
 			);
 			name = Composers;
 			sourceTree = "<group>";
@@ -920,6 +982,15 @@
 				AB62EA7F1951944E00130C7B /* PoissonDistribution.h */,
 			);
 			name = Distributions;
+			sourceTree = "<group>";
+		};
+		AB98BF9C19840F6200BD1AF4 /* Serialism Development Methods */ = {
+			isa = PBXGroup;
+			children = (
+				AB98BF9D19840F7500BD1AF4 /* SerialismMethods.cpp */,
+				AB98BF9E19840F7500BD1AF4 /* SerialismMethods.h */,
+			);
+			name = "Serialism Development Methods";
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
@@ -1089,6 +1160,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				AB447CB619816317009352B0 /* Test.m */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -1096,6 +1168,9 @@
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
 				E4B69B5B0A3A1756003C02F2 /* The_Algorithmic_ComposerDebug.app */,
+				AB447CA419816302009352B0 /* The_Algorithmic_Composer Tests.xctest */,
+				AB447CA819816302009352B0 /* The_Algorithmic_Composer Tests */,
+				AB447CA519816302009352B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1133,6 +1208,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AB447CA319816302009352B0 /* The_Algorithmic_Composer Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB447CB519816303009352B0 /* Build configuration list for PBXNativeTarget "The_Algorithmic_Composer Tests" */;
+			buildPhases = (
+				AB447CA019816302009352B0 /* Sources */,
+				AB447CA119816302009352B0 /* Frameworks */,
+				AB447CA219816302009352B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB447CB219816303009352B0 /* PBXTargetDependency */,
+			);
+			name = "The_Algorithmic_Composer Tests";
+			productName = "The_Algorithmic_Composer Tests";
+			productReference = AB447CA419816302009352B0 /* The_Algorithmic_Composer Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E4B69B5A0A3A1756003C02F2 /* The_Algorithmic_Composer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "The_Algorithmic_Composer" */;
@@ -1159,6 +1252,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					AB447CA319816302009352B0 = {
+						TestTargetID = E4B69B5A0A3A1756003C02F2;
+					};
+				};
 			};
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "the_algorithmic_composer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1169,6 +1267,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = E4B69B4A0A3A1720003C02F2;
 			productRefGroup = E4B69B4A0A3A1720003C02F2;
@@ -1182,6 +1281,7 @@
 			projectRoot = "";
 			targets = (
 				E4B69B5A0A3A1756003C02F2 /* The_Algorithmic_Composer */,
+				AB447CA319816302009352B0 /* The_Algorithmic_Composer Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1195,6 +1295,17 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB447CA219816302009352B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB447CAD19816303009352B0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
@@ -1213,6 +1324,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AB447CA019816302009352B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB447CAF19816303009352B0 /* The_Algorithmic_Composer_Tests.m in Sources */,
+				AB447CB719816317009352B0 /* Test.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4B69B580A3A1756003C02F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1303,6 +1423,7 @@
 				6712A5D8C45E4C4891A2F5AA /* StereoDelay.cpp in Sources */,
 				4601D3DA97FC868273133BE6 /* Synth.cpp in Sources */,
 				9222A2410A6B43FE2E2A6BEA /* TableLookupOsc.cpp in Sources */,
+				AB98BF9B1984015E00BD1AF4 /* SerialistComposer.cpp in Sources */,
 				814E7271B10C767C140B1F4B /* TonicFrames.cpp in Sources */,
 				A7DB064ADF14314B59B99651 /* ofxUI2DGraph.cpp in Sources */,
 				4E7DCEE05A94D231A91DFC05 /* ofxUI2DPad.cpp in Sources */,
@@ -1330,6 +1451,7 @@
 				4CCFC00104C2B2EA9D938E43 /* ofxUILabel.cpp in Sources */,
 				7B5391D72D15524C863EFE5A /* ofxUILabelButton.cpp in Sources */,
 				579FDB911FD4F4295C288512 /* ofxUILabelToggle.cpp in Sources */,
+				AB98BF9F19840F7500BD1AF4 /* SerialismMethods.cpp in Sources */,
 				60C8E974CF13722841DBB274 /* ofxUIMinimalSlider.cpp in Sources */,
 				36544C93D0B2696EDDFD0138 /* ofxUIMovingGraph.cpp in Sources */,
 				00F0DF87EA6498BBC084DEA1 /* ofxUIMultiImageButton.cpp in Sources */,
@@ -1365,6 +1487,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AB447CB219816303009352B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4B69B5A0A3A1756003C02F2 /* The_Algorithmic_Composer */;
+			targetProxy = AB447CB119816303009352B0 /* PBXContainerItemProxy */;
+		};
 		E4EEB9AC138B136A00A80321 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = openFrameworks;
@@ -1372,7 +1499,104 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		AB447CAB19816302009352B0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB447CAC19816303009352B0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		AB447CB319816303009352B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/The_Algorithmic_Composer.app/Contents/MacOS/The_Algorithmic_Composer";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "The_Algorithmic_Composer Tests/The_Algorithmic_Composer Tests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "The_Algorithmic_Composer Tests/The_Algorithmic_Composer Tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		AB447CB419816303009352B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/The_Algorithmic_Composer.app/Contents/MacOS/The_Algorithmic_Composer";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "The_Algorithmic_Composer Tests/The_Algorithmic_Composer Tests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "The_Algorithmic_Composer Tests/The_Algorithmic_Composer Tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		E4B69B4E0A3A1720003C02F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
@@ -1688,6 +1912,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AB447CB519816303009352B0 /* Build configuration list for PBXNativeTarget "The_Algorithmic_Composer Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB447CB319816303009352B0 /* Debug */,
+				AB447CB419816303009352B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "the_algorithmic_composer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
