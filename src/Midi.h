@@ -14,6 +14,7 @@
 #include <vector>
 #include "Figure.h"
 #include "MIDIFileReader.h"
+#include "MidiFile.h"
 
 using namespace std;
 

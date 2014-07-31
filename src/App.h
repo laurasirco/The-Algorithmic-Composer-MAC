@@ -54,13 +54,13 @@ public:
 	static int getTempo(){ return player->getTempo(); }
 	static ofColor getUIColor();
 	static Composer * getComposer(){ return composer; }
-	
+	static MusicVisualizer * getMusicVisualizer(){ return mv; }
 	
 private:
 
 	static Composer * composer;
 	static Player * player;
-	MusicVisualizer * mv;
+	static MusicVisualizer * mv;
 	static ofxTonicSynth synth;
 	
 	void initSynth();
@@ -124,6 +124,7 @@ private:
 	ofxUICanvas * betaDistGUI;
 	ofxUICanvas * weibullDistGUI;
 	ofxUICanvas * poissonDistGUI;
+	ofxUICanvas * fixedGUI;
 	
 	ofxUIMovingGraph * mg2;
 	ofxUICanvas * distributionGUI2;
@@ -135,6 +136,7 @@ private:
 	ofxUICanvas * betaDistGUI2;
 	ofxUICanvas * weibullDistGUI2;
 	ofxUICanvas * poissonDistGUI2;
+	ofxUICanvas * fixedGUI2;
 	
 	ofxUIMovingGraph * mg3;
 	ofxUICanvas * distributionGUI3;
@@ -162,7 +164,7 @@ private:
 	
 	/* MOTIVIC DEVELOPMENT GUI */
 	
-	ofxUICanvas *mdGUI0;
+	ofxUIScrollableCanvas *mdGUI0;
 	ofxUICanvas *mdGUI1;
 	ofxUICanvas *mdGUI2;
 	ofxUICanvas *mdGUI3;

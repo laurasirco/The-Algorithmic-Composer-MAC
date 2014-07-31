@@ -7,6 +7,7 @@
 #include "SerialistComposer.h"
 #include "Figure.h"
 #include "Silence.h"
+#include "Note.h"
 #include "Scales.h"
 #include "Midi.h"
 
@@ -26,11 +27,11 @@ using namespace std;
 ofxTonicSynth App::synth = ofxTonicSynth();
 ofxUITextArea * App::currentFigureLabel = NULL;
 ofxUIScrollableCanvas * App::resultsGui = NULL;
-Player * App::player = new Player();
+Player * App::player = new Player(120);
 Composer * App::composer = new RandomWalkComposer();
+MusicVisualizer * App::mv = new MusicVisualizer();
 
 void App::setup(){
-    
 	
 	cout << "load" << endl;
 	
@@ -44,8 +45,6 @@ void App::setup(){
 		player->pushPianoSound(p);
 		
 	}
-	
-	mv = new MusicVisualizer();
 	
 	uniform = new UniformDistribution();
 	
@@ -82,6 +81,7 @@ void App::setup(){
 	initGUI();
 	initSynth();
 	selectedDistribution = 1;
+	mv->init();
 	
 }
 
@@ -93,7 +93,7 @@ void App::update(){
 	else
 		synth.setParameter("volume", 0);
 	
-	mv->update();
+	//mv->update();
 }
 
 //--------------------------------------------------------------
@@ -193,10 +193,43 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	IndependentStochasticComposer * c = dynamic_cast<IndependentStochasticComposer *>(composer);
 	
-	
+	if (name == "Fixed") {
+		if (selectedDistribution == 1) {
+			c->setFixedPitch(60);
+			fixedGUI->setVisible(true);
+			triangularDistGUI->setVisible(false);
+			linearDistGUI->setVisible(false);
+			exponentialDistGUI->setVisible(false);
+			gaussDistGUI->setVisible(false);
+			cauchyDistGUI->setVisible(false);
+			betaDistGUI->setVisible(false);
+			weibullDistGUI->setVisible(false);
+			poissonDistGUI->setVisible(false);
+		}
+		else if (selectedDistribution == 2){
+			c->setFixedDuration((Type)5);
+			fixedGUI2->setVisible(true);
+			triangularDistGUI2->setVisible(false);
+			linearDistGUI2->setVisible(false);
+			exponentialDistGUI2->setVisible(false);
+			gaussDistGUI2->setVisible(false);
+			cauchyDistGUI2->setVisible(false);
+			betaDistGUI2->setVisible(false);
+			weibullDistGUI2->setVisible(false);
+			poissonDistGUI2->setVisible(false);
+		}
+	}
+	if (name == "Pitch" && composer->getType() == IndependentStochastic) {
+		c->setFixedPitch((int)e.getSlider()->getValue());
+	}
+	if (name == "Duration"  && composer->getType() == IndependentStochastic) {
+		c->setFixedDuration((Type)e.getSlider()->getValue());
+	}
+
 	
 	if(name == "Uniform"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(uniform);
 			setValuesForGraph(uniform);
 			triangularDistGUI->setVisible(false);
@@ -207,8 +240,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(uniform);
 			setValuesForGraph(uniform);
 			triangularDistGUI2->setVisible(false);
@@ -219,6 +254,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(uniform);
@@ -238,6 +274,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Linear"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(linear);
 			setValuesForGraph(linear);
 			triangularDistGUI->setVisible(false);
@@ -248,8 +285,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(linear);
 			setValuesForGraph(linear);
 			triangularDistGUI2->setVisible(false);
@@ -260,6 +299,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(linear);
@@ -312,6 +352,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Triangular"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(triangular);
 			setValuesForGraph(triangular);
 			triangularDistGUI->setVisible(true);
@@ -322,8 +363,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(triangular);
 			setValuesForGraph(triangular);
 			triangularDistGUI2->setVisible(true);
@@ -334,6 +377,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(triangular);
@@ -372,6 +416,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Exponential"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(exponential);
 			setValuesForGraph(exponential);
 			triangularDistGUI->setVisible(false);
@@ -382,8 +427,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(exponential);
 			setValuesForGraph(exponential);
 			triangularDistGUI2->setVisible(false);
@@ -394,6 +441,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(exponential);
@@ -431,6 +479,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Gaussian"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(gauss);
 			setValuesForGraph(gauss);
 			triangularDistGUI->setVisible(false);
@@ -441,8 +490,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(gauss);
 			setValuesForGraph(gauss);
 			triangularDistGUI2->setVisible(false);
@@ -453,6 +504,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(gauss);
@@ -509,6 +561,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Cauchy"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(cauchy);
 			setValuesForGraph(cauchy);
 			triangularDistGUI->setVisible(false);
@@ -519,8 +572,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(cauchy);
 			setValuesForGraph(cauchy);
 			triangularDistGUI2->setVisible(false);
@@ -531,6 +586,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(cauchy);
@@ -568,6 +624,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Beta"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(beta);
 			setValuesForGraph(beta);
 			triangularDistGUI->setVisible(false);
@@ -578,8 +635,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(true);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(beta);
 			setValuesForGraph(beta);
 			triangularDistGUI2->setVisible(false);
@@ -590,6 +649,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(true);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(beta);
@@ -645,6 +705,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Weibull"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(weibull);
 			setValuesForGraph(weibull);
 			triangularDistGUI->setVisible(false);
@@ -655,8 +716,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(true);
 			poissonDistGUI->setVisible(false);
+			fixedGUI->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(weibull);
 			setValuesForGraph(weibull);
 			triangularDistGUI2->setVisible(false);
@@ -667,6 +730,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(true);
 			poissonDistGUI2->setVisible(false);
+			fixedGUI2->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(weibull);
@@ -722,6 +786,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	else if(name == "Poisson"){
 		if (selectedDistribution == 1) {
+			c->setFixedPitch(-1);
 			c->setPitchesDistribution(poisson);
 			setValuesForGraph(poisson);
 			triangularDistGUI->setVisible(false);
@@ -732,8 +797,10 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI->setVisible(false);
 			weibullDistGUI->setVisible(false);
 			poissonDistGUI->setVisible(true);
+			fixedGUI2->setVisible(false);
 		}
 		else if (selectedDistribution == 2) {
+			c->setFixedDuration(NotAFigure);
 			c->setDurationsDistribution(weibull);
 			setValuesForGraph(weibull);
 			triangularDistGUI2->setVisible(false);
@@ -744,6 +811,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI2->setVisible(false);
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(true);
+			fixedGUI->setVisible(false);
 		}
 		if (selectedDistribution == 3) {
 			c->setNotesAndSilencesDistribution(weibull);
@@ -787,7 +855,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 		
 		if(!player->isPaused()){
 			player->play(composition);
-			mv->drawFigures(composition);
+			//mv->drawFigures(composition);
 		}
 		else{
 			player->unpause();
@@ -811,6 +879,15 @@ void App::guiEvent(ofxUIEventArgs &e){
 		mv->stop();
 		resultsGui->removeWidgets();
 		
+	}
+	else if (name == "SAVE" && e.getButton()->getValue() == true){
+		
+		if(composition.size() > 0){
+			ofFileDialogResult saveFileResult = ofSystemSaveDialog("Composition - " + ofGetTimestampString() + ".mid", "Save your file");
+			if (saveFileResult.bSuccess){
+				Midi::writeMidiFile(saveFileResult.getPath(), composition);
+			}
+		}
 	}
 	
 	else if(name == "TEMPO"){
@@ -916,6 +993,48 @@ void App::guiEvent(ofxUIEventArgs &e){
 		composer = new SerialistComposer();
 	}
 	
+	
+	else if (name == "Add figure" && e.getButton()->getValue() == true){
+		
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		
+		ofxUIRadio * type = dynamic_cast<ofxUIRadio *>(mdGUI0->getWidget("Type"));
+		ofxUIRadio * duration = dynamic_cast<ofxUIRadio *>(mdGUI0->getWidget("Duration"));
+		ofxUISlider * pitch = dynamic_cast<ofxUISlider *>(mdGUI0->getWidget("Pitch"));
+		ofxUISlider * velocity = dynamic_cast<ofxUISlider *>(mdGUI0->getWidget("Velocity"));
+		
+		bool f = false;
+		int i = 0;
+		while(!f && i < duration->getToggles().size()){
+			if (duration->getToggles()[i]->getValue() == true) {
+				f = true;
+			}
+			else i++;
+		}
+		Type t = (Type) i;
+		
+		if(i == duration->getToggles().size())
+			t = Quarter;
+		
+		//NOTE
+		if (type->getToggles()[0]->getValue() == true) {
+			Note *n = new Note(t, (int)pitch->getValue(), (int)velocity->getValue());
+			c->addFigureToMotive(n);
+			n->printMyself();
+			
+		}
+		
+		//SILENCE
+		else if(type->getToggles()[1]->getValue() == true){
+			Silence *s = new Silence(t);
+			c->addFigureToMotive(s);
+			s->printMyself();
+		}
+	}
+	else if (name == "Reset Motive" && e.getButton()->getValue() == true){
+		MotivicDevelopmentComposer * c = dynamic_cast<MotivicDevelopmentComposer *>(composer);
+		c->resetMotive();
+	}
 	
 	else if(name == "Add repetition" && e.getButton()->getValue() == true){
 		
@@ -1457,6 +1576,35 @@ void App::guiEvent(ofxUIEventArgs &e){
 				rw->setTypeOfFigure(ThirtySecond);
 			else if (toggle->getName() == "SixtyFourth")
 				rw->setTypeOfFigure(SixtyFourth);
+		}
+		else if(toggle->getParent()->getName() == "Fixed Duration"){
+			
+			if (toggle->getName() == "Dotted Whole")
+				c->setFixedDuration(DWhole);
+			else if (toggle->getName() == "Whole")
+				c->setFixedDuration(Whole);
+			else if (toggle->getName() == "Dotted Half")
+				c->setFixedDuration(DHalf);
+			else if (toggle->getName() == "Half")
+				c->setFixedDuration(Half);
+			else if (toggle->getName() == "Dotted Quarter")
+				c->setFixedDuration(DQuarter);
+			else if (toggle->getName() == "Quarter")
+				c->setFixedDuration(Quarter);
+			else if (toggle->getName() == "Dotted Eighth")
+				c->setFixedDuration(DEighth);
+			else if (toggle->getName() == "Eighth")
+				c->setFixedDuration(Eighth);
+			else if (toggle->getName() == "Dotted Sixteenth")
+				c->setFixedDuration(DSixteenth);
+			else if (toggle->getName() == "Sixteenth")
+				c->setFixedDuration(Sixteenth);
+			else if (toggle->getName() == "Dotted ThirtySecond")
+				c->setFixedDuration(DThirtySecond);
+			else if (toggle->getName() == "ThirtySecond")
+				c->setFixedDuration(ThirtySecond);
+			else if (toggle->getName() == "SixtyFourth")
+				c->setFixedDuration(SixtyFourth);
 		}
 		/*else if (toggle->getParent()->getName() == "Series"){
 		 
@@ -2146,6 +2294,7 @@ void App::initGUI(){
 	distributionListGUI->setPosition(620, 125);
 	distributionListGUI->setWidth(180);
 	vector<string> distributions;
+	distributions.push_back("Fixed");
 	distributions.push_back("Uniform");
 	distributions.push_back("Linear");
 	distributions.push_back("Triangular");
@@ -2157,13 +2306,55 @@ void App::initGUI(){
 	distributions.push_back("Poisson");
 	
 	ofxUIRadio * dis = distributionListGUI->addRadio("Distribution", distributions);
-	dis->getToggles()[0]->setValue(true);
+	dis->getToggles()[1]->setValue(true);
 	setValuesForGraph(uniform);
 	ofAddListener(distributionListGUI->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(distributionListGUI);
 	
 	////////////
 	
+	fixedGUI = new ofxUICanvas();
+	fixedGUI->setFont("GUI/Lekton-Regular.ttf");
+	fixedGUI->setPosition(800, 235);
+	fixedGUI->addLabel("FIXED PITCHES", OFX_UI_FONT_LARGE);
+	fixedGUI->addSlider("Pitch", 36.0, 107.0, 60.0);
+	fixedGUI->autoSizeToFitWidgets();
+	fixedGUI->setWidth(211);
+	fixedGUI->setVisible(false);
+	ofAddListener(fixedGUI->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(fixedGUI);
+	
+	fixedGUI2 = new ofxUICanvas();
+	fixedGUI2->setFont("GUI/Lekton-Regular.ttf");
+	fixedGUI2->setPosition(800, 235);
+	fixedGUI2->addLabel("FIXED DURATIONS", OFX_UI_FONT_LARGE);
+	
+	vector<string> figure;
+	figure.push_back("Dotted Whole");
+	figure.push_back("Whole");
+	figure.push_back("Dotted Half");
+	figure.push_back("Half");
+	figure.push_back("Dotted Quarter");
+	figure.push_back("Quarter");
+	figure.push_back("Dotted Eighth");
+	figure.push_back("Eighth");
+	figure.push_back("Dotted Sixteenth");
+	figure.push_back("Sixteenth");
+	figure.push_back("Dotted ThirtySecond");
+	figure.push_back("ThirtySecond");
+	figure.push_back("SixtyFourth");
+	
+	fixedGUI2->addRadio("Fixed Duration", figure);
+	
+	fixedGUI2->autoSizeToFitWidgets();
+	fixedGUI2->setWidth(211);
+	fixedGUI2->setVisible(false);
+	
+	ofAddListener(fixedGUI2->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(fixedGUI2);
+	
+	
+		
 	linearDistGUI = new ofxUICanvas();
 	linearDistGUI->setFont("GUI/Lekton-Regular.ttf");
 	linearDistGUI->setPosition(800, 235);
@@ -2531,21 +2722,6 @@ void App::initGUI(){
 	
 	rwGUI->addLabel("Figure", OFX_UI_FONT_SMALL);
 	
-	vector<string> figure;
-	figure.push_back("Dotted Whole");
-	figure.push_back("Whole");
-	figure.push_back("Dotted Half");
-	figure.push_back("Half");
-	figure.push_back("Dotted Quarter");
-	figure.push_back("Quarter");
-	figure.push_back("Dotted Eighth");
-	figure.push_back("Eighth");
-	figure.push_back("Dotted Sixteenth");
-	figure.push_back("Sixteenth");
-	figure.push_back("Dotted ThirtySecond");
-	figure.push_back("ThirtySecond");
-	figure.push_back("SixtyFourth");
-	
 	rwGUI->addRadio("Figure", figure);
 	
 	rwGUI->setVisible(false);
@@ -2556,24 +2732,44 @@ void App::initGUI(){
 	
 	/* MOTIVIC DEVELOPMENT */
 	
-	mdGUI0 = new ofxUICanvas();
+	mdGUI0 = new ofxUIScrollableCanvas();
 	mdGUI0->setFont("GUI/Lekton-Regular.ttf");
 	mdGUI0->setPosition(200, 40);
 	mdGUI0->addLabel("SET MOTIVE");
 	mdGUI0->addSpacer();
+	mdGUI0->setSnapping(false);
+	
 	
 	mdGUI0->addLabel("GENERATE RANDOM MOTIVE", OFX_UI_FONT_SMALL);
 	mdGUI0->addSlider("Figures", 0, 10, 5);
 	mdGUI0->addRangeSlider("Octaves", 1, 6, 3, 4);
 	mdGUI0->addLabelButton("Generate", false);
 	
-	ofxUISpacer * s = mdGUI0->addSpacer(200, 5);
-	s->setDrawFill(false);
-	
+	mdGUI0->addSpacer(0, 5);
+
 	mdGUI0->addLabel("PICK MOTIVE FROM FILE", OFX_UI_FONT_SMALL);
 	mdGUI0->addLabelButton("Select .mid file", false);
 	
+	mdGUI0->addSpacer(0, 5);
+	
+	mdGUI0->addLabel("SET MANUAL MOTIVE", OFX_UI_FONT_SMALL);
+	
+	vector<string> notesilence;
+	notesilence.push_back("Note");
+	notesilence.push_back("Silence");
+	
+	mdGUI0->addRadio("Type", notesilence);
+	
+	mdGUI0->addSpacer(0, 2);
+	
+	mdGUI0->addRadio("Duration", figure);
+	mdGUI0->addSlider("Pitch", 36.0, 107.0, 60.0);
+	mdGUI0->addSlider("Velocity", 0.0, 100.0, 50.0);
+	mdGUI0->addLabelButton("Add figure", false);
+	mdGUI0->addLabelButton("Reset Motive", false);
+	
 	mdGUI0->autoSizeToFitWidgets();
+	mdGUI0->setHeight(550);
 	mdGUI0->setVisible(false);
 	guis.push_back(mdGUI0);
 	ofAddListener(mdGUI0->newGUIEvent, this, &App::guiEvent);
@@ -2588,34 +2784,30 @@ void App::initGUI(){
 	mdGUI1->addLabel("REPETITION", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add repetition", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
+
 	
 	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Transpose steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add transpose", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
 	
 	mdGUI1->addLabel("EXPAND", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Expand steps (st)", -12.0, 12.0, 0.0);
 	mdGUI1->addLabelButton("Add expand", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
 	
 	mdGUI1->addLabel("INVERT", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add invert", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
 	
 	mdGUI1->addLabel("RETROGRADE", OFX_UI_FONT_SMALL);
 	mdGUI1->addLabelButton("Add retrograde", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
 	
 	mdGUI1->addLabel("REGISTER DISPLACEMENT", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("1", -3.0, +3.0, 0.0, 17, 90);
@@ -2632,8 +2824,7 @@ void App::initGUI(){
 	
 	mdGUI1->addLabelButton("Add register displacement", false);
 	
-	s = mdGUI1->addSpacer(200, 2);
-	s->setDrawFill(false);
+	mdGUI1->addSpacer(0, 2);
 	
 	mdGUI1->addLabel("RHYTHM EXPAND", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Factor", -4.0, 4.0, 0.0);
@@ -2866,6 +3057,8 @@ void App::showIndependentStochasticGUI(bool show){
 	distributionGUI->setVisible(show);
 	
 	if(show == false){
+		fixedGUI->setVisible(show);
+		fixedGUI2->setVisible(show);
 		linearDistGUI->setVisible(show);
 		triangularDistGUI->setVisible(show);
 		exponentialDistGUI->setVisible(show);
@@ -2950,6 +3143,7 @@ void App::toggleDistribution(){
 		distributionGUI3->setVisible(true);
 	}
 	
+	fixedGUI->setVisible(false);
 	triangularDistGUI->setVisible(false);
 	linearDistGUI->setVisible(false);
 	exponentialDistGUI->setVisible(false);
@@ -2959,6 +3153,7 @@ void App::toggleDistribution(){
 	weibullDistGUI->setVisible(false);
 	poissonDistGUI->setVisible(false);
 	
+	fixedGUI2->setVisible(false);
 	triangularDistGUI2->setVisible(false);
 	linearDistGUI2->setVisible(false);
 	exponentialDistGUI2->setVisible(false);

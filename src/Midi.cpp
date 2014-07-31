@@ -11,7 +11,7 @@
 #include "Silence.h"
 
 using namespace MIDIConstants;
-
+typedef unsigned char uchar;
 
 vector<Figure *> Midi::readMidiFile(string filename){
 	
@@ -223,5 +223,42 @@ vector<Figure *> Midi::readMidiFile(string filename){
 }
 
 void Midi::writeMidiFile(string filename, vector<Figure *> figures){
+	
+	
+	MidiFile outputfile;        // create an empty MIDI file with one track
+	outputfile.absoluteTime();  // time information stored as absolute time
+	// (will be coverted to delta time when written)
+	outputfile.addTrack(1);     // Add another two tracks to the MIDI file
+	Array<uchar> midievent;     // temporary storage for MIDI events
+	midievent.setSize(3);       // set the size of the array to 3 bytes
+	int tpq = 120;              // default value in MIDI file is 48
+	outputfile.setTicksPerQuarterNote(tpq);
+	
+	int actiontime = 0;      // temporary storage for MIDI event time
+	midievent[2] = 64;
+	
+	for(int i = 0; i < figures.size(); i++){
+		
+		if(figures[i]->getKind() == KNote){
+			Note * n = dynamic_cast<Note *>(figures[i]);
+			midievent[0] = 0x90;     // store a note on command (MIDI channel 1)
+			midievent[1] = n->getPitch();
+			outputfile.addEvent(1, actiontime, midievent);
+			actiontime += Figure::TypeToMIDIDuration(tpq, figures[i]->getType());
+			midievent[0] = 0x80;     // store a note off command (MIDI channel 1)
+			outputfile.addEvent(1, actiontime, midievent);
 			
+			cout << i << " - NOTE -  Action time: " << actiontime << endl;
+		}
+		else if (figures[i]->getKind() == KSilence){
+			actiontime += Figure::TypeToMIDIDuration(tpq, figures[i]->getType());
+			cout << i << " - SILENCE -  Action time: " << actiontime << endl;
+		}
+	
+		//actiontime += tpq * mrhythm[i];
+
+	}
+	
+	outputfile.write(filename.c_str());
+	
 }

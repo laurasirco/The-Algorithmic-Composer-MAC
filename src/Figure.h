@@ -29,6 +29,7 @@ public:
 	static float typeToDuration(Type t);
 	static Type durationToType(float d);
 	static Type MIDIDurationToType(int ppq, int duration);
+	static int TypeToMIDIDuration(int ppq, Type t);
 	virtual void printMyself() = 0;
 	float getDuration(){ return duration; }
 	Kind getKind(){ return kind; }

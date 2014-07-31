@@ -14,6 +14,7 @@
 #include "Composer.h"
 #include "Distribution.h"
 #include "Figure.h"
+using namespace std;
 
 class IndependentStochasticComposer: public Composer{
 public:
@@ -31,6 +32,9 @@ public:
 	Distribution * getDurationsDistribution(){ return durationsDistribution; }
 	Distribution * getNotesAndSilencesDistribution(){ return notesAndSilencesDistribution; }
 	
+	void setFixedPitch(int p){ fixedPitch = p; cout << "fixedPitch = " << fixedPitch << endl; }
+	void setFixedDuration(Type t){ uniqueDuration = t; cout << "fixedDuration = " << uniqueDuration << endl; }
+	
 private:
     Distribution * pitchesDistribution;
 	Distribution * durationsDistribution;
@@ -41,6 +45,8 @@ private:
 	int maxOct;
 	Type uniqueDuration;
 	int nFigures;
+	
+	int fixedPitch;
 };
 
 

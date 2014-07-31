@@ -106,6 +106,8 @@ float Figure::typeToDuration(Type t){
 		d = 0.03125;
 	else if(t == SixtyFourth)
 		d = 0.015625;
+	else
+		d = 0.0;
 	
 	return d;
 }
@@ -142,6 +144,36 @@ Type Figure::durationToType(float d){
 		t = SixtyFourth;
 	else
 		t = NotAFigure;
+	
+	if(t == NotAFigure){
+		
+		if(d > 1.0)
+			t = DWhole;
+		else if (d > 0.5 + 0.5/2)
+			t = Whole;
+		else if (d > 0.5)
+			t = DHalf;
+		else if (d > 0.25 + 0.25/2)
+			t = Half;
+		else if (d > 0.25)
+			t = DQuarter;
+		else if (d > 0.125 + 0.125/2)
+			t = Quarter;
+		else if (d > 0.125)
+			t = DEighth;
+		else if (d > 0.0625 + 0.0625/2)
+			t = Eighth;
+		else if (d > 0.0625)
+			t = DSixteenth;
+		else if (d > 0.03125 + 0.03125/2)
+			t = Sixteenth;
+		else if (d > 0.03125)
+			t = DThirtySecond;
+		else if (d > 0.015625)
+			t = ThirtySecond;
+		
+		
+	}
 	
 	return t;
 }
@@ -227,4 +259,52 @@ Type Figure::MIDIDurationToType(int ppq, int duration){
 	return t;
 	
 	
+}
+
+
+int Figure::TypeToMIDIDuration(int ppq, Type t){
+	
+	int duration;
+	
+	if (t == DWhole) {
+		duration = ppq * 6;
+	}
+	else if (t == Whole){
+		duration = ppq * 4;
+	}
+	else if (t == DHalf){
+		duration = ppq * 3;
+	}
+	else if (t == Half){
+		duration = ppq * 2;
+	}
+	else if (t == DQuarter) {
+		duration = ppq * 1.5;
+	}
+	else if (t == Quarter) {
+		duration = ppq * 1;
+	}
+	else if (t == DEighth){
+		duration = ppq * 0.75;
+	}
+	else if (t == Eighth){
+		duration = ppq * 0.5;
+	}
+	else if (t == DSixteenth){
+		duration = ppq * (0.25 + 0.25/2);
+	}
+	else if (t == Sixteenth){
+		duration = ppq * 0.25;
+	}
+	else if (t == DThirtySecond){
+		duration = ppq * (0.125 + 0.125/2);
+	}
+	else if (t == ThirtySecond){
+		duration = ppq * 0.125;
+	}
+	else if (t == SixtyFourth){
+		duration = ppq * (0.125/2);
+	}
+	
+	return duration;
 }

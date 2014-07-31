@@ -31,11 +31,16 @@ public:
 	MusicVisualizer();
 	~MusicVisualizer();
 	void draw();
+	void init();
 	void drawFigures(vector<Figure *> f);
+	void drawFigure(Figure * f);
+	void setMeterAndPattern();
 	void update();
 	void pause(){ paused = true; pausedVelocity = velocity; velocity = 0; }
 	void unpause(){ paused = false; velocity = pausedVelocity; }
 	void stop();
+	void allIsPlayed(){ allPlayed = true; }
+	void clearAll(){ figures.clear(); positions.clear(); appeared.clear(); images.clear(); }
 	
 private:
 	
@@ -53,7 +58,7 @@ private:
 	float stemCounter;
 	
 	vector<Figure *> figures;
-	vector<int> positions;
+	vector<float> positions;
 	vector<bool> appeared;
 	vector<INote> images;
 	IMetric metric;

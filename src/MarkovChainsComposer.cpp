@@ -91,6 +91,8 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			if(counter + duration > total){
 				
+				cout<<"counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
+				
 				float difference = total - counter;
 
 				dur = Figure::durationToType(difference);
@@ -141,6 +143,11 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 			//pitch = mapValue(distribution->getValue(), 0, 127);
 			
+			if (dur == NotAFigure) {
+				dur = SixtyFourth;
+				prevDur = dur;
+				cout << "Was NotAFigure" << endl;
+			}
 			
 			int velocity = 50;
 			Note * note = new Note(dur, pitch, velocity);

@@ -33,6 +33,7 @@ void Player::stop(){
 	fragment.clear();
 	prevPitch = -1;
 	App::setIsSilence(true);
+	App::getMusicVisualizer()->clearAll();
 }
 
 void Player::play(std::vector<Figure*> f){
@@ -45,6 +46,7 @@ void Player::play(std::vector<Figure*> f){
 	playing = true;
 	paused = false;
 	prevPitch = -1;
+	App::getMusicVisualizer()->clearAll();
 	
 	float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
 	cout << "frames per quarter: " << framesQuarter << endl;
@@ -116,6 +118,8 @@ void Player::play(std::vector<Figure*> f){
 		prevPitch = -1;
 		App::setIsSilence(true);
 	}
+	
+	App::getMusicVisualizer()->drawFigure(fragment[i]);
 	
 	
 }
@@ -198,6 +202,7 @@ void Player::update(){
 			prevPitch = -1;
 			App::setIsSilence(true);
 		}
+		App::getMusicVisualizer()->drawFigure(fragment[i]);
 		
 	}
 	
@@ -207,6 +212,7 @@ void Player::update(){
 		if(prevPitch != -1)
 			piano[prevPitch].stop();
 		prevPitch = -1;
+		App::getMusicVisualizer()->allIsPlayed();
 	}
 	else{
 		//cout<<"Count "<<count<<" to x "<<x<<endl;

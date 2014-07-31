@@ -19,8 +19,11 @@ const int MusicVisualizer::silenceHeights[13] = {145,145,140,140,125,125,125,125
 
 
 MusicVisualizer::MusicVisualizer(){
-	
-	
+
+}
+
+void MusicVisualizer::init(){
+		
 	claveSol.loadImage("GUI/Notes/ClaveSol.png");
 	claveFa.loadImage("GUI/Notes/ClaveFa.png");
 	sharp.loadImage("GUI/Notes/sharp.png");
@@ -341,7 +344,8 @@ void MusicVisualizer::draw(){
 	for (int i = 0; i < figures.size(); i++) {
 		
 		if(appeared[i]){
-			positions[i] -= velocity;
+			
+			positions[i] -= (float)velocity;
 			
 			ofColor color = App::getUIColor();
 			
@@ -388,7 +392,6 @@ void MusicVisualizer::draw(){
 				height = silenceHeights[figures[i]->getType()];
 			}
 			
-			
 			figureImages[images[i]].draw(positions[i], HEIGHT - height, figureImages[images[i]].getWidth() * 0.2, figureImages[images[i]].getHeight() * 0.2);
 		}
 		
@@ -396,6 +399,75 @@ void MusicVisualizer::draw(){
 	
 	
 	
+}
+
+void MusicVisualizer::setMeterAndPattern(){
+	
+	int meter = App::getComposer()->getMeter();
+	int pattern = App::getComposer()->getPattern();
+	if (pattern == 1) {
+		if (meter == 2)
+			metric = IM21;
+		else if (meter == 3)
+			metric = IM31;
+		else
+			metric = IM41;
+	}
+	else if (pattern == 2){
+		if (meter == 2)
+			metric = IM22;
+		else if (meter == 3)
+			metric = IM32;
+		else
+			metric = IM42;
+	}
+	else if (pattern == 4){
+		if (meter == 2)
+			metric = IM24;
+		else if (meter == 3)
+			metric = IM34;
+		else
+			metric = IM44;
+	}
+	else if (pattern == 8){
+		if (meter == 2)
+			metric = IM28;
+		else if (meter == 3)
+			metric = IM38;
+		else
+			metric = IM48;
+	}
+	else if (pattern == 16){
+		if (meter == 2)
+			metric = IM216;
+		else if (meter == 3)
+			metric = IM316;
+		else
+			metric = IM416;
+	}
+}
+
+void MusicVisualizer::drawFigure(Figure *f){
+	
+	paused = false;
+	allPlayed = false;
+	playing = true;
+	
+	positions.push_back((float)WIDTH - 340);
+	appeared.push_back(true);
+	
+	images.push_back(getImageNoteOfFigure(f));
+	figures.push_back(f);
+	
+	float duration = Figure::typeToDuration(f->getType());
+	float FPS = App::getFramerate();
+	float BPM = App::getTempo();
+	FPS = 60.0;
+	float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
+	
+	//calcule global velocity as last figure
+	velocity = (float)(20 + figureImages[images[images.size() - 1]].getWidth() * 0.2)/ (float)(framesQuarter * getFactorOfType(f->getType()));
+	cout << velocity << endl;
 }
 
 void MusicVisualizer::drawFigures(vector<Figure *> f){
@@ -408,7 +480,7 @@ void MusicVisualizer::drawFigures(vector<Figure *> f){
 	
 	//Add initial positions for each figure
 	for(int i = 0; i < f.size(); i++){
-		positions.push_back(WIDTH - 340);
+		positions.push_back((float)WIDTH - 340);
 		appeared.push_back(false);
 	}
 	
@@ -481,10 +553,12 @@ void MusicVisualizer::update(){
 		float duration = Figure::typeToDuration(figures[currentFigure]->getType());
 		float FPS = App::getFramerate();
 		float BPM = App::getTempo();
+		FPS = 60.0;
 		float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
 		
 		//calcule global velocity as current figure velocity
-		velocity = (float)(figureImages[images[currentFigure]].getWidth() * 0.2) / (float)(framesQuarter * getFactorOfType(figures[currentFigure]->getType()));
+		velocity = (float)(20 + figureImages[images[currentFigure]].getWidth() * 0.2)/ (float)(framesQuarter * getFactorOfType(figures[currentFigure]->getType()));
+		cout << velocity << endl;
 		
 		if (currentFigure == figures.size()) {
 			allPlayed = true;
@@ -691,7 +765,7 @@ INote MusicVisualizer::getImageNoteOfFigure(Figure * f){
 			note = ISSixtyFourth;
 		}
 	}
-	
+
 	return note;
 	
 }

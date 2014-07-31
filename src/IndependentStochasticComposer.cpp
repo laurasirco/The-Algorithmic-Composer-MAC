@@ -25,6 +25,7 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	type = IndependentStochastic;
 	
 	uniqueDuration = NotAFigure;
+	fixedPitch = -1;
 	nFigures = 0;
 }
 
@@ -77,12 +78,17 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 					
 				}
 				else{
+					float fixed = Figure::typeToDuration(uniqueDuration);
+					float patternD = Figure::typeToDuration(patternType) * meter;
+					cout << fixed << ", " << patternD << endl;
 					
-					if (uniqueDuration > patternType)
-						duration = Figure::typeToDuration(patternType);
-					
-					else
+					if (fixed > 0.0 && fixed <= patternD)
 						duration = Figure::typeToDuration(uniqueDuration);
+					else
+						duration = Figure::typeToDuration(Figure::durationToType(patternD));
+					
+					cout << "duration: " << duration << endl;
+					t = Figure::durationToType(duration);
 				}
 				
 				counter += duration;
@@ -95,10 +101,15 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 					else if (scale == 1)
 						max = 5;
 					
+
 					int tone = mapValue(pitchesDistribution->getValue(), 0, 7);
 					int octave = mapValue(pitchesDistribution->getValue(), minOct, maxOct);
 					
 					int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
+					
+					if (fixedPitch != -1) {
+						pitch = fixedPitch;
+					}
 					//pitch = mapValue(distribution->getValue(), 0, 127);
 					
 					

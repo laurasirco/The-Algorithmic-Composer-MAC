@@ -34,6 +34,8 @@ public:
 	void setSequence(vector<Method *> s){ sequence = s; }
 	void setMidiFile(vector<Figure *> m){ midi = m; }
 	void resetSequence(){ sequence.clear(); }
+	void resetMotive(){ motive.clear(); }
+	void addFigureToMotive(Figure * f){ motive.push_back(f); }
 	
 private:
 	vector<Method *> sequence;
