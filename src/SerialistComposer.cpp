@@ -8,7 +8,8 @@
 
 #include "SerialistComposer.h"
 #include "Note.h"
-
+#include "App.h"
+#include <sstream>
 
 SerialistComposer::SerialistComposer(){
 	
@@ -82,6 +83,10 @@ vector<Figure *> SerialistComposer::compose(bool infinite){
 			n->setPitch(melodicClasses[n->getPitch()]);
 		}
 	}
+	
+	stringstream sst;
+	sst << "Got " << fragment.size() << " figures ";
+	App::addLogMessage(sst.str());
 	
 	return fragment;
 	

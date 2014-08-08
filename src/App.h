@@ -56,6 +56,8 @@ public:
 	static Composer * getComposer(){ return composer; }
 	static MusicVisualizer * getMusicVisualizer(){ return mv; }
 	
+	static void addLogMessage(string s);
+	
 private:
 
 	static Composer * composer;
@@ -72,6 +74,8 @@ private:
 	void showRandomWalkGUI(bool show);
 	void showMotivicDevelopmentGUI(bool show);
 	void showSerialGUI(bool show);
+	void showFractionalNoiseGUI(bool show);
+	void showChaoticResponseGUI(bool show);
 	
 	void setGUITheme(int i);
 	void toggleDistribution();
@@ -104,7 +108,9 @@ private:
 	ofxUIRadio *scaleRadioButtons;
 	ofxUIImageToggle * pauseToggle;
 	ofxUICanvas * optionsGUI;
-	
+	static ofxUIScrollableCanvas * logGUI;
+	int initialY;
+
 	
 	/* INDEPENDENT STOCHASTIC GUI */
 	
@@ -149,18 +155,20 @@ private:
 	ofxUICanvas * weibullDistGUI3;
 	ofxUICanvas * poissonDistGUI3;
 	
+	ofxUICanvas * isHelpGUI;
+	
 	int selectedDistribution;
 	
 	/* MARKOV CHAINS GUI */
 	
 	ofxUICanvas *mcGUI1;
 	ofxUILabel *fileLabel;
-	
+	ofxUICanvas * mcHelpGUI;
 	
 	/* RANDOM WALK GUI */
 	
 	ofxUICanvas *rwGUI;
-	
+	ofxUICanvas * rwHelpGUI;
 	
 	/* MOTIVIC DEVELOPMENT GUI */
 	
@@ -170,7 +178,7 @@ private:
 	ofxUICanvas *mdGUI3;
 	ofxUISortableList *sortableList;
 	vector<ofxUILabel *> labels;
-	
+	ofxUICanvas * mdHelpGUI;
 	
 	/* SERIAL GUI */
 	
@@ -186,5 +194,30 @@ private:
 	vector<string> seriesList;
 	vector<ofxUILabel *> sequenceListLabels;
 	
+	ofxUICanvas * sHelpGUI;
+	
+	
+	/* FRACTIONAL NOISE GUI */
+	
+	
+	ofxUICanvas *fsGUI0;
+	ofxUICanvas *fsGUI1;
+	ofxUIScrollableCanvas *fsGUI2;
+	ofxUISlider * fsPitchesSlider;
+	ofxUIRadio * fsDurationsRadio;
+	
+	ofxUICanvas * fsHelpGUI;
+	
+	/* CHAOTIC RESPONSE GUI */
+	
+	ofxUICanvas *crGUI0;
+	ofxUICanvas *crGUI1;
+	ofxUIScrollableCanvas *crGUI2;
+	ofxUICanvas *crLogisticGUI;
+	ofxUICanvas *crHenonGUI;
+	ofxUICanvas *crMandelbrotGUI;
+	ofxUICanvas *crTentMapGUI;
+	
+	ofxUICanvas * crHelpGUI;
 	
 };

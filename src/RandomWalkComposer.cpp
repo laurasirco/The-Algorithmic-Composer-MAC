@@ -11,7 +11,8 @@
 #include "Note.h"
 #include "Utils.h"
 #include "Scales.h"
-
+#include "App.h"
+#include <sstream>
 
 RandomWalkComposer::RandomWalkComposer(){
 	
@@ -175,6 +176,10 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 		
 		counter = 0.0;
 	}
+	
+	stringstream sst;
+	sst << "Got " << fragment.size() << " figures ";
+	App::addLogMessage(sst.str());
 	
 	return fragment;
     

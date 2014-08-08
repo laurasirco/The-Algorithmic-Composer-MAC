@@ -14,7 +14,7 @@
 #include <vector>
 
 enum CType {
-	IndependentStochastic, MarkovChains, RandomWalk, MotivicDevelopment, Serialist
+	IndependentStochastic, MarkovChains, RandomWalk, MotivicDevelopment, Serialist, FractionalNoise, Chaotic
 };
 
 class Composer{

@@ -40,7 +40,7 @@ public:
 	void unpause(){ paused = false; velocity = pausedVelocity; }
 	void stop();
 	void allIsPlayed(){ allPlayed = true; }
-	void clearAll(){ figures.clear(); positions.clear(); appeared.clear(); images.clear(); }
+	void clearAll(){ figures.clear(); positions.clear(); appeared.clear(); images.clear(); va8 = false; va28 = false; }
 	
 private:
 	
@@ -74,6 +74,9 @@ private:
 	static const int heights[];
 	static const int silenceHeights[];
 	vector<int> sharpedPitches;
+	
+	bool va8;
+	bool va28;
 	
 };
 

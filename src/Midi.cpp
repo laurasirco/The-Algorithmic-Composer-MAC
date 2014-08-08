@@ -259,6 +259,10 @@ void Midi::writeMidiFile(string filename, vector<Figure *> figures){
 
 	}
 	
+	std::size_t found = filename.find(".mid");
+	if (found == std::string::npos)
+		filename += ".mid";
+	
 	outputfile.write(filename.c_str());
 	
 }

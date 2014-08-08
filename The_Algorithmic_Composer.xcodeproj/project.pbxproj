@@ -90,6 +90,13 @@
 		AB1090431940E1C300F65E20 /* Note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090411940E1C300F65E20 /* Note.cpp */; };
 		AB1090461940E2DA00F65E20 /* Silence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090441940E2DA00F65E20 /* Silence.cpp */; };
 		AB1090491940E33300F65E20 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1090471940E33300F65E20 /* Figure.cpp */; };
+		AB1E716B1989517C0041E959 /* Array.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E71621989517C0041E959 /* Array.cpp */; };
+		AB1E716C1989517C0041E959 /* SigCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E71681989517C0041E959 /* SigCollection.cpp */; };
+		AB1E716E198951960041E959 /* libmidifile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1E716D198951960041E959 /* libmidifile.a */; };
+		AB1E7173198958140041E959 /* FileIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E716F198958140041E959 /* FileIO.cpp */; };
+		AB1E7174198958140041E959 /* MidiFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E7170198958140041E959 /* MidiFile.cpp */; };
+		AB1E7175198958140041E959 /* Options_private.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E7171198958140041E959 /* Options_private.cpp */; };
+		AB1E7176198958140041E959 /* Options.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1E7172198958140041E959 /* Options.cpp */; };
 		AB26AE5519485C1800B9A675 /* Randomize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26AE5319485C1800B9A675 /* Randomize.cpp */; };
 		AB2FC78F197D799600B7E122 /* MotivicDevelopmentComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2FC78D197D799600B7E122 /* MotivicDevelopmentComposer.cpp */; };
 		AB3317FE196415CC00A0960B /* Utils.h in Sources */ = {isa = PBXBuildFile; fileRef = AB3317FD196415CC00A0960B /* Utils.h */; };
@@ -113,6 +120,7 @@
 		AB62EA7A195184B400130C7B /* BetaDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA78195184B400130C7B /* BetaDistribution.cpp */; };
 		AB62EA7D195191BE00130C7B /* WeibullDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7B195191BE00130C7B /* WeibullDistribution.cpp */; };
 		AB62EA801951944E00130C7B /* PoissonDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */; };
+		AB8255C419927C6E00B74F70 /* ChaoticComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8255C219927C6E00B74F70 /* ChaoticComposer.cpp */; };
 		AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB351945BD1000B40AF3 /* Distribution.cpp */; };
 		AB8CAB3A1945BE2F00B40AF3 /* IndependentStochasticComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */; };
 		AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB401945C82F00B40AF3 /* UniformDistribution.cpp */; };
@@ -121,6 +129,8 @@
 		AB8CAB4B1946021800B40AF3 /* ExponentialDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB491946021800B40AF3 /* ExponentialDistribution.cpp */; };
 		AB8CAB4E19460A7C00B40AF3 /* GaussianDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4C19460A7C00B40AF3 /* GaussianDistribution.cpp */; };
 		AB8CAB5119460DE500B40AF3 /* CauchyDistribution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */; };
+		AB9130F91990D3B400AFF2BB /* FractionalNoiseComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9130F71990D3B400AFF2BB /* FractionalNoiseComposer.cpp */; };
+		AB9130FC1991272500AFF2BB /* colorednoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9130FA1991272500AFF2BB /* colorednoise.cpp */; };
 		AB98BF9B1984015E00BD1AF4 /* SerialistComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */; };
 		AB98BF9F19840F7500BD1AF4 /* SerialismMethods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB98BF9D19840F7500BD1AF4 /* SerialismMethods.cpp */; };
 		B132BF62D1838C2CF9B3FC37 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CDC0F918EA1EDBDE0DC0D0E /* ofxXmlSettings.cpp */; };
@@ -394,6 +404,20 @@
 		AB1090451940E2DA00F65E20 /* Silence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Silence.h; sourceTree = "<group>"; };
 		AB1090471940E33300F65E20 /* Figure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Figure.cpp; sourceTree = "<group>"; };
 		AB1090481940E33300F65E20 /* Figure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Figure.h; sourceTree = "<group>"; };
+		AB1E71621989517C0041E959 /* Array.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Array.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/include/Array.cpp; sourceTree = "<group>"; };
+		AB1E71631989517C0041E959 /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Array.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/Array.h; sourceTree = "<group>"; };
+		AB1E71641989517C0041E959 /* FileIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileIO.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/FileIO.h; sourceTree = "<group>"; };
+		AB1E71651989517C0041E959 /* MidiFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MidiFile.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/MidiFile.h; sourceTree = "<group>"; };
+		AB1E71661989517C0041E959 /* Options_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Options_private.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/Options_private.h; sourceTree = "<group>"; };
+		AB1E71671989517C0041E959 /* Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Options.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/Options.h; sourceTree = "<group>"; };
+		AB1E71681989517C0041E959 /* SigCollection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SigCollection.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/include/SigCollection.cpp; sourceTree = "<group>"; };
+		AB1E71691989517C0041E959 /* SigCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SigCollection.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/SigCollection.h; sourceTree = "<group>"; };
+		AB1E716A1989517C0041E959 /* sigConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sigConfiguration.h; path = ../of_v0.8.0_osx_release/addons/midifile/include/sigConfiguration.h; sourceTree = "<group>"; };
+		AB1E716D198951960041E959 /* libmidifile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmidifile.a; path = ../of_v0.8.0_osx_release/addons/midifile/lib/libmidifile.a; sourceTree = "<group>"; };
+		AB1E716F198958140041E959 /* FileIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileIO.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/src/FileIO.cpp; sourceTree = "<group>"; };
+		AB1E7170198958140041E959 /* MidiFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MidiFile.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/src/MidiFile.cpp; sourceTree = "<group>"; };
+		AB1E7171198958140041E959 /* Options_private.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Options_private.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/src/Options_private.cpp; sourceTree = "<group>"; };
+		AB1E7172198958140041E959 /* Options.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Options.cpp; path = ../of_v0.8.0_osx_release/addons/midifile/src/Options.cpp; sourceTree = "<group>"; };
 		AB26AE5319485C1800B9A675 /* Randomize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Randomize.cpp; sourceTree = "<group>"; };
 		AB26AE5419485C1800B9A675 /* Randomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Randomize.h; sourceTree = "<group>"; };
 		AB282357F09D053C1185FDFF /* TonicCore.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TonicCore.h; path = ../of_v0.8.0_osx_release/addons/ofxTonic/src/Tonic/TonicCore.h; sourceTree = SOURCE_ROOT; };
@@ -438,6 +462,8 @@
 		AB62EA7C195191BE00130C7B /* WeibullDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeibullDistribution.h; sourceTree = "<group>"; };
 		AB62EA7E1951944E00130C7B /* PoissonDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoissonDistribution.cpp; sourceTree = "<group>"; };
 		AB62EA7F1951944E00130C7B /* PoissonDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoissonDistribution.h; sourceTree = "<group>"; };
+		AB8255C219927C6E00B74F70 /* ChaoticComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChaoticComposer.cpp; sourceTree = "<group>"; };
+		AB8255C319927C6E00B74F70 /* ChaoticComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChaoticComposer.h; sourceTree = "<group>"; };
 		AB8CAB351945BD1000B40AF3 /* Distribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Distribution.cpp; sourceTree = "<group>"; };
 		AB8CAB361945BD1000B40AF3 /* Distribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distribution.h; sourceTree = "<group>"; };
 		AB8CAB381945BE2F00B40AF3 /* IndependentStochasticComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndependentStochasticComposer.cpp; sourceTree = "<group>"; };
@@ -454,6 +480,10 @@
 		AB8CAB4D19460A7C00B40AF3 /* GaussianDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianDistribution.h; sourceTree = "<group>"; };
 		AB8CAB4F19460DE500B40AF3 /* CauchyDistribution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CauchyDistribution.cpp; sourceTree = "<group>"; };
 		AB8CAB5019460DE500B40AF3 /* CauchyDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CauchyDistribution.h; sourceTree = "<group>"; };
+		AB9130F71990D3B400AFF2BB /* FractionalNoiseComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FractionalNoiseComposer.cpp; sourceTree = "<group>"; };
+		AB9130F81990D3B400AFF2BB /* FractionalNoiseComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FractionalNoiseComposer.h; sourceTree = "<group>"; };
+		AB9130FA1991272500AFF2BB /* colorednoise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorednoise.cpp; sourceTree = "<group>"; };
+		AB9130FB1991272500AFF2BB /* colorednoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorednoise.h; sourceTree = "<group>"; };
 		AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialistComposer.cpp; sourceTree = "<group>"; };
 		AB98BF9A1984015E00BD1AF4 /* SerialistComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialistComposer.h; sourceTree = "<group>"; };
 		AB98BF9D19840F7500BD1AF4 /* SerialismMethods.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialismMethods.cpp; sourceTree = "<group>"; };
@@ -561,6 +591,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1E716E198951960041E959 /* libmidifile.a in Frameworks */,
 				AB4B4963196AB3D800183901 /* CoreMIDI.framework in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
@@ -835,6 +866,26 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		AB1E71611989514F0041E959 /* midiFile */ = {
+			isa = PBXGroup;
+			children = (
+				AB1E716F198958140041E959 /* FileIO.cpp */,
+				AB1E7170198958140041E959 /* MidiFile.cpp */,
+				AB1E7171198958140041E959 /* Options_private.cpp */,
+				AB1E7172198958140041E959 /* Options.cpp */,
+				AB1E71621989517C0041E959 /* Array.cpp */,
+				AB1E71631989517C0041E959 /* Array.h */,
+				AB1E71641989517C0041E959 /* FileIO.h */,
+				AB1E71651989517C0041E959 /* MidiFile.h */,
+				AB1E71661989517C0041E959 /* Options_private.h */,
+				AB1E71671989517C0041E959 /* Options.h */,
+				AB1E71681989517C0041E959 /* SigCollection.cpp */,
+				AB1E71691989517C0041E959 /* SigCollection.h */,
+				AB1E716A1989517C0041E959 /* sigConfiguration.h */,
+			);
+			name = midiFile;
+			sourceTree = "<group>";
+		};
 		AB26AE5219485BF400B9A675 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +895,8 @@
 				AB3317FD196415CC00A0960B /* Utils.h */,
 				AB3A7D57196AF34C000E7EE2 /* Midi.cpp */,
 				AB3A7D58196AF34C000E7EE2 /* Midi.h */,
+				AB9130FA1991272500AFF2BB /* colorednoise.cpp */,
+				AB9130FB1991272500AFF2BB /* colorednoise.h */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -911,6 +964,7 @@
 		AB447CA519816302009352B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB1E716D198951960041E959 /* libmidifile.a */,
 				AB447CA619816302009352B0 /* XCTest.framework */,
 			);
 			name = Frameworks;
@@ -953,6 +1007,10 @@
 				AB2FC78E197D799600B7E122 /* MotivicDevelopmentComposer.h */,
 				AB98BF991984015E00BD1AF4 /* SerialistComposer.cpp */,
 				AB98BF9A1984015E00BD1AF4 /* SerialistComposer.h */,
+				AB9130F71990D3B400AFF2BB /* FractionalNoiseComposer.cpp */,
+				AB9130F81990D3B400AFF2BB /* FractionalNoiseComposer.h */,
+				AB8255C219927C6E00B74F70 /* ChaoticComposer.cpp */,
+				AB8255C319927C6E00B74F70 /* ChaoticComposer.h */,
 			);
 			name = Composers;
 			sourceTree = "<group>";
@@ -996,6 +1054,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				AB1E71611989514F0041E959 /* midiFile */,
 				AB444F7E197529F700E0EB43 /* ofxSVG */,
 				AB3A7D4E196AE6F6000E7EE2 /* midiFileReader */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
@@ -1342,6 +1401,7 @@
 				E4B69E210A3A1BDC003C02F2 /* App.cpp in Sources */,
 				45A7A0C28F0C7EB9930A976B /* ofxBaseGui.cpp in Sources */,
 				AB444F8B19752A1200E0EB43 /* src_colors.cpp in Sources */,
+				AB1E716C1989517C0041E959 /* SigCollection.cpp in Sources */,
 				2C33D2F9EFF35686A9293059 /* ofxButton.cpp in Sources */,
 				41755AF571148A0BDF569999 /* ofxGuiGroup.cpp in Sources */,
 				238AAB4C7200F345C464ECC1 /* ofxLabel.cpp in Sources */,
@@ -1360,6 +1420,7 @@
 				7B2DABC18AD5F452C318E5F5 /* ofxTonicSynth.cpp in Sources */,
 				5A36FAE1D326B860C566CF19 /* ADSR.cpp in Sources */,
 				F1F05D9F5D469436BAA65BAD /* Arithmetic.cpp in Sources */,
+				AB1E7175198958140041E959 /* Options_private.cpp in Sources */,
 				AB1090491940E33300F65E20 /* Figure.cpp in Sources */,
 				AB5AF6D4196EE9B800BAE743 /* RandomWalkComposer.cpp in Sources */,
 				AB8CAB481946008B00B40AF3 /* TriangularDistribution.cpp in Sources */,
@@ -1367,6 +1428,7 @@
 				73586DEE84FAF0E24C85C18C /* BufferFiller.cpp in Sources */,
 				AB1090401940E0A300F65E20 /* Composer.cpp in Sources */,
 				66CFB6DF86A7A55E1DFCA80A /* CombFilter.cpp in Sources */,
+				AB1E7176198958140041E959 /* Options.cpp in Sources */,
 				84E0365AFE7EDC29575485EA /* CompressorLimiter.cpp in Sources */,
 				2DD899DA50AE8064D35F7476 /* ControlArithmetic.cpp in Sources */,
 				AB3A7D59196AF34C000E7EE2 /* Midi.cpp in Sources */,
@@ -1382,6 +1444,7 @@
 				AB444F8E19752A1200E0EB43 /* svgtiny_list.cpp in Sources */,
 				AB444F8C19752A1200E0EB43 /* svgtiny.cpp in Sources */,
 				C39C70A9FC0E5E15A5C8DC2F /* ControlFloor.cpp in Sources */,
+				AB9130F91990D3B400AFF2BB /* FractionalNoiseComposer.cpp in Sources */,
 				0E4E8E2FB15F8909C616E90A /* ControlGenerator.cpp in Sources */,
 				0A80BF2F100A6C1A16E3AAF6 /* ControlMetro.cpp in Sources */,
 				77E95B62238A1BACB781C69D /* ControlMetroDivider.cpp in Sources */,
@@ -1404,6 +1467,7 @@
 				833324DB31789FBBE1BF5CE2 /* FilterUtils.cpp in Sources */,
 				494C52BF47626B5541AE2A0E /* FixedValue.cpp in Sources */,
 				85F514A96CC62FB01F93BDCB /* Generator.cpp in Sources */,
+				AB8255C419927C6E00B74F70 /* ChaoticComposer.cpp in Sources */,
 				E1BB76760D5D2C5AD5B0FEFC /* LFNoise.cpp in Sources */,
 				E6909B27073FCBC88B6CECB5 /* Mixer.cpp in Sources */,
 				5944E6DC7F76762E44A944BA /* MonoToStereoPanner.cpp in Sources */,
@@ -1412,6 +1476,7 @@
 				8437DE492F6010B462F59381 /* RectWave.cpp in Sources */,
 				AB8CAB4E19460A7C00B40AF3 /* GaussianDistribution.cpp in Sources */,
 				A13925079D9F9600EABD9AEF /* Reverb.cpp in Sources */,
+				AB1E7174198958140041E959 /* MidiFile.cpp in Sources */,
 				AB4EC7981949A6BB00A24325 /* Player.cpp in Sources */,
 				F6E1E299C6DBBE4326D1E9EE /* RingBuffer.cpp in Sources */,
 				AB8CAB4B1946021800B40AF3 /* ExponentialDistribution.cpp in Sources */,
@@ -1419,6 +1484,7 @@
 				C5D925C9F6606467508F4FB1 /* SawtoothWave.cpp in Sources */,
 				58C086DCCCC71FDE00C623C9 /* SineWave.cpp in Sources */,
 				AB8CAB421945C82F00B40AF3 /* UniformDistribution.cpp in Sources */,
+				AB1E7173198958140041E959 /* FileIO.cpp in Sources */,
 				AB8CAB371945BD1000B40AF3 /* Distribution.cpp in Sources */,
 				6712A5D8C45E4C4891A2F5AA /* StereoDelay.cpp in Sources */,
 				4601D3DA97FC868273133BE6 /* Synth.cpp in Sources */,
@@ -1434,6 +1500,7 @@
 				AB62EA801951944E00130C7B /* PoissonDistribution.cpp in Sources */,
 				28B4C21C17E5F01B612D9D10 /* ofxUIButton.cpp in Sources */,
 				AB3A7D56196AE789000E7EE2 /* MarkovChainsComposer.cpp in Sources */,
+				AB9130FC1991272500AFF2BB /* colorednoise.cpp in Sources */,
 				5F230579BB116E5B50B3F92D /* ofxUICanvas.cpp in Sources */,
 				2672D7996C052A973EF06558 /* ofxUICircleSlider.cpp in Sources */,
 				D1BECE5DCCF2AADD4FADA999 /* ofxUIDragableLabelButton.cpp in Sources */,
@@ -1451,6 +1518,7 @@
 				4CCFC00104C2B2EA9D938E43 /* ofxUILabel.cpp in Sources */,
 				7B5391D72D15524C863EFE5A /* ofxUILabelButton.cpp in Sources */,
 				579FDB911FD4F4295C288512 /* ofxUILabelToggle.cpp in Sources */,
+				AB1E716B1989517C0041E959 /* Array.cpp in Sources */,
 				AB98BF9F19840F7500BD1AF4 /* SerialismMethods.cpp in Sources */,
 				60C8E974CF13722841DBB274 /* ofxUIMinimalSlider.cpp in Sources */,
 				36544C93D0B2696EDDFD0138 /* ofxUIMovingGraph.cpp in Sources */,
@@ -1795,6 +1863,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 					/Users/laurasirventcollado/Dropbox/TFG/of_v0.8.0_osx_release/addons/jdksmidi/lib,
+					/Users/laurasirventcollado/Dropbox/TFG/of_v0.8.0_osx_release/addons/midifile/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
 				SDKROOT = macosx10.8;
@@ -1902,6 +1971,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					/Users/laurasirventcollado/Dropbox/TFG/of_v0.8.0_osx_release/addons/jdksmidi/lib,
+					/Users/laurasirventcollado/Dropbox/TFG/of_v0.8.0_osx_release/addons/midifile/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.8;

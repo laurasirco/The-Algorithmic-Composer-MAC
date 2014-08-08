@@ -11,6 +11,8 @@
 #include "Note.h"
 #include "Silence.h"
 #include "Scales.h"
+#include "App.h"
+#include <sstream>
 
 using namespace std;
 
@@ -31,7 +33,6 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 
 std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 	
-	cout<<"Compose "<<stems<<", "<<meter<<"/"<<pattern<<", Scale "<<NamesOfScales[scale]<<endl;
 	std::vector<Figure *> fragment;
 	float counter = 0.0;
 	float total = calculeTimePerStem();
@@ -102,7 +103,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 						max = 5;
 					
 
-					int tone = mapValue(pitchesDistribution->getValue(), 0, 7);
+					int tone = mapValue(pitchesDistribution->getValue(), 0, max);
 					int octave = mapValue(pitchesDistribution->getValue(), minOct, maxOct);
 					
 					int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
@@ -196,6 +197,10 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 			
 		}
 	}
+	
+	stringstream sst;
+	sst << "Got " << fragment.size() << " figures ";
+	App::addLogMessage(sst.str());
 	
 	return fragment;
 }

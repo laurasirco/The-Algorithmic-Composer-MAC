@@ -8,7 +8,9 @@
 
 #include "MotivicDevelopmentComposer.h"
 #include "Note.h"
-
+#include "App.h"
+#include <sstream>
+using namespace std;
 
 MotivicDevelopmentComposer::MotivicDevelopmentComposer(){
 	
@@ -35,6 +37,12 @@ MotivicDevelopmentComposer::~MotivicDevelopmentComposer(){
 vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
 	
     cout << "Compose with " << sequence.size() << " methods: "<< endl;
+	stringstream sst;
+	sst << "Compose with " << sequence.size() << " methods. ";
+	App::addLogMessage(sst.str());
+	sst.clear();
+	sst << "Original motive has " << motive.size() << " figures. ";
+	App::addLogMessage(sst.str());
     std::vector<Figure *> fragment;
     fragment.insert(fragment.end(), motive.begin(), motive.end());
     
@@ -46,6 +54,10 @@ vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
     }
     
 	//sequence.clear();
+	sst.clear();
+	sst << "Got " << fragment.size() << " figures ";
+	App::addLogMessage(sst.str());
+	
     return fragment;
 }
 

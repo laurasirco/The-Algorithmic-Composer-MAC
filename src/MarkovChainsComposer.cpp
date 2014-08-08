@@ -12,6 +12,9 @@
 #include "Scales.h"
 #include "UniformDistribution.h"
 #include "Randomize.h"
+#include "App.h"
+#include <sstream>
+using namespace std;
 
 MarkovChainsComposer::MarkovChainsComposer(){
 	
@@ -47,7 +50,7 @@ MarkovChainsComposer::~MarkovChainsComposer(){
 vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 	
 	int scale = 0;
-	cout<<"Compose "<<stems<<", "<<meter<<"/"<<pattern<<", Scale "<<NamesOfScales[0]<<endl;
+	
 	std::vector<Figure *> fragment;
 	float counter = 0.0;
 	float total = calculeTimePerStem();
@@ -156,6 +159,10 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 		}
 		counter = 0.0;
 	}
+	
+	stringstream sst;
+	sst << "Got " << fragment.size() << " figures ";
+	App::addLogMessage(sst.str());
 	
 	return fragment;
 	

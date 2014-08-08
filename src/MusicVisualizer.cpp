@@ -14,7 +14,7 @@
 #define WIDTH 1024
 #define HEIGHT 768
 
-const int MusicVisualizer::heights[46] = {15,15,20,20,25,30,30,35,35,40,40,45,50,50,66,66,71,76,76,81,81,86,86,91,105,105,110,110,115,120,120,125,125,130,130,146,151,151,156,161,171,171,176,176};
+const int MusicVisualizer::heights[49] = {15,15,20,20,25,30,30,35,35,40,40,45,50,50,66,66,71,76,76,81,81,86,86,91,105,105,110,110,115,120,120,125,125,130,130,146,151,151,156,156,161,166,166,171,171,176,176,181,181};
 const int MusicVisualizer::silenceHeights[13] = {145,145,140,140,125,125,125,125,120,120,115,125,110};
 
 
@@ -23,13 +23,16 @@ MusicVisualizer::MusicVisualizer(){
 }
 
 void MusicVisualizer::init(){
+	
+	va8 = false;
+	va28 = false;
 		
 	claveSol.loadImage("GUI/Notes/ClaveSol.png");
 	claveFa.loadImage("GUI/Notes/ClaveFa.png");
 	sharp.loadImage("GUI/Notes/sharp.png");
 	
-	int sp[20] = {37,39,42,44,46,49,51,54,56,58,61,63,66,68,70,73,75,78,80,82};
-	sharpedPitches.assign(sp, sp + 20);
+	int sp[30] = {37,39,42,44,46,49,51,54,56,58,61,63,66,68,70,73,75,78,80,82,85,87,90,92,94,97,99,102,104,106};
+	sharpedPitches.assign(sp, sp + 30);
 	
 	ofImage image0;
 	image0.loadImage("GUI/Notes/21.png");
@@ -366,30 +369,63 @@ void MusicVisualizer::draw(){
 				height = heights[n->getPitch() - 36];
 				
 				std::vector<int>::const_iterator it = std::find(sharpedPitches.begin(), sharpedPitches.end(), n->getPitch());
-				if (it != sharpedPitches.end())
-					sharp.draw(positions[i] - 10, HEIGHT - height - 10, sharp.getWidth() * 0.2, sharp.getHeight() * 0.2);
 				
-				if(n->getPitch() >= 36 && n->getPitch() <= 37){
-					ofLine(positions[i] - 10, HEIGHT - 30, positions[i] + 10, HEIGHT - 30);
-					ofLine(positions[i] - 10, HEIGHT - 20, positions[i] + 10, HEIGHT - 20);
+				if (it != sharpedPitches.end()){
+					if(n->getPitch() < 84)
+						sharp.draw(positions[i] - 10, HEIGHT - height - 10, sharp.getWidth() * 0.2, sharp.getHeight() * 0.2);
+					else if (n->getPitch() >= 84 && n->getPitch() < 96){
+						sharp.draw(positions[i] - 10, HEIGHT - heights[n->getPitch() - 36 - 12] - 10, sharp.getWidth() * 0.2, sharp.getHeight() * 0.2);
+					}
+					else{
+						sharp.draw(positions[i] - 10, HEIGHT - heights[n->getPitch() - 36 - 24] - 10, sharp.getWidth() * 0.2, sharp.getHeight() * 0.2);
+					}
 				}
 				
-				else if (n->getPitch() >= 38 && n->getPitch() <= 40)
-					ofLine(positions[i] - 10, HEIGHT - 20, positions[i] + 10, HEIGHT - 20);
+				if(n->getPitch() == 36 || n->getPitch() == 37){
+					ofLine(positions[i] - 5, HEIGHT - 30, positions[i] + 20, HEIGHT - 30);
+					ofLine(positions[i] - 5, HEIGHT - 20, positions[i] + 20, HEIGHT - 20);
+				}
 				
-				else if (n->getPitch() >= 60 && n->getPitch() <= 61)
-					ofLine(positions[i] - 10, HEIGHT - 110, positions[i] + 10, HEIGHT - 110);
+				else if (n->getPitch() == 38 || n->getPitch() == 39 || n->getPitch() == 40)
+					ofLine(positions[i] - 5, HEIGHT - 30, positions[i] + 20, HEIGHT - 30);
 				
-				else if (n->getPitch() >= 81 && n->getPitch() <= 83)
-					ofLine(positions[i] - 10, HEIGHT - 170, positions[i] + 10, HEIGHT - 170);
+				else if (n->getPitch() == 60 || n->getPitch() == 61)
+					ofLine(positions[i] - 5, HEIGHT - 110, positions[i] + 20, HEIGHT - 110);
 				
-				else if (n->getPitch() == 84){
-					ofLine(positions[i] - 10, HEIGHT - 170, positions[i] + 10, HEIGHT - 170);
-					ofLine(positions[i] - 10, HEIGHT - 180, positions[i] + 10, HEIGHT - 180);
+				else if (n->getPitch() == 81 || n->getPitch() == 82 ||  n->getPitch() == 83 || n->getPitch() == 93 || n->getPitch() == 94 ||  n->getPitch() == 95 || n->getPitch() == 105 || n->getPitch() == 106 ||  n->getPitch() == 107)
+					ofLine(positions[i] - 5, HEIGHT - 170, positions[i] + 20, HEIGHT - 170);
+				
+				
+				if(n->getPitch() < 84){
+					if (va8) va8 = false;
+					if (va28) va28 = false;
+				}
+				if (n->getPitch() >= 84 && n->getPitch() < 96){
+					if (!va8){
+						ofDrawBitmapString("8va-", positions[i] - 2, HEIGHT - 190);
+						va8 = true;
+						va28 = false;
+					}
+					else{
+						ofDrawBitmapString("----", positions[i] - 2, HEIGHT - 190);
+					}
+					height = heights[n->getPitch() - 36 - 12];
+				}
+				if (n->getPitch() >= 96){
+					if (!va28){
+						ofDrawBitmapString("2-8va", positions[i] - 2, HEIGHT - 190);
+						va28 = true;
+						va8 = false;
+					}
+					else{
+						ofDrawBitmapString("----", positions[i] - 2, HEIGHT - 190);
+					}
+ 					height = heights[n->getPitch() - 36 - 24];
 				}
 			}
 			else{
 				height = silenceHeights[figures[i]->getType()];
+
 			}
 			
 			figureImages[images[i]].draw(positions[i], HEIGHT - height, figureImages[images[i]].getWidth() * 0.2, figureImages[images[i]].getHeight() * 0.2);
