@@ -16,6 +16,8 @@
 
 RandomWalkComposer::RandomWalkComposer(){
 	
+	octave = -1;
+	
     type = RandomWalk;
     boundary = Reflecting;
 	startingGrade = 0;
@@ -62,7 +64,9 @@ vector<Figure *> RandomWalkComposer::compose(bool infinite){
 	int currentPitch;
 	
 	int prevRelativePitch;
-	int octave = Utils::map(Randomize::getRandomValue(), 0, 1, minOctave, maxOctave);
+	
+	if(octave == -1)
+		octave = Utils::map(Randomize::getRandomValue(), 0, 1, minOctave, maxOctave);
 	int octaveChangeDown = OctaveDown[scale];
 	int octaveChangeUp = OctaveUp[scale];
 	

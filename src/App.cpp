@@ -33,6 +33,8 @@ ofxUIScrollableCanvas * App::logGUI = NULL;
 Player * App::player = new Player(120);
 Composer * App::composer = new RandomWalkComposer();
 MusicVisualizer * App::mv = new MusicVisualizer();
+bool App::infinite = false;
+std::vector<Figure *> App::composition;
 
 void App::setup(){
 	
@@ -90,8 +92,29 @@ void App::setup(){
 //--------------------------------------------------------------
 void App::update(){
 	
-	if(!player->isAllPlayed())
+	if(!player->isAllPlayed()){
 		player->update();
+		
+		cout << player->getCurrentNoteCounter() << endl;
+		
+		if(infinite && player->getCurrentNoteCounter() == composition.size() - 3 && composer->getType() == RandomWalk){
+			
+			Note * n = dynamic_cast<Note *>(composition[composition.size() - 3]);
+			int octave = (n->getPitch() / 12) - 2;
+			int rPitch = n->getPitch() - 10*(octave + 2) - 2*octave - 4;
+			RandomWalkComposer * c = dynamic_cast<RandomWalkComposer *>(composer);
+			c->setStartingGrade(rPitch);
+			c->setOctave(octave);
+			composition.pop_back();
+		}
+		
+		if(infinite && player->getCurrentNoteCounter() == composition.size() - 2){
+			composer->setStems(5);
+			
+			vector<Figure *> add = composer->compose();
+			composition.insert(composition.end(), add.begin(), add.end());
+		}
+	}
 	else
 		synth.setParameter("volume", 0);
 	//mv->update();
@@ -176,7 +199,7 @@ void App::mousePressed(int x, int y, int button){
 			crHelpGUI->setVisible(true);
 			return;
 		}
-		/*else if (composer->getType() == MotivicDevelopment) {
+		else if (composer->getType() == MotivicDevelopment) {
 			mdHelpGUI->setPosition(x, y);
 			mdHelpGUI->setVisible(true);
 			return;
@@ -185,7 +208,7 @@ void App::mousePressed(int x, int y, int button){
 			sHelpGUI->setPosition(x, y);
 			sHelpGUI->setVisible(true);
 			return;
-		}*/
+		}
     }
     
     if(!isHelpGUI->isHit(x, y) && isHelpGUI->isVisible()){
@@ -203,12 +226,12 @@ void App::mousePressed(int x, int y, int button){
 	else if(!crHelpGUI->isHit(x, y) && crHelpGUI->isVisible()){
         crHelpGUI->setVisible(false);
     }
-	/*else if(!mdHelpGUI->isHit(x, y) && mdHelpGUI->isVisible()){
+	else if(!mdHelpGUI->isHit(x, y) && mdHelpGUI->isVisible()){
         mdHelpGUI->setVisible(false);
     }
 	else if(!sHelpGUI->isHit(x, y) && sHelpGUI->isVisible()){
         sHelpGUI->setVisible(false);
-    }*/
+    }
 }
 
 //--------------------------------------------------------------
@@ -247,6 +270,23 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	IndependentStochasticComposer * c = dynamic_cast<IndependentStochasticComposer *>(composer);
 	
+	if (name == "Infinite Mode") {
+		bool value = e.getToggle()->getValue();
+		
+		if(value){
+			infinite = true;
+			composer->setStems(10);
+			
+			if(composer->getType() == Chaotic){
+				ChaoticComposer * chaotic = dynamic_cast<ChaoticComposer *>(composer);
+				chaotic->setIterations(20);
+			}
+		}
+		else{
+			infinite = false;
+		}
+	}
+	
 	if (name == "Fixed") {
 		if (selectedDistribution == 1) {
 			c->setFixedPitch(60);
@@ -272,6 +312,18 @@ void App::guiEvent(ofxUIEventArgs &e){
 			weibullDistGUI2->setVisible(false);
 			poissonDistGUI2->setVisible(false);
 		}
+		else{
+			c->setFixedKind(KNote);
+			fixedGUI3->setVisible(true);
+			triangularDistGUI3->setVisible(false);
+			linearDistGUI3->setVisible(false);
+			exponentialDistGUI3->setVisible(false);
+			gaussDistGUI3->setVisible(false);
+			cauchyDistGUI3->setVisible(false);
+			betaDistGUI3->setVisible(false);
+			weibullDistGUI3->setVisible(false);
+			poissonDistGUI3->setVisible(false);
+		}
 	}
 	if (name == "Pitch" && composer->getType() == IndependentStochastic) {
 		c->setFixedPitch((int)e.getSlider()->getValue());
@@ -279,7 +331,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 	if (name == "Duration"  && composer->getType() == IndependentStochastic) {
 		c->setFixedDuration((Type)e.getSlider()->getValue());
 	}
-
+	
 	
 	if(name == "Uniform"){
 		if (selectedDistribution == 1) {
@@ -321,6 +373,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 		
 	}
@@ -366,6 +419,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if(name == "Up"){
@@ -444,6 +498,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if(name == "Triangle Base"){
@@ -508,6 +563,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if (name == "Lambda"){
@@ -571,6 +627,8 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
+
 		}
 	}
 	else if (name == "Sigma"){
@@ -653,29 +711,30 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if (name == "Alpha"){
 		
 		if (composer->getType() == IndependentStochastic) {
 			
-		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
-		
-		if (selectedDistribution == 1) {
-			CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getPitchesDistribution());
-			d->setAlpha(slider->getValue());
-			setValuesForGraph(d);
-		}
-		else if(selectedDistribution == 2){
-			CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getDurationsDistribution());
-			d->setAlpha(slider->getValue());
-			setValuesForGraph(d);
-		}
-		else if (selectedDistribution == 3){
-			CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getNotesAndSilencesDistribution());
-			d->setAlpha(slider->getValue());
-			setValuesForGraph(d);
-		}
+			ofxUISlider *slider = (ofxUISlider *) e.getSlider();
+			
+			if (selectedDistribution == 1) {
+				CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getPitchesDistribution());
+				d->setAlpha(slider->getValue());
+				setValuesForGraph(d);
+			}
+			else if(selectedDistribution == 2){
+				CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getDurationsDistribution());
+				d->setAlpha(slider->getValue());
+				setValuesForGraph(d);
+			}
+			else if (selectedDistribution == 3){
+				CauchyDistribution * d = dynamic_cast<CauchyDistribution *>(c->getNotesAndSilencesDistribution());
+				d->setAlpha(slider->getValue());
+				setValuesForGraph(d);
+			}
 			
 		}
 		else if (composer->getType() == FractionalNoise){
@@ -726,6 +785,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(true);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if (name == "a"){
@@ -807,6 +867,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(true);
 			poissonDistGUI3->setVisible(false);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if (name == "T"){
@@ -888,6 +949,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 			betaDistGUI3->setVisible(false);
 			weibullDistGUI3->setVisible(false);
 			poissonDistGUI3->setVisible(true);
+			fixedGUI3->setVisible(false);
 		}
 	}
 	else if (name == "lambda"){
@@ -911,10 +973,15 @@ void App::guiEvent(ofxUIEventArgs &e){
 	}
 	
 	else if(name == "COMPOSE"  && e.getButton()->getValue() == true){
-		addLogMessage("Composing...");
 		composition.clear();
 		composition = composer->compose();
 		resultsGui->removeWidgets();
+		
+		if(infinite){
+			player->play(composition);
+			addLogMessage("Playing infinite mode");
+
+		}
 	}
 	else if(name == "PLAY" && composition.size() > 0 && !player->isPlaying()  && e.getButton()->getValue() == true){
 		
@@ -1008,16 +1075,6 @@ void App::guiEvent(ofxUIEventArgs &e){
 	else if(name == "Stems"){
 		ofxUISlider *slider = (ofxUISlider *) e.getSlider();
 		composer->setStems((int)slider->getValue());
-	}
-	else if(name == "Notes"){
-		ofxUIToggle * toggle = e.getToggle();
-		if(toggle->getValue())
-			composer->setWantSilences(false);
-	}
-	else if(name == "Notes + Silences"){
-		ofxUIToggle * toggle = e.getToggle();
-		if(toggle->getValue())
-			composer->setWantSilences(true);
 	}
 	else if (name == "Independent Stochastic"){
 		showMarkovChainsGUI(false);
@@ -1131,6 +1188,11 @@ void App::guiEvent(ofxUIEventArgs &e){
 	
 	if (name == "Pitch" && composer->getType() == FractionalNoise) {
 		FractionalNoiseComposer * c = dynamic_cast<FractionalNoiseComposer *>(composer);
+		
+		c->setFixedPitch((int)e.getSlider()->getValue());
+	}
+	if (name == "Pitch" && composer->getType() == MarkovChains) {
+		MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
 		
 		c->setFixedPitch((int)e.getSlider()->getValue());
 	}
@@ -1760,6 +1822,43 @@ void App::guiEvent(ofxUIEventArgs &e){
 			else if (toggle->getName() == "SixtyFourth")
 				c->setFixedDuration(SixtyFourth);
 		}
+		else if(toggle->getParent()->getName() == "CRFixedDurations"){
+			
+			ChaoticComposer * c = dynamic_cast<ChaoticComposer *>(composer);
+			
+			if (toggle->getName() == "Dotted Whole")
+				c->setFixedDuration(DWhole);
+			else if (toggle->getName() == "Whole")
+				c->setFixedDuration(Whole);
+			else if (toggle->getName() == "Dotted Half")
+				c->setFixedDuration(DHalf);
+			else if (toggle->getName() == "Half")
+				c->setFixedDuration(Half);
+			else if (toggle->getName() == "Dotted Quarter")
+				c->setFixedDuration(DQuarter);
+			else if (toggle->getName() == "Quarter")
+				c->setFixedDuration(Quarter);
+			else if (toggle->getName() == "Dotted Eighth")
+				c->setFixedDuration(DEighth);
+			else if (toggle->getName() == "Eighth")
+				c->setFixedDuration(Eighth);
+			else if (toggle->getName() == "Dotted Sixteenth")
+				c->setFixedDuration(DSixteenth);
+			else if (toggle->getName() == "Sixteenth")
+				c->setFixedDuration(Sixteenth);
+			else if (toggle->getName() == "Dotted ThirtySecond")
+				c->setFixedDuration(DThirtySecond);
+			else if (toggle->getName() == "ThirtySecond")
+				c->setFixedDuration(ThirtySecond);
+			else if (toggle->getName() == "SixtyFourth")
+				c->setFixedDuration(SixtyFourth);
+		}
+		else if(toggle->getParent()->getName() == "Fixed Figure"){
+			if (toggle->getName() == "Notes")
+				c->setFixedKind(KNote);
+			else if (toggle->getName() == "Silences")
+				c->setFixedKind(KSilence);
+		}
 		else if(toggle->getParent()->getName() == "PAffects"){
 			
 			FractionalNoiseComposer * c = dynamic_cast<FractionalNoiseComposer *>(composer);
@@ -1784,6 +1883,69 @@ void App::guiEvent(ofxUIEventArgs &e){
 				fsDurationsRadio->setVisible(true);
 			}
 		}
+		
+		
+		else if(toggle->getParent()->getName() == "MCPAffects"){
+			
+			MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
+			
+			if (toggle->getName() == "Affects pitches") {
+				c->setFixedPitch(-1);
+				mcPitchesSlider->setVisible(false);
+			}
+			else if (toggle->getName() == "Fixed pitches"){
+				mcPitchesSlider->setVisible(true);
+				mcPitchesSlider->setValue(60.0);
+				c->setFixedPitch(60);
+			}
+		}
+		else if(toggle->getParent()->getName() == "MCDAffects"){
+			
+			MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
+			
+			if (toggle->getName() == "Affects durations") {
+				c->setFixedDuration(NotAFigure);
+				mcDurationsRadio->setVisible(false);
+			}
+			else if (toggle->getName() == "Fixed durations"){
+				mcDurationsRadio->setVisible(true);
+				mcDurationsRadio->getToggles()[5]->setValue(true);
+				c->setFixedDuration(Quarter);
+			}
+		}
+		
+		else if(toggle->getParent()->getName() == "MCDuration"){
+			
+			MarkovChainsComposer * c = dynamic_cast<MarkovChainsComposer *>(composer);
+			
+			if (toggle->getName() == "Dotted Whole")
+				c->setFixedDuration(DWhole);
+			else if (toggle->getName() == "Whole")
+				c->setFixedDuration(Whole);
+			else if (toggle->getName() == "Dotted Half")
+				c->setFixedDuration(DHalf);
+			else if (toggle->getName() == "Half")
+				c->setFixedDuration(Half);
+			else if (toggle->getName() == "Dotted Quarter")
+				c->setFixedDuration(DQuarter);
+			else if (toggle->getName() == "Quarter")
+				c->setFixedDuration(Quarter);
+			else if (toggle->getName() == "Dotted Eighth")
+				c->setFixedDuration(DEighth);
+			else if (toggle->getName() == "Eighth")
+				c->setFixedDuration(Eighth);
+			else if (toggle->getName() == "Dotted Sixteenth")
+				c->setFixedDuration(DSixteenth);
+			else if (toggle->getName() == "Sixteenth")
+				c->setFixedDuration(Sixteenth);
+			else if (toggle->getName() == "Dotted ThirtySecond")
+				c->setFixedDuration(DThirtySecond);
+			else if (toggle->getName() == "ThirtySecond")
+				c->setFixedDuration(ThirtySecond);
+			else if (toggle->getName() == "SixtyFourth")
+				c->setFixedDuration(SixtyFourth);
+		}
+		
 		else if(toggle->getParent()->getName() == "FSDuration"){
 			
 			FractionalNoiseComposer * c = dynamic_cast<FractionalNoiseComposer *>(composer);
@@ -1826,6 +1988,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 				crHenonGUI->setVisible(false);
 				crMandelbrotGUI->setVisible(false);
 				crTentMapGUI->setVisible(false);
+				crGUI3->setVisible(true);
 				
 				ofxUISlider * Aslider = (ofxUISlider *)crLogisticGUI->getWidget("A");
 				c->setA(Aslider->getValue());
@@ -1839,6 +2002,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 				crLogisticGUI->setVisible(false);
 				crHenonGUI->setVisible(false);
 				crTentMapGUI->setVisible(false);
+				crGUI3->setVisible(true);
 				
 				ofxUISlider * Aslider = (ofxUISlider *)crLogisticGUI->getWidget("A");
 				c->setA(Aslider->getValue());
@@ -1853,6 +2017,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 				crLogisticGUI->setVisible(false);
 				crHenonGUI->setVisible(false);
 				crTentMapGUI->setVisible(true);
+				crGUI3->setVisible(true);
 				
 				ofxUISlider * Aslider = (ofxUISlider *)crLogisticGUI->getWidget("A");
 				c->setA(Aslider->getValue());
@@ -1866,6 +2031,7 @@ void App::guiEvent(ofxUIEventArgs &e){
 				crHenonGUI->setVisible(true);
 				crMandelbrotGUI->setVisible(false);
 				crTentMapGUI->setVisible(false);
+				crGUI3->setVisible(false);
 				
 				ofxUISlider * Aslider = (ofxUISlider *)crHenonGUI->getWidget("A");
 				c->setA(Aslider->getValue());
@@ -2269,9 +2435,9 @@ void App::setCurrentFigure(Figure *f){
 	logGUI->getRect()->y += 28;
 	
 	/*stringstream sst;
-	sst << f->getDescription() << endl << endl << logText->getTextString();
-	
-	logText->setTextString(sst.str());*/
+	 sst << f->getDescription() << endl << endl << logText->getTextString();
+	 
+	 logText->setTextString(sst.str());*/
 	
 	
 }
@@ -2376,7 +2542,7 @@ void App::initGUI(){
 	styleGUI->setVisible(false);
 	ofAddListener(styleGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(styleGUI);
-
+	
 	//
 	
 	generalGUI = new ofxUICanvas();
@@ -2385,16 +2551,19 @@ void App::initGUI(){
 	generalGUI->setPosition(WIDTH - 300, HEIGHT - 200);
 	generalGUI->setWidth(300);
 	generalGUI->setHeight(200);
-	
+	int size = 40;
 	generalGUI->setGlobalSliderHeight(24);
 	generalGUI->setGlobalButtonDimension(50);
-	generalGUI->addLabelButton("COMPOSE", false, 60, 0, 724, 10);
+	generalGUI->addImageToggle("Infinite Mode", "GUI/infinite.png", false, size, size);
 	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
-	generalGUI->addLabelButton("SAVE", false, 60, 0, 724, 10);
-	generalGUI->addImageButton("PLAY", "GUI/play.png", false);
-	pauseToggle = generalGUI->addImageToggle("PAUSE", "GUI/pause.png", false);
-	generalGUI->addImageButton("STOP", "GUI/stop.png", false);
+	generalGUI->addImageButton("COMPOSE", "GUI/compose.png", false, size, size);
+	generalGUI->addImageButton("SAVE", "GUI/save.png", false, size, size);
+	generalGUI->addSpacer(10,0);
+	generalGUI->addImageButton("PLAY", "GUI/play.png", false, size, size);
+	pauseToggle = generalGUI->addImageToggle("PAUSE", "GUI/pause.png", false, size, size);
+	generalGUI->addImageButton("STOP", "GUI/stop.png", false, size, size);
 	generalGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	generalGUI->addSpacer(0, 5);
 	generalGUI->addSlider("TEMPO", 1, 200, 120);
 	generalGUI->addSpacer(0, 1);
 	generalGUI->addLabel("Console log", OFX_UI_FONT_SMALL);
@@ -2475,11 +2644,6 @@ void App::initGUI(){
 	pR->getToggles()[2]->setValue(true);
 	
 	isGUI1->addSpacer(210, 3);
-	vector<string> figures;
-	figures.push_back("Notes");
-	figures.push_back("Notes + Silences");
-	ofxUIRadio * figuresRadio = isGUI1->addRadio("Figures", figures);
-	figuresRadio->getToggles()[1]->setValue(true);
 	
 	ofAddListener(isGUI1->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(isGUI1);
@@ -2523,6 +2687,25 @@ void App::initGUI(){
 	ofAddListener(isGUI3->newGUIEvent, this, &App::guiEvent);
 	guis.push_back(isGUI3);
 	
+	isHelpGUI = new ofxUICanvas();
+	isHelpGUI->setPosition(210, 400);
+	isHelpGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+	isHelpGUI->setFont("GUI/Lekton-Regular.ttf");
+	isHelpGUI->addLabel("QUICK HELP", OFX_UI_FONT_LARGE);
+	isHelpGUI->addLabel("MUSICAL PARAMETERS");
+	isHelpGUI->addSpacer();
+	isHelpGUI->addTextArea("", "* Octaves: The range of pitches that the composer can pick.", OFX_UI_FONT_SMALL);
+	isHelpGUI->addTextArea("", "* Stems: The number of bars the composition will have.", OFX_UI_FONT_SMALL);
+	isHelpGUI->addTextArea("", "* Meter-Pattern: The rhythm pattern of the composition.", OFX_UI_FONT_SMALL);
+	isHelpGUI->addTextArea("", "* Scale: Which scale will the compositor use for pick the pitches.", OFX_UI_FONT_SMALL);
+	isHelpGUI->addSpacer(0, 4);
+	isHelpGUI->addLabel("DISTRIBUTIONS");
+	isHelpGUI->addSpacer();
+	isHelpGUI->addTextArea("", "There are 9 (plus fixed values) probability density functions that can be modified by it's parameters. You can apply a distribution to pitches, another to durations, and another for selecting notes or silences.", OFX_UI_FONT_SMALL);
+	isHelpGUI->setVisible(false);
+	isHelpGUI->autoSizeToFitWidgets();
+	ofAddListener(isHelpGUI->newGUIEvent,this,&App::guiEvent);
+	guis.push_back(isHelpGUI);
 	
 	////////////
 	
@@ -2619,7 +2802,8 @@ void App::initGUI(){
 	figure.push_back("ThirtySecond");
 	figure.push_back("SixtyFourth");
 	
-	fixedGUI2->addRadio("Fixed Duration", figure);
+	dis = fixedGUI2->addRadio("Fixed Duration", figure);
+	dis->getToggles()[5]->setValue(true);
 	
 	fixedGUI2->autoSizeToFitWidgets();
 	fixedGUI2->setWidth(211);
@@ -2629,7 +2813,25 @@ void App::initGUI(){
 	guis.push_back(fixedGUI2);
 	
 	
-		
+	fixedGUI3 = new ofxUICanvas();
+	fixedGUI3->setFont("GUI/Lekton-Regular.ttf");
+	fixedGUI3->setPosition(800, 235);
+	fixedGUI3->addLabel("FIXED FIGURES", OFX_UI_FONT_LARGE);
+	
+	vector<string> ffigures;
+	ffigures.push_back("Notes");
+	ffigures.push_back("Silences");
+	
+	dis = fixedGUI3->addRadio("Fixed Figure", ffigures);
+	dis->getToggles()[0]->setValue(true);
+	fixedGUI3->autoSizeToFitWidgets();
+	fixedGUI3->setWidth(211);
+	fixedGUI3->setVisible(false);
+	
+	ofAddListener(fixedGUI3->newGUIEvent, this, &App::guiEvent);
+	guis.push_back(fixedGUI3);
+	
+	
 	linearDistGUI = new ofxUICanvas();
 	linearDistGUI->setFont("GUI/Lekton-Regular.ttf");
 	linearDistGUI->setPosition(800, 235);
@@ -2971,6 +3173,41 @@ void App::initGUI(){
 	guis.push_back(mcGUI1);
 	ofAddListener(mcGUI1->newGUIEvent, this, &App::guiEvent);
 	
+	mcGUI2 = new ofxUICanvas();
+	mcGUI2->setFont("GUI/Lekton-Regular.ttf");
+	mcGUI2->setHeight(450);
+	mcGUI2->setWidth(210);
+	mcGUI2->setPosition(420, 40);
+	
+	vector<string> mcaffects;
+	mcaffects.push_back("Affects pitches");
+	mcaffects.push_back("Fixed pitches");
+	
+	mcGUI2->addLabel("PITCHES");
+	ofxUIRadio * mcr = mcGUI2->addRadio("MCPAffects", mcaffects);
+	mcr->getToggles()[0]->setValue(true);
+	
+	mcPitchesSlider = mcGUI2->addSlider("Pitch", 36.0, 107.0, 60.0);
+	mcPitchesSlider->setVisible(false);
+	
+	mcGUI2->addSpacer(0, 10);
+	
+	mcaffects.clear();
+	mcaffects.push_back("Affects durations");
+	mcaffects.push_back("Fixed durations");
+	
+	mcGUI2->addLabel("DURATIONS");
+	mcr = mcGUI2->addRadio("MCDAffects", mcaffects);
+	mcr->getToggles()[0]->setValue(true);
+	
+	mcGUI2->addSpacer(0, 2);
+	mcDurationsRadio = mcGUI2->addRadio("MCDuration", figure);
+	mcDurationsRadio->setVisible(false);
+	mcDurationsRadio->getToggles()[5]->setValue(true);
+
+	guis.push_back(mcGUI2);
+	ofAddListener(mcGUI2->newGUIEvent, this, &App::guiEvent);
+	
 	showMarkovChainsGUI(false);
 	
 	
@@ -3021,7 +3258,7 @@ void App::initGUI(){
 	mdGUI0->addLabelButton("Generate", false);
 	
 	mdGUI0->addSpacer(0, 5);
-
+	
 	mdGUI0->addLabel("PICK MOTIVE FROM FILE", OFX_UI_FONT_SMALL);
 	mdGUI0->addLabelButton("Select .mid file", false);
 	
@@ -3060,7 +3297,7 @@ void App::initGUI(){
 	mdGUI1->addLabelButton("Add repetition", false);
 	
 	mdGUI1->addSpacer(0, 2);
-
+	
 	
 	mdGUI1->addLabel("TRANSPOSE", OFX_UI_FONT_SMALL);
 	mdGUI1->addSlider("Transpose steps (st)", -12.0, 12.0, 0.0);
@@ -3328,7 +3565,7 @@ void App::initGUI(){
 	
 	fsGUI0->addSpacer(0, 2);
 	fsDurationsRadio = fsGUI0->addRadio("FSDuration", figure);
-
+	
 	
 	fsGUI0->autoSizeToFitWidgets();
 	
@@ -3353,14 +3590,14 @@ void App::initGUI(){
 	fsGUI1->addLabel("Meter", OFX_UI_FONT_SMALL);
 	mR = fsGUI1->addRadio("Meter", meter, OFX_UI_ORIENTATION_HORIZONTAL);
 	mR->getToggles()[0]->setValue(true);
-
+	
 	fsGUI1->addLabel("Pattern", OFX_UI_FONT_SMALL);
 	pR = fsGUI1->addRadio("Pattern", pattern, OFX_UI_ORIENTATION_HORIZONTAL);
 	pR->getToggles()[2]->setValue(true);
 	
 	fsGUI1->addSpacer(0, 3);
 	fsGUI1->addLabel("Scale", OFX_UI_FONT_SMALL);
-
+	
 	fsGUI1->setVisible(false);
 	guis.push_back(fsGUI1);
 	ofAddListener(fsGUI1->newGUIEvent, this, &App::guiEvent);
@@ -3372,7 +3609,7 @@ void App::initGUI(){
 	fsGUI2->setFont("GUI/Lekton-Regular.ttf");
 	fsGUI2->setPosition(410, 233);
 	fsGUI2->setSnapping(false);
-
+	
 	scaleRadioButtons = fsGUI2->addRadio("Scale", scales);
 	scaleRadioButtons->getToggles()[0]->setValue(true);
 	
@@ -3395,7 +3632,7 @@ void App::initGUI(){
 	crGUI0->setPosition(200, 40);
 	crGUI0->addLabel("FUNCTION");
 	crGUI0->addSpacer();
-
+	
 	crGUI0->addSlider("Iterations", 1.0, 1000.0, 10.0);
 	
 	vector<string> functions;
@@ -3446,7 +3683,7 @@ void App::initGUI(){
 	crTentMapGUI->setVisible(false);
 	guis.push_back(crTentMapGUI);
 	ofAddListener(crTentMapGUI->newGUIEvent, this, &App::guiEvent);
-
+	
 	
 	crHenonGUI = new ofxUICanvas();
 	crHenonGUI->setFont("GUI/Lekton-Regular.ttf");
@@ -3461,6 +3698,17 @@ void App::initGUI(){
 	guis.push_back(crHenonGUI);
 	ofAddListener(crHenonGUI->newGUIEvent, this, &App::guiEvent);
 	
+	crGUI3 = new ofxUICanvas();
+	crGUI3->setFont("GUI/Lekton-Regular.ttf");
+	crGUI3->setPosition(200, 250);
+	crGUI3->addLabel("FIXED DURATIONS");
+	
+	dis = crGUI3->addRadio("CRFixedDurations", figure);
+	dis->getToggles()[5]->setValue(true);
+	crGUI3->setVisible(false);
+	crGUI3->autoSizeToFitWidgets();
+	guis.push_back(crGUI3);
+	ofAddListener(crGUI3->newGUIEvent, this, &App::guiEvent);
 	
 	crGUI1 = new ofxUICanvas();
 	crGUI1->setFont("GUI/Lekton-Regular.ttf");
@@ -3500,25 +3748,6 @@ void App::initGUI(){
 	
 	
 	//// HELP GUIS
-	
-	isHelpGUI = new ofxUICanvas();
-	isHelpGUI->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
-	isHelpGUI->setFont("GUI/Lekton-Regular.ttf");
-	isHelpGUI->addLabel("QUICK HELP", OFX_UI_FONT_LARGE);
-	isHelpGUI->addLabel("MUSICAL PARAMETERS");
-	isHelpGUI->addSpacer();
-	isHelpGUI->addTextArea("", "* Octaves: The range of pitches that the composer can pick.", OFX_UI_FONT_SMALL);
-	isHelpGUI->addTextArea("", "* Stems: The number of bars the composition will have.", OFX_UI_FONT_SMALL);
-	isHelpGUI->addTextArea("", "* Meter-Pattern: The rhythm pattern of the composition.", OFX_UI_FONT_SMALL);
-	isHelpGUI->addTextArea("", "* Scale: Which scale will the compositor use for pick the pitches.", OFX_UI_FONT_SMALL);
-	isHelpGUI->addSpacer(0, 4);
-	isHelpGUI->addLabel("DISTRIBUTIONS");
-	isHelpGUI->addSpacer();
-	isHelpGUI->addTextArea("", "There are 9 (plus fixed values) probability density functions that can be modified by it's parameters. You can apply a distribution to pitches, another to durations, and another for selecting notes or silences.", OFX_UI_FONT_SMALL);
-	isHelpGUI->setVisible(false);
-	isHelpGUI->autoSizeToFitWidgets();
-	ofAddListener(isHelpGUI->newGUIEvent,this,&App::guiEvent);
-	guis.push_back(isHelpGUI);
 	
 	
 	mcHelpGUI = new ofxUICanvas();
@@ -3594,10 +3823,25 @@ void App::initGUI(){
 	
 	mdHelpGUI = new ofxUICanvas();
 	mdHelpGUI->setFont("GUI/Lekton-Regular.ttf");
+	mdHelpGUI->setWidth(300);
+	mdHelpGUI->setHeight(500);
 	mdHelpGUI->addLabel("QUICK HELP", OFX_UI_FONT_LARGE);
-	
+	mdHelpGUI->addLabel("SET MOTIVE");
+	mdHelpGUI->addSpacer();
+	mdHelpGUI->addTextArea("", "* Random Motive: The main motive can be randomly (using a uniform distribution) generated, selecting the number of figures and the range of octaves.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Motive from file: The main motive can also be selected from a midi file (it takes the first 8 notes).", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Set manual motive: First you have to reset the motive to clean it up. Then select the type of the figure (note-silence), the duration, pitch and velocity, and press Add figure.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addSpacer(0, 4);
+	mdHelpGUI->addLabel("TRANSFORMATIONS");
+	mdHelpGUI->addSpacer();
+	mdHelpGUI->addTextArea("", "* Repetition: Cause a repetition of the motive.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Transpose: Move the pitches up/down the number of semitones especified by the parameter.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Expand: Add the semitones especified to each interval of the motive", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Invert: Invert the direction of every interval of the motive", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Retrograde: Reflects the pitches of the motive.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Register displacement: For each note, it changes it's octave by the parameter.", OFX_UI_FONT_SMALL);
+	mdHelpGUI->addTextArea("", "* Rhythm expand: Augmentates or disminishes the value of the figures of the motive.", OFX_UI_FONT_SMALL);
 	mdHelpGUI->setVisible(false);
-	mdHelpGUI->autoSizeToFitWidgets();
 	ofAddListener(mdHelpGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(mdHelpGUI);
 	
@@ -3605,15 +3849,24 @@ void App::initGUI(){
 	sHelpGUI = new ofxUICanvas();
 	sHelpGUI->setFont("GUI/Lekton-Regular.ttf");
 	sHelpGUI->addLabel("QUICK HELP", OFX_UI_FONT_LARGE);
-	
+	sHelpGUI->addLabel("SERIES");
+	sHelpGUI->addSpacer();
+	sHelpGUI->addTextArea("", "First select the order of the 12 melodic classes, or either set a fixed pitch for the composition, press Set melodic classes. Do the same with the rhythmic classes. Then set a serie, by picking the numbers in the desired order. Press Set series.", OFX_UI_FONT_SMALL);
+	sHelpGUI->addSpacer(0, 4);
+	sHelpGUI->addLabel("SEQUENCE");
+	sHelpGUI->addTextArea("", "Each of the next transformation can affect pitch, rhythm or both, pick at least one or it won't be added, then press Add.", OFX_UI_FONT_SMALL);
+	sHelpGUI->addTextArea("", "* Transpose: Transpose the series the semitones especified by the parameter, the operation is done in modulus 12.", OFX_UI_FONT_SMALL);
+	sHelpGUI->addTextArea("", "* Inversion: Invert the direction of the differences between series.", OFX_UI_FONT_SMALL);
+	sHelpGUI->addTextArea("", "* Retrograde: Reflects the series.", OFX_UI_FONT_SMALL);
+	sHelpGUI->addTextArea("", "* Retrograde inversion: Performs a retrograde and then an inversion.", OFX_UI_FONT_SMALL);
 	sHelpGUI->setVisible(false);
 	sHelpGUI->autoSizeToFitWidgets();
 	ofAddListener(sHelpGUI->newGUIEvent,this,&App::guiEvent);
 	guis.push_back(sHelpGUI);
-
+	
 	
 	setGUITheme(7);
-
+	
 }
 
 
@@ -3686,6 +3939,7 @@ void App::showIndependentStochasticGUI(bool show){
 
 void App::showMarkovChainsGUI(bool show){
 	mcGUI1->setVisible(show);
+	mcGUI2->setVisible(show);
 }
 
 void App::showRandomWalkGUI(bool show){
@@ -3722,6 +3976,7 @@ void App::showChaoticResponseGUI(bool show){
 	crGUI0->setVisible(show);
 	crGUI1->setVisible(show);
 	crGUI2->setVisible(show);
+	crGUI3->setVisible(show);
 	crLogisticGUI->setVisible(show);
 	
 	if (!show) {
@@ -3780,6 +4035,7 @@ void App::toggleDistribution(){
 	weibullDistGUI2->setVisible(false);
 	poissonDistGUI2->setVisible(false);
 	
+	fixedGUI3->setVisible(false);
 	triangularDistGUI3->setVisible(false);
 	linearDistGUI3->setVisible(false);
 	exponentialDistGUI3->setVisible(false);

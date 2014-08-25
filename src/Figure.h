@@ -19,7 +19,7 @@ enum Type{
 };
 
 enum Kind{
-	KNote, KSilence
+	KNote, KSilence, KBoth
 };
 
 class Figure{

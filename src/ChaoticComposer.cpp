@@ -32,6 +32,8 @@ ChaoticComposer::ChaoticComposer(){
 
 	setPitchesBasedOnScaleAndOctaves();
 	
+	fixedDuration = patternType;
+	
 }
 
 ChaoticComposer::~ChaoticComposer(){
@@ -78,9 +80,8 @@ vector<Figure *> ChaoticComposer::compose(bool infinite){
 		f = true; // Only notes btw
 		
 		if (durationsSequence.size() == 0) {
-			duration = Figure::typeToDuration(patternType);
 			
-			t = Figure::durationToType(duration);
+			t = fixedDuration;
 		}
 		else{
 			t = (Type) mapValue(durationsSequence[c2], 0, 12);

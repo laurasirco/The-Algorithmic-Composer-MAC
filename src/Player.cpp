@@ -29,7 +29,7 @@ void Player::stop(){
 	
 	playing = false;
 	allPlayed = true;
-	i = fragment.size() - 1;
+	i = App::composition.size() - 1;
 	fragment.clear();
 	prevPitch = -1;
 	App::setIsSilence(true);
@@ -51,7 +51,7 @@ void Player::play(std::vector<Figure*> f){
 	float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
 	cout << "frames per quarter: " << framesQuarter << endl;
 	
-	Type type = fragment[i]->getType();
+	Type type = App::composition[i]->getType();
 	
 	switch (type) {
 		case DWhole:
@@ -98,14 +98,14 @@ void Player::play(std::vector<Figure*> f){
 	}
 		
 	//play note here
-	cout<<"Total notes: "<<fragment.size()<<endl;
-	cout<<"playing note: "<<i; fragment[i]->printMyself();
+	cout<<"Total notes: "<<App::composition.size()<<endl;
+	cout<<"playing note: "<<i; App::composition[i]->printMyself();
 	
-	App::setCurrentFigure(fragment[i]);
-	if(fragment[i]->getKind() == KNote){
+	App::setCurrentFigure(App::composition[i]);
+	if(App::composition[i]->getKind() == KNote){
 		if(prevPitch != -1)
 			piano[prevPitch].stop();
-		Note * n = (Note *)fragment[i];
+		Note * n = (Note *)App::composition[i];
 		App::setIsSilence(false);
 		//App::setMidiNote(n->getPitch());
 		//App::setVolume((float)n->getVelocity());
@@ -119,14 +119,14 @@ void Player::play(std::vector<Figure*> f){
 		App::setIsSilence(true);
 	}
 	
-	App::getMusicVisualizer()->drawFigure(fragment[i]);
+	App::getMusicVisualizer()->drawFigure(App::composition[i]);
 	
 	
 }
 
 void Player::update(){
 	
-	if((count == x) && (i+1 < fragment.size()) && !paused){ //next note
+	if((count == x) && (i+1 < App::composition.size()) && !paused){ //next note
 		
 		i++;
 		count = 0;
@@ -135,7 +135,7 @@ void Player::update(){
 		float framesQuarter = (60.0/(float)BPM)/(1.0/(float)FPS);
 		cout << "frames per quarter: " << framesQuarter << endl;
 		
-		Type type = fragment[i]->getType();
+		Type type = App::composition[i]->getType();
 		
 		switch (type) {
 			case DWhole:
@@ -182,13 +182,13 @@ void Player::update(){
 		}
 		
 		//play note here
-		cout<<"playing note: "<<i<<" "; fragment[i]->printMyself();
+		cout<<"playing note: "<<i<<" "; App::composition[i]->printMyself();
 		
-		App::setCurrentFigure(fragment[i]);
-		if(fragment[i]->getKind() == KNote){
+		App::setCurrentFigure(App::composition[i]);
+		if(App::composition[i]->getKind() == KNote){
 			if(prevPitch != -1)
 				piano[prevPitch].stop();
-			Note * n = (Note *)fragment[i];
+			Note * n = (Note *)App::composition[i];
 			App::setIsSilence(false);
 			//App::setMidiNote(n->getPitch());
 			//App::setVolume((float)n->getVelocity());
@@ -202,11 +202,11 @@ void Player::update(){
 			prevPitch = -1;
 			App::setIsSilence(true);
 		}
-		App::getMusicVisualizer()->drawFigure(fragment[i]);
+		App::getMusicVisualizer()->drawFigure(App::composition[i]);
 		
 	}
 	
-	if (i == fragment.size() - 1 && (count == x)) {
+	if (i == App::composition.size() - 1 && (count == x)) {
 		allPlayed = true;
 		playing = false;
 		if(prevPitch != -1)

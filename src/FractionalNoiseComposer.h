@@ -35,11 +35,6 @@ public:
 	
 private:
 	
-	
-	vector<float> getPinkNoiseSequence(int size);
-	vector<float> getWhiteNoiseSequence(int size);
-	vector<float> getBrownianNoiseSequence(int size);
-		
 	int mapValue(float value, int min, int max);
 	float map(float x, float in_min, float in_max, float out_min, float out_max);
 	void setPitchesBasedOnScaleAndOctaves();

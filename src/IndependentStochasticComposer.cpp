@@ -29,6 +29,7 @@ IndependentStochasticComposer::IndependentStochasticComposer(Distribution *d){
 	uniqueDuration = NotAFigure;
 	fixedPitch = -1;
 	nFigures = 0;
+	fixedKind = KBoth;
 }
 
 std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
@@ -46,9 +47,16 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 			
 			while(counter < total){
 				
-				float fig = notesAndSilencesDistribution->getValue();
-				
-				if(fig <= 0.5)
+				if (fixedKind == KBoth) {
+					
+					float fig = notesAndSilencesDistribution->getValue();
+					
+					if(fig <= 0.5)
+						f = true;
+					else
+						f = false;
+				}
+				else if (fixedKind == KNote)
 					f = true;
 				else
 					f = false;
@@ -102,7 +110,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 					else if (scale == 1)
 						max = 5;
 					
-
+					
 					int tone = mapValue(pitchesDistribution->getValue(), 0, max);
 					int octave = mapValue(pitchesDistribution->getValue(), minOct, maxOct);
 					
@@ -128,7 +136,7 @@ std::vector<Figure *> IndependentStochasticComposer::compose(bool infinite){
 	}
 	
 	else{
-	
+		
 		for (int i = 0; i < nFigures; i++) {
 			float fig = notesAndSilencesDistribution->getValue();
 			

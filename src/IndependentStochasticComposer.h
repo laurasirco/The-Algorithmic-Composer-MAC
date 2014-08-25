@@ -22,7 +22,7 @@ public:
 	std::vector<Figure *> compose(bool infinite = false);
 	void setPitchesDistribution(Distribution * d){ pitchesDistribution = d; }
 	void setDurationsDistribution(Distribution * d){ durationsDistribution = d; }
-	void setNotesAndSilencesDistribution(Distribution * d){ notesAndSilencesDistribution = d; }
+	void setNotesAndSilencesDistribution(Distribution * d){ notesAndSilencesDistribution = d; fixedKind = KBoth; }
 	void setScale(int s){ scale = s; }
 	void setOctaves(int min, int max){ minOct = min; maxOct = max; }
 	void setUniqueDuration(Type t){ uniqueDuration = t; }
@@ -34,6 +34,7 @@ public:
 	
 	void setFixedPitch(int p){ fixedPitch = p; cout << "fixedPitch = " << fixedPitch << endl; }
 	void setFixedDuration(Type t){ uniqueDuration = t; cout << "fixedDuration = " << uniqueDuration << endl; }
+	void setFixedKind(Kind k){ fixedKind = k; }
 	
 private:
     Distribution * pitchesDistribution;
@@ -47,6 +48,7 @@ private:
 	int nFigures;
 	
 	int fixedPitch;
+	Kind fixedKind;
 };
 
 

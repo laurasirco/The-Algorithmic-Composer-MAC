@@ -30,11 +30,17 @@ public:
 	void setStartingNote(int i){ startingNote = i; }
 	void setOctave(int o){ octave = o; }
 	
+	void setFixedPitch(int f){ fixedPitch = f; }
+	void setFixedDuration(Type f){ fixedDuration = f; }
+	
 private:
 	float ** pitchesMatrix;
 	float ** durationsMatrix;
 	int startingNote;
 	int octave;
+	
+	int fixedPitch;
+	Type fixedDuration;
 };
 
 #endif /* defined(__The_Algorithmic_Composer__MarkovChainsComposer__) */

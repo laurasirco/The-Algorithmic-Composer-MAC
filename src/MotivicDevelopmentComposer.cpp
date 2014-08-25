@@ -43,7 +43,8 @@ vector<Figure *> MotivicDevelopmentComposer::compose(bool infinite){
 	sst.clear();
 	sst << "Original motive has " << motive.size() << " figures. ";
 	App::addLogMessage(sst.str());
-    std::vector<Figure *> fragment;
+    
+	std::vector<Figure *> fragment;
     fragment.insert(fragment.end(), motive.begin(), motive.end());
     
     for (int i = 0; i < sequence.size(); i++) {

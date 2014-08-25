@@ -32,6 +32,7 @@ public:
 	bool isPaused(){ return paused; }
 	int getTempo(){ return BPM; }
 	void pushPianoSound(ofSoundPlayer s){ piano.push_back(s); }
+	int getCurrentNoteCounter(){ return i; }
 	
 private:
 	int BPM;

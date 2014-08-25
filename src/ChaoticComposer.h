@@ -46,8 +46,11 @@ public:
 	void setX0(float x){ x0 = x; }
 	void setY0(float y){ y0 = y; }
 	
+	void setFixedDuration(Type t){ fixedDuration = t; }
+	
 private:
 	DynamicalSystem system;
+	Type fixedDuration;
 	
 	float x0;
 	float y0;

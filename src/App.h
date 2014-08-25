@@ -58,8 +58,13 @@ public:
 	
 	static void addLogMessage(string s);
 	
+	static std::vector<Figure *> composition;
+
+	
 private:
 
+	static bool infinite;
+	
 	static Composer * composer;
 	static Player * player;
 	static MusicVisualizer * mv;
@@ -81,7 +86,6 @@ private:
 	void toggleDistribution();
 	void drawGrid(float x, float y);
 	
-	std::vector<Figure *> composition;
 	
 	UniformDistribution * uniform;
 	LinearDistribution * linear;
@@ -154,6 +158,7 @@ private:
 	ofxUICanvas * betaDistGUI3;
 	ofxUICanvas * weibullDistGUI3;
 	ofxUICanvas * poissonDistGUI3;
+	ofxUICanvas * fixedGUI3;
 	
 	ofxUICanvas * isHelpGUI;
 	
@@ -162,6 +167,9 @@ private:
 	/* MARKOV CHAINS GUI */
 	
 	ofxUICanvas *mcGUI1;
+	ofxUICanvas *mcGUI2;
+	ofxUISlider * mcPitchesSlider;
+	ofxUIRadio * mcDurationsRadio;
 	ofxUILabel *fileLabel;
 	ofxUICanvas * mcHelpGUI;
 	
@@ -212,6 +220,7 @@ private:
 	
 	ofxUICanvas *crGUI0;
 	ofxUICanvas *crGUI1;
+	ofxUICanvas *crGUI3;
 	ofxUIScrollableCanvas *crGUI2;
 	ofxUICanvas *crLogisticGUI;
 	ofxUICanvas *crHenonGUI;

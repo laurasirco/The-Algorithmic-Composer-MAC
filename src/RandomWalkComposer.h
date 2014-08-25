@@ -36,6 +36,7 @@ public:
 		scale = s;
 	}
     void setTypeOfFigure(Type t){ figureType = t; }
+	void setOctave(int o){ octave = o; }
 	
 private:
     Boundary boundary;
@@ -47,7 +48,8 @@ private:
 	bool direction;
     int scale;
 	Type figureType;
-	
+	int octave;
+		
     // Random durations Vs. User defined durations (very simple) Vs. Durations templates
     
 };

@@ -40,6 +40,8 @@ MarkovChainsComposer::MarkovChainsComposer(){
 	startingNote = 0;
 	octave = 3;
 	
+	fixedPitch = -1;
+	fixedDuration = NotAFigure;
 }
 
 MarkovChainsComposer::~MarkovChainsComposer(){
@@ -70,14 +72,16 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			float sum = 0.0;
 			Type dur = Quarter;
 			
-			if (prevDur != NotAFigure) {
+			if(fixedDuration != NotAFigure)
+				dur = fixedDuration;
+			
+			if (prevDur != NotAFigure && fixedDuration == NotAFigure) {
 				int c = 0;
 				bool found = false;
 				while (c < 12 && !found) {
 					sum += durationsMatrix[c][prevDur];
 					if (value >= sum && value < sum + durationsMatrix[c + 1][prevDur]) {
 						dur = (Type)c;
-						cout<<"Found: "<<dur<<endl;
 						found = true;
 					}
 					c++;
@@ -90,18 +94,12 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			}
 						
 			duration = Figure::typeToDuration(dur);
-			cout<<"duration: "<<duration<<endl;
 			
 			if(counter + duration > total){
-				
-				cout<<"counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
-				
+								
 				float difference = total - counter;
-
 				dur = Figure::durationToType(difference);
 				
-				cout<<"duration: "<<difference<<" counter: "<<counter<<" +: "<<counter+duration<<" total: "<<total<<endl;
-
 			}
 			
 			prevDur = dur;
@@ -119,8 +117,9 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			//Calcule tone
 			value = distribution->getValue();
 			sum = 0.0;
+				
 			
-			if(prevPitch != -1){
+			if(prevPitch != -1 && fixedPitch == -1){
 				
 				int c = 0;
 				bool found = false;
@@ -145,6 +144,9 @@ vector<Figure *> MarkovChainsComposer::compose(bool infinite){
 			
 			int pitch = 10*(octave + 2) + ListOfScales[scale][tone] + (2*octave + 4);
 			//pitch = mapValue(distribution->getValue(), 0, 127);
+			
+			if(fixedPitch != -1)
+				pitch = fixedPitch;
 			
 			if (dur == NotAFigure) {
 				dur = SixtyFourth;
