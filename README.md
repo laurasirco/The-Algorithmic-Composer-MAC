@@ -20,11 +20,13 @@ The application come with a user interface for testing the methods and get your 
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+The application born as an idea from my final degree tutor *Jose Manuel Iñesta Quereda* to develope a program capable of showing the strengh and possibilities of algorithmic composition for people who needs it's own music for their projects. He ask me to make an application that contains basic implementations of the principals algorithmic composition methods. 
+
+I started development at firsts of June os 2014 and I'm finishing a very very early version on finals of August. It has a lot of options and possibilities as well as lacks of methods and new ideas that wasn't developed because of the deadline (5th of September).
 
 ## Installation
 
-Simply open the Xcode project and compile it. 
+Simply open the Xcode project and compile it. Feel free of see and change the code on your own purposes. Email me any question or issue (laurasirco@gmail.com).
 
 ## Tests
 
